@@ -4,11 +4,11 @@ param appConfigName string
 param storageAccountName string
 param keyVaultName string
 param location string = resourceGroup().location
-param sku string = 'Standard_LRS'
 
-// Resource Group
-resource rg 'Microsoft.Resources/resourceGroups@2022-11-01' existing = {
-  name: resourceGroup().name
+
+// Existing Storage Account
+resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' existing = {
+  name: storageAccountName
 }
 
 // App Configuration
@@ -18,16 +18,6 @@ resource appConfig 'Microsoft.AppConfiguration/configurationStores@2022-11-01' =
   sku: {
     name: 'Standard'
   }
-}
-
-// Storage Account
-resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
-  name: storageAccountName
-  location: location
-  sku: {
-    name: sku
-  }
-  kind: 'StorageV2'
 }
 
 // Key Vault
@@ -44,20 +34,6 @@ resource keyVault 'Microsoft.KeyVault/vaults@2022-11-01' = {
   }
 }
 
-// Function App
-resource functionApp 'Microsoft.Web/sites@2022-11-01' = {
-  name: functionAppName
-  location: location
-  kind: 'functionapp'
-  properties: {
-    serverFarmId: appServicePlan.id
-    httpsOnly: true
-  }
-  identity: {
-    type: 'SystemAssigned'
-  }
-}
-
 // App Service Plan
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-11-01' = {
   name: '${functionAppName}-plan'
@@ -65,6 +41,20 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2022-11-01' = {
   sku: {
     name: 'Y1'
     tier: 'Dynamic'
+  }
+}
+
+// Function App
+resource functionApp 'Microsoft.Web/sites@2022-11-01' = {
+  name: functionAppName
+  location: location
+  kind: 'functionapp'
+  identity: {
+    type: 'SystemAssigned'
+  }
+  properties: {
+    serverFarmId: appServicePlan.id
+    httpsOnly: true
   }
 }
 
