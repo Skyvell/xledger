@@ -16,7 +16,7 @@ variables:
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
-  # Working Directory
+  # Working Directory.
   workingDirectory: '.'
 
   # Resource group name
