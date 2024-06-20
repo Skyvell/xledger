@@ -3,16 +3,16 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
       "functionAppName": {
-        "value": "myFunctionApp-dev"
+        "value": "xledger-syncronizer-dev"
       },
       "appConfigName": {
-        "value": "myAppConfig-dev"
+        "value": "xledger-syncronizer-statemanager-dev"
       },
       "location": {
         "value": "West Europe"
       },
       "keyVaultName": {
-        "value": "myKeyVault-dev"
+        "value": "xledger-dev"
       }
     }
 }
