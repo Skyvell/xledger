@@ -143,6 +143,15 @@ The files are written to a Datalake. When performing a full load of all the data
 Question/thought: Maybe full load files should be named differently. Maybe syncronization or full_load should be prefixed.
 
 ## Deployment
+- Deploy App Configuration with bicep files.
+- Parameter files for dev and prod.
+- Set environment variables in the bicep file in the Function App:
+    - Reference the parameter files to set variables.
+    - Get the keyvault values from the keyvault in the bicep file.
+    - After creating the App Configuration, get the connection string directly in the bicep file.
+    - Set the environment variable connection string.
+    
+
 
 ### Development
 
