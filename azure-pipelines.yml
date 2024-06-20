@@ -11,7 +11,7 @@ variables:
   azureSubscription: 'c970b736-a87d-42e2-b2a6-73d193d9034e'
 
   # Function app name
-  functionAppName: 'xledger-data-syncronizer'
+  functionAppName: 'xledger-data-syncronizer-dev'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -19,13 +19,40 @@ variables:
   # Working Directory
   workingDirectory: '.'
 
+  # Resource group name
+  resourceGroupName: 'DDBI-ResourceGroup'
+
+  # Bicep and parameter file paths
+  bicepFile: './infrastructure/bicep/main.bicep'
+  parameterFile: './infrastructure/bicep/dev.parameters.json'
+
 stages:
+- stage: Infra
+  displayName: 'Infrastructure Deployment'
+  jobs:
+  - job: DeployInfra
+    displayName: 'Deploy Infrastructure'
+    pool:
+      vmImage: $(vmImageName)
+
+    steps:
+    - task: AzureCLI@2
+      displayName: 'Deploy Infrastructure with Bicep'
+      inputs:
+        azureSubscription: $(azureSubscription)
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az deployment group create --resource-group $(resourceGroupName) --template-file $(bicepFile) --parameters @$(parameterFile)
+
 - stage: Build
-  displayName: Build stage
+  displayName: 'Build Stage'
+  dependsOn: Infra
+  condition: succeeded()
 
   jobs:
   - job: Build
-    displayName: Build
+    displayName: 'Build'
     pool:
       vmImage: $(vmImageName)
 
@@ -41,7 +68,7 @@ stages:
     - task: UsePythonVersion@0
       displayName: 'Use Python 3.11'
       inputs:
-        versionSpec: 3.11 # Functions V2 supports Python 3.6 as of today
+        versionSpec: 3.11
 
     - bash: |
         pip install --target="./.python_packages/lib/site-packages" -r ./requirements.txt
@@ -61,13 +88,13 @@ stages:
       artifact: drop
 
 - stage: Deploy
-  displayName: Deploy stage
+  displayName: 'Deploy Stage'
   dependsOn: Build
   condition: succeeded()
 
   jobs:
   - deployment: Deploy
-    displayName: Deploy
+    displayName: 'Deploy'
     environment: 'development'
     pool:
       vmImage: $(vmImageName)
@@ -78,7 +105,7 @@ stages:
 
           steps:
           - task: AzureFunctionApp@2
-            displayName: 'Azure functions app deploy'
+            displayName: 'Deploy Azure Function App'
             inputs:
               azureSubscription: '$(azureSubscription)'
               appType: functionAppLinux
