@@ -13,6 +13,9 @@
       },
       "keyVaultName": {
         "value": "xledger-dev"
+      },
+      "storageAccountName": {
+        "value": "ddbistorage"
       }
     }
 }
