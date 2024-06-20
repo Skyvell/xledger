@@ -8,9 +8,6 @@
       "appConfigName": {
         "value": "xledger-syncronizer-statemanager-dev"
       },
-      "location": {
-        "value": "westeurope"
-      },
       "keyVaultName": {
         "value": "xledger-dev"
       },
