@@ -1,22 +1,14 @@
 // Parameters
 param functionAppName string
+param functionAppStorageAccountName string
 param appConfigName string
-param storageAccountName string
+param datalakeStorageAccountName string
 param keyVaultName string
 param location string = resourceGroup().location
 
 // Existing Storage Account
-resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' existing = {
-  name: storageAccountName
-}
-
-// App Configuration
-resource appConfig 'Microsoft.AppConfiguration/configurationStores@2023-03-01' = {
-  name: appConfigName
-  location: location
-  sku: {
-    name: 'Standard'
-  }
+resource datalakeStorageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' existing = {
+  name: datalakeStorageAccountName
 }
 
 // Key Vault
@@ -40,6 +32,28 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2023-12-01' = {
   sku: {
     name: 'Y1'
     tier: 'Dynamic'
+  }
+}
+
+// App Configuration
+resource appConfig 'Microsoft.AppConfiguration/configurationStores@2023-03-01' = {
+  name: appConfigName
+  location: location
+  sku: {
+    name: 'Standard'
+  }
+}
+
+// New Storage Account for Function App
+resource functionAppStorageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
+  name: functionAppStorageAccountName
+  location: location
+  sku: {
+    name: 'Standard_LRS'
+  }
+  kind: 'StorageV2'
+  properties: {
+    accessTier: 'Hot'
   }
 }
 
@@ -67,9 +81,18 @@ resource appConfigRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-0
   }
 }
 
-resource storageAccountRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(storageAccount.id, 'StorageBlobDataContributor')
-  scope: storageAccount
+resource datalakeStorageAccountRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(datalakeStorageAccount.id, 'StorageBlobDataContributor')
+  scope: datalakeStorageAccount
+  properties: {
+    principalId: functionApp.identity.principalId
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'ba92f5b4-2d11-453d-a403-e96b0029c9fe') // Storage Blob Data Contributor
+  }
+}
+
+resource functionAppStorageAccountRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(datalakeStorageAccount.id, 'StorageBlobDataContributor')
+  scope: datalakeStorageAccount
   properties: {
     principalId: functionApp.identity.principalId
     roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'ba92f5b4-2d11-453d-a403-e96b0029c9fe') // Storage Blob Data Contributor

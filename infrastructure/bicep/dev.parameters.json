@@ -5,13 +5,16 @@
       "functionAppName": {
         "value": "xledger-syncronizer-dev"
       },
+      "functionAppStorageAccountName": {
+        "value": "xledger-syncronizer-storage-dev"
+      },
       "appConfigName": {
         "value": "xledger-syncronizer-statemanager-dev"
       },
       "keyVaultName": {
         "value": "xledger-dev"
       },
-      "storageAccountName": {
+      "datalakeStorageAccountName": {
         "value": "ddbistorage"
       },
       "location": {

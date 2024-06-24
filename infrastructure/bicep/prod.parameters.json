@@ -5,6 +5,9 @@
       "functionAppName": {
         "value": "xledger-data-syncronizer-prod"
       },
+      "functionAppStorageAccountName": {
+        "value": "xledger-data-syncronizer-prod"
+      },
       "appConfigName": {
         "value": "xledger-data-syncronizer-statemanager-prod"
       },
