@@ -63,7 +63,7 @@ resource appConfigRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-0
   scope: appConfig
   properties: {
     principalId: functionApp.identity.principalId
-    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '516239f1-1b23-4d10-8650-6d7b1d7df88d') // App Configuration Data Owner
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '9c215e88-f9a6-4a74-9c6b-1fcfb0e1f525') // App Configuration Data Owner
   }
 }
 
