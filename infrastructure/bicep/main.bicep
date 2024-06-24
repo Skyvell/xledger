@@ -70,10 +70,11 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
     serverFarmId: appServicePlan.id
     httpsOnly: true
     siteConfig: {
+      pythonVersion: '3.11'
       appSettings: [
         {
           name: 'AzureWebJobsStorage'
-          value: functionAppStorageAccount.properties.primaryEndpoints.blob
+          value: 'DefaultEndpointsProtocol=https;AccountName=${functionAppStorageAccount.name};AccountKey=${listKeys(functionAppStorageAccount.id,'2019-06-01').keys[0].value};EndpointSuffix=core.windows.net'
         }
         {
           name: 'FUNCTIONS_EXTENSION_VERSION'
