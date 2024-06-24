@@ -26,6 +26,7 @@ bp = func.Blueprint()
 @bp.schedule(schedule="0 0 * * * *", arg_name="myTimer", run_on_startup=True,
               use_monitor=False) 
 def syncronize_timesheets(myTimer: func.TimerRequest) -> None:
+    logging.info('Trigger SyncronizeTimesheets.')
     ## Get environment variables.
     #api_endpoint = os.getenv("Endpoint")
     #api_key = os.getenv("APIKey")

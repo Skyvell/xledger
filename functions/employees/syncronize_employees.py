@@ -1,5 +1,6 @@
 from azure import functions as func
 import os
+import logging
 
 from shared.data_lake_writer import DataLakeWriter
 from shared.configuration_manager import SynchronizerStateManager
@@ -24,6 +25,7 @@ bp = func.Blueprint()
 @bp.schedule(schedule="0 0 * * * *", arg_name="myTimer", run_on_startup=True,
               use_monitor=False) 
 def syncronize_employees(myTimer: func.TimerRequest) -> None:
+    logging.info('Trigger SyncronizeEmployees.')
     ## Get environment variables.
     #api_endpoint = os.getenv("Endpoint")
     #api_key = os.getenv("APIKey")

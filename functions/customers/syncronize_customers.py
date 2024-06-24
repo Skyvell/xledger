@@ -10,4 +10,4 @@ bp = func.Blueprint()
 @bp.schedule(schedule="0 0 * * * *", arg_name="myTimer", run_on_startup=True,
               use_monitor=False) 
 def syncronize_customers(myTimer: func.TimerRequest) -> None:
-    logging.info('Triggered function in another folder.')
+    logging.info('Trigger syncronize_customers.')
