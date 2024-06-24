@@ -114,7 +114,7 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
   }
 }
 
-// Role Assignments for the Function App's Managed Identity
+// Role Assignments for the Function App's Managed Identityy
 
 // Role Assignment for the App Configuration
 resource appConfigRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
