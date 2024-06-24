@@ -6,7 +6,7 @@ param datalakeStorageAccountName string
 param keyVaultName string
 param location string = resourceGroup().location
 
-// Existing Storage Account
+// Existing Data Lake Storage Account
 resource datalakeStorageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' existing = {
   name: datalakeStorageAccountName
 }
@@ -68,10 +68,20 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
   properties: {
     serverFarmId: appServicePlan.id
     httpsOnly: true
+    siteConfig: {
+      appSettings: [
+        {
+          name: 'AzureWebJobsStorage'
+          value: 'DefaultEndpointsProtocol=https;AccountName=${functionAppStorageAccount.name};EndpointSuffix=${environment().suffixes.storage}'
+        }
+      ]
+    }
   }
 }
 
-// Role Assignments
+// Role Assignments for the Function App's Managed Identity
+
+// Role Assignment for the App Configuration
 resource appConfigRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(appConfig.id, 'AppConfigDataOwner')
   scope: appConfig
@@ -81,8 +91,9 @@ resource appConfigRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-0
   }
 }
 
+// Role Assignment for the Existing Data Lake Storage Account
 resource datalakeStorageAccountRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(datalakeStorageAccount.id, 'StorageBlobDataContributor')
+  name: guid(datalakeStorageAccount.id, 'StorageBlobDataContributor', 'DataLake')
   scope: datalakeStorageAccount
   properties: {
     principalId: functionApp.identity.principalId
@@ -90,15 +101,17 @@ resource datalakeStorageAccountRoleAssignment 'Microsoft.Authorization/roleAssig
   }
 }
 
+// Role Assignment for the New Function App Storage Account
 resource functionAppStorageAccountRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(datalakeStorageAccount.id, 'StorageBlobDataContributor')
-  scope: datalakeStorageAccount
+  name: guid(functionAppStorageAccount.id, 'StorageBlobDataContributor', 'FunctionAppStorageAccount')
+  scope: functionAppStorageAccount
   properties: {
     principalId: functionApp.identity.principalId
     roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'ba92f5b4-2d11-453d-a403-e96b0029c9fe') // Storage Blob Data Contributor
   }
 }
 
+// Role Assignment for the Key Vault
 resource keyVaultRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(keyVault.id, 'KeyVaultSecretsUser')
   scope: keyVault
