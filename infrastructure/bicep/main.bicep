@@ -81,6 +81,10 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
           value: 'DefaultEndpointsProtocol=https;AccountName=${functionAppStorageAccount.name};AccountKey=${listKeys(functionAppStorageAccount.id,'2019-06-01').keys[0].value};EndpointSuffix=core.windows.net'
         }
         {
+          name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
+          value: 'DefaultEndpointsProtocol=https;AccountName=${functionAppStorageAccount.name};AccountKey=${listKeys(functionAppStorageAccount.id,'2019-06-01').keys[0].value};EndpointSuffix=core.windows.net'
+        }
+        {
           name: 'FUNCTIONS_EXTENSION_VERSION'
           value: '~4'
         }
@@ -91,6 +95,10 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
         {
           name: 'publicNetworkAccess'
           value: 'Enabled'
+        }
+        {
+          name: 'WEBSITE_CONTENTSHARE'
+          value: '${functionAppName}-content'
         }
       ]
       cors: {
