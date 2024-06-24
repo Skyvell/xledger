@@ -97,6 +97,10 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
           value: 'Enabled'
         }
         {
+          name: 'PYTHON_VERSION'
+          value: '3.11'  // Specify the Python version
+        }
+        {
           name: 'WEBSITE_CONTENTSHARE'
           value: '${functionAppName}-content'
         }
