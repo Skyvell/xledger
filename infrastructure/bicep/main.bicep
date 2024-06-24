@@ -85,10 +85,6 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
           value: 'DefaultEndpointsProtocol=https;AccountName=${functionAppStorageAccount.name};AccountKey=${listKeys(functionAppStorageAccount.id,'2019-06-01').keys[0].value};EndpointSuffix=core.windows.net'
         }
         {
-          name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
-          value: reference('microsoft.insights/components/${functionAppName}', '2015-05-01').ConnectionString
-        }
-        {
           name: 'FUNCTIONS_EXTENSION_VERSION'
           value: '~4'
         }
