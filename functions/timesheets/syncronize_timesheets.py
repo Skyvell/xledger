@@ -26,31 +26,31 @@ bp = func.Blueprint()
 @bp.schedule(schedule="0 0 * * * *", arg_name="myTimer", run_on_startup=True,
               use_monitor=False) 
 def syncronize_timesheets(myTimer: func.TimerRequest) -> None:
-    # Get environment variables.
-    api_endpoint = os.getenv("Endpoint")
-    api_key = os.getenv("APIKey")
-    data_lake_account_name = os.getenv("DataLakeAccountName")
-    data_lake_account_key = os.getenv("DataLakeAccountKey")
-    state_manager_connection_string = os.getenv("StateManagerConnectionString")
-
-    # Initialize classes needed for syncronizing data.
-    grapql_client = GraphQLClient(api_endpoint, api_key)
-    data_lake_writer = DataLakeWriter(data_lake_account_name, data_lake_account_key)
-    delta_fetcher = DeltaFetcher(grapql_client, GET_TIMESHEET_DELTAS)
-    item_fetcher = ItemFetcher(grapql_client, GET_TIMESHEETS_FROM_DBIDS, GET_TIMESHEETS_AFTER_CURSOR)
-    state_manager = SynchronizerStateManager(state_manager_connection_string, f"{NAME}-")
-
-    # Initialize the data syncronizer.
-    syncronizer = DataSynchronizer(
-        NAME, 
-        delta_fetcher,
-        item_fetcher,
-        data_lake_writer,
-        state_manager
-    )
-
-    # Syncronize the data.
-    if not syncronizer.state_manager.initial_sync_complete:
-        syncronizer.syncronize(sync_from_scratch = True)
-    else:
-        syncronizer.syncronize(sync_from_scratch = False)
+    ## Get environment variables.
+    #api_endpoint = os.getenv("Endpoint")
+    #api_key = os.getenv("APIKey")
+    #data_lake_account_name = os.getenv("DataLakeAccountName")
+    #data_lake_account_key = os.getenv("DataLakeAccountKey")
+    #state_manager_connection_string = os.getenv("StateManagerConnectionString")
+#
+    ## Initialize classes needed for syncronizing data.
+    #grapql_client = GraphQLClient(api_endpoint, api_key)
+    #data_lake_writer = DataLakeWriter(data_lake_account_name, data_lake_account_key)
+    #delta_fetcher = DeltaFetcher(grapql_client, GET_TIMESHEET_DELTAS)
+    #item_fetcher = ItemFetcher(grapql_client, GET_TIMESHEETS_FROM_DBIDS, GET_TIMESHEETS_AFTER_CURSOR)
+    #state_manager = SynchronizerStateManager(state_manager_connection_string, f"{NAME}-")
+#
+    ## Initialize the data syncronizer.
+    #syncronizer = DataSynchronizer(
+    #    NAME, 
+    #    delta_fetcher,
+    #    item_fetcher,
+    #    data_lake_writer,
+    #    state_manager
+    #)
+#
+    ## Syncronize the data.
+    #if not syncronizer.state_manager.initial_sync_complete:
+    #    syncronizer.syncronize(sync_from_scratch = True)
+    #else:
+    #    syncronizer.syncronize(sync_from_scratch = False)
