@@ -12,7 +12,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' existing 
 }
 
 // App Configuration
-resource appConfig 'Microsoft.AppConfiguration/configurationStores@2022-11-01' = {
+resource appConfig 'Microsoft.AppConfiguration/configurationStores@2023-03-01' = {
   name: appConfigName
   location: location
   sku: {
@@ -35,7 +35,7 @@ resource keyVault 'Microsoft.KeyVault/vaults@2022-11-01' = {
 }
 
 // App Service Plan
-resource appServicePlan 'Microsoft.Web/serverfarms@2022-11-01' = {
+resource appServicePlan 'Microsoft.Web/serverfarms@2023-12-01' = {
   name: '${functionAppName}-plan'
   location: location
   sku: {
