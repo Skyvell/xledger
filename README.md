@@ -163,4 +163,4 @@ Question/thought: Maybe full load files should be named differently. Maybe syncr
 
 ## License
 
-## Contact
+## Contacts
