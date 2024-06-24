@@ -68,6 +68,9 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
   }
   properties: {
     serverFarmId: appServicePlan.id
+    clientAffinityEnabled: false
+    virtualNetworkSubnetId: null
+    publicNetworkAccess: 'Enabled'
     httpsOnly: true
     siteConfig: {
       pythonVersion: '3.11'
@@ -89,6 +92,11 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
           value: 'Enabled'
         }
       ]
+      cors: {
+        allowedOrigins: [
+          'https://portal.azure.com'
+        ]
+      }
     }
   }
 }
