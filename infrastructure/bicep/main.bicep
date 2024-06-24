@@ -106,6 +106,7 @@ resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
           'https://portal.azure.com'
         ]
       }
+      linuxFxVersion: 'Python|3.11'
     }
   }
 }
