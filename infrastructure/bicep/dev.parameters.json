@@ -6,7 +6,7 @@
         "value": "xledger-syncronizer-dev"
       },
       "functionAppStorageAccountName": {
-        "value": "xledgerSyncronizerStorageDev"
+        "value": "syncronizerstoragedev"
       },
       "appConfigName": {
         "value": "xledger-syncronizer-statemanager-dev"
