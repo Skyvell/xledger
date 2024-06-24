@@ -55,6 +55,7 @@ resource functionAppStorageAccount 'Microsoft.Storage/storageAccounts@2022-09-01
   properties: {
     supportsHttpsTrafficOnly: true
     defaultToOAuthAuthentication: true
+    publicNetworkAccess: 'Enabled'
   }
 }
 
