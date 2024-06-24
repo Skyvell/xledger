@@ -5,7 +5,6 @@ param storageAccountName string
 param keyVaultName string
 param location string = resourceGroup().location
 
-
 // Existing Storage Account
 resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' existing = {
   name: storageAccountName
@@ -45,7 +44,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2023-12-01' = {
 }
 
 // Function App
-resource functionApp 'Microsoft.Web/sites@2022-11-01' = {
+resource functionApp 'Microsoft.Web/sites@2023-12-01' = {
   name: functionAppName
   location: location
   kind: 'functionapp'
