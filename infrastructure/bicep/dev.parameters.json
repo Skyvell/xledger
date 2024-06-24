@@ -13,6 +13,9 @@
       },
       "storageAccountName": {
         "value": "ddbistorage"
+      },
+      "location": {
+        "value": "westeurope"
       }
     }
 }
