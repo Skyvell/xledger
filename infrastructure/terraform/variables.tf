@@ -60,3 +60,10 @@ variable "backend_key_name" {
   description = "The name of the key for the backend state file."
   type        = string
 }
+
+
+# Others.
+variable "tags" {
+  description = "A map of tags to assign to the resources"
+  type        = map(string)
+}

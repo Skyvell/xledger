@@ -15,3 +15,9 @@ api_endpoint = "https://demo.xledger.net/graphql"
 backend_storage_account_name  = "devterraformstate"
 backend_container_name        = "tfstate"
 backend_key_key_name      = "dev.terraform.tfstate"
+
+# Others.
+tags = {
+  environment = "dev"
+  project     = "xledger-syncronizer"
+}
