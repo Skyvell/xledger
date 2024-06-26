@@ -5,14 +5,14 @@ data "azurerm_resource_group" "existing" {
 resource "azurerm_storage_account" "app_storage_account" {
   name                     = var.function_app_storage_account_name
   resource_group_name      = data.azurerm_resource_group.existing.name
-  location                 = data.azurerm_resource_group.existing.location
+  location                 = var.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
 
 resource "azurerm_app_service_plan" "service_plan" {
   name                = "${var.function_app_name}-asp"
-  location            = data.azurerm_resource_group.existing.location
+  location            = var.location
   resource_group_name = data.azurerm_resource_group.existing.name
   kind                = "FunctionApp"
   reserved            = true  # required for Linux
@@ -25,7 +25,7 @@ resource "azurerm_app_service_plan" "service_plan" {
 
 resource "azurerm_function_app" "example" {
   name                       = var.function_app_name
-  location                   = data.azurerm_resource_group.existing.location
+  location                   = var.location
   resource_group_name        = data.azurerm_resource_group.existing.name
   app_service_plan_id        = azurerm_app_service_plan.service_plan.id
   storage_account_name       = azurerm_storage_account.app_storage_account.name
@@ -41,8 +41,8 @@ resource "azurerm_function_app" "example" {
   }
 
   app_settings = {
-    "FUNCTIONS_WORKER_RUNTIME" = "python"
-    "FUNCTIONS_EXTENSION_VERSION" = "~4"
+    "FUNCTIONS_WORKER_RUNTIME"    = "python",
+    "FUNCTIONS_EXTENSION_VERSION" = "~4",
   }
 }
 

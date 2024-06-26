@@ -14,7 +14,7 @@ api_endpoint = "https://demo.xledger.net/graphql"
 # Backend settings.
 backend_storage_account_name  = "devterraformstate"
 backend_container_name        = "tfstate"
-backend_key_key_name      = "dev.terraform.tfstate"
+backend_key_name              = "dev.terraform.tfstate"
 
 # Others.
 tags = {

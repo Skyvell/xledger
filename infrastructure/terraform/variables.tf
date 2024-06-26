@@ -12,7 +12,7 @@ variable "resource_group_name" {
 
 # Function App.
 variable "function_app_name" {
-  description = "The name of the Function Ap."
+  description = "The name of the Function App."
   type        = string
 }
 
