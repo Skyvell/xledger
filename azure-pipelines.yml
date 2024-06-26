@@ -6,7 +6,7 @@ variables:
   vmImageName: 'ubuntu-latest'
   terraformWorkingDirectory: '$(Build.SourcesDirectory)/infrastructure/terraform'
   terraformVersion: '1.8.5'
-  environment: 'dev'  # Set this to 'prod' for production environment
+  environment: 'dev'  # Change this to 'prod' for production environment
 
 stages:
 - stage: Infra
@@ -19,52 +19,53 @@ stages:
 
     steps:
     - task: AzureCLI@2
+      displayName: 'Login to Azure CLI'
       inputs:
         azureSubscription: $(azureSubscription)
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
-          curl -LO "https://releases.hashicorp.com/terraform/${terraformVersion}/terraform_${terraformVersion}_linux_amd64.zip"
-          unzip terraform_${terraformVersion}_linux_amd64.zip
-          sudo mv terraform /usr/local/bin/
-          terraform --version
-      displayName: 'Install Terraform'
+          az login --service-principal -u $(servicePrincipalId) -p $(servicePrincipalKey) --tenant $(tenantId)
 
     - checkout: self
 
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: $(azureSubscription)
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          cd $(terraformWorkingDirectory)
-          if [ "$(environment)" = "dev" ]; then
-            cp backend-dev.tf backend.tf
-          else
-            cp backend-prod.tf backend.tf
-          fi
-          terraform init
+    - script: |
+        echo "Extracting Azure credentials..."
+        ARM_CLIENT_ID=$(az ad sp show --id $(servicePrincipalId) --query appId -o tsv)
+        ARM_TENANT_ID=$(az account show --query tenantId -o tsv)
+        ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+        echo "Setting environment variables for Terraform..."
+        export ARM_CLIENT_ID=$ARM_CLIENT_ID
+        export ARM_CLIENT_SECRET=$(servicePrincipalKey)
+        export ARM_TENANT_ID=$ARM_TENANT_ID
+        export ARM_SUBSCRIPTION_ID=$ARM_SUBSCRIPTION_ID
+        cd $(terraformWorkingDirectory)
+        if [ "$(environment)" = "dev" ]; then
+          cp backend-dev.tf backend.tf
+        else
+          cp backend-prod.tf backend.tf
+        fi
+        terraform init
       displayName: 'Terraform Init'
 
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: $(azureSubscription)
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          cd $(terraformWorkingDirectory)
-          terraform plan -var-file="$(environment).tfvars"
+    - script: |
+        echo "Setting environment variables for Terraform..."
+        export ARM_CLIENT_ID=$(az ad sp show --id $(servicePrincipalId) --query appId -o tsv)
+        export ARM_CLIENT_SECRET=$(servicePrincipalKey)
+        export ARM_TENANT_ID=$(az account show --query tenantId -o tsv)
+        export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+        cd $(terraformWorkingDirectory)
+        terraform plan -var-file="$(environment).tfvars"
       displayName: 'Terraform Plan'
 
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: $(azureSubscription)
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          cd $(terraformWorkingDirectory)
-          terraform apply -var-file="$(environment).tfvars" -auto-approve
+    - script: |
+        echo "Setting environment variables for Terraform..."
+        export ARM_CLIENT_ID=$(az ad sp show --id $(servicePrincipalId) --query appId -o tsv)
+        export ARM_CLIENT_SECRET=$(servicePrincipalKey)
+        export ARM_TENANT_ID=$(az account show --query tenantId -o tsv)
+        export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+        cd $(terraformWorkingDirectory)
+        terraform apply -var-file="$(environment).tfvars" -auto-approve
       displayName: 'Terraform Apply'
 
 #- stage: Build
