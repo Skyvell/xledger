@@ -9,7 +9,10 @@ variables:
   vmImageName: 'ubuntu-latest'
 
   # Working Directory for function app. 
-  workingDirectory: '.'
+  terraformWorkingDirectory: './infrastructure/terraform'
+
+  # Terraform version
+  terraformVersion: '1.8.5'
 
 stages:
 - stage: Infra
@@ -21,29 +24,32 @@ stages:
       vmImage: $(vmImageName)
 
     steps:
-    - script: |
-        latest_version=$(curl -s https://api.github.com/repos/hashicorp/terraform/releases/latest | jq -r .tag_name)
-        curl -LO "https://releases.hashicorp.com/terraform/${latest_version}/terraform_${latest_version}_linux_amd64.zip"
-        unzip terraform_${latest_version}_linux_amd64.zip
-        sudo mv terraform /usr/local/bin/
-        terraform --version
-      displayName: 'Install Latest Terraform'
-      env:
-        GITHUB_TOKEN: $(github_token) # Optional: If you face rate limiting issues
+    - task: TerraformInstaller@0
+      inputs:
+        terraformVersion: $(terraformVersion)
 
     - checkout: self
 
-    - script: |
-        terraform init
-      displayName: 'Terraform Init'
+    - task: TerraformTaskV2@2
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: $(workingDirectory)
+        backendServiceArm: $(azureSubscription)
 
-    - script: |
-        terraform plan -var-file="dev.tfvars"
-      displayName: 'Terraform Plan'
+    - task: TerraformTaskV2@2
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: $(workingDirectory)
+        commandOptions: '-var-file="dev.tfvars"'
 
-    - script: |
-        terraform apply -var-file="dev.tfvars" -auto-approve
-      displayName: 'Terraform Apply'
+    - task: TerraformTaskV2@2
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        workingDirectory: $(workingDirectory)
+        commandOptions: '-var-file="dev.tfvars" -auto-approve'
 
 #- stage: Build
 #  displayName: 'Build Stage'
