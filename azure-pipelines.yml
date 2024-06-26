@@ -2,17 +2,11 @@ trigger:
 - main
 
 variables:
-  # Azure Resource Manager connection created during pipeline creation.
   azureSubscription: 'c970b736-a87d-42e2-b2a6-73d193d9034e'
-
-  # Agent VM image name.
   vmImageName: 'ubuntu-latest'
-
-  # Working Directory for function app. 
-  terraformWorkingDirectory: './infrastructure/terraform'
-
-  # Terraform version
+  terraformWorkingDirectory: '$(Build.SourcesDirectory)/infrastructure/terraform'
   terraformVersion: '1.8.5'
+  environment: 'dev'  # Set this to 'prod' for production environment
 
 stages:
 - stage: Infra
@@ -24,56 +18,54 @@ stages:
       vmImage: $(vmImageName)
 
     steps:
-    - script: |
-        curl -LO "https://releases.hashicorp.com/terraform/${terraformVersion}/terraform_${terraformVersion}_linux_amd64.zip"
-        unzip terraform_${terraformVersion}_linux_amd64.zip
-        sudo mv terraform /usr/local/bin/
-        terraform --version
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: $(azureSubscription)
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          curl -LO "https://releases.hashicorp.com/terraform/${terraformVersion}/terraform_${terraformVersion}_linux_amd64.zip"
+          unzip terraform_${terraformVersion}_linux_amd64.zip
+          sudo mv terraform /usr/local/bin/
+          terraform --version
       displayName: 'Install Terraform'
 
     - checkout: self
 
     - task: AzureCLI@2
-      displayName: 'Terraform Init'
       inputs:
         azureSubscription: $(azureSubscription)
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
-          export ARM_CLIENT_ID=$(servicePrincipalId)
-          export ARM_CLIENT_SECRET=$(servicePrincipalKey)
-          export ARM_SUBSCRIPTION_ID=$(azureSubscription)
-          export ARM_TENANT_ID=$(tenantId)
           cd $(terraformWorkingDirectory)
+          if [ "$(environment)" = "dev" ]; then
+            cp backend-dev.tf backend.tf
+          else
+            cp backend-prod.tf backend.tf
+          fi
           terraform init
+      displayName: 'Terraform Init'
 
     - task: AzureCLI@2
+      inputs:
+        azureSubscription: $(azureSubscription)
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          cd $(terraformWorkingDirectory)
+          terraform plan -var-file="$(environment).tfvars"
       displayName: 'Terraform Plan'
-      inputs:
-        azureSubscription: $(azureSubscription)
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          export ARM_CLIENT_ID=$(servicePrincipalId)
-          export ARM_CLIENT_SECRET=$(servicePrincipalKey)
-          export ARM_SUBSCRIPTION_ID=$(azureSubscription)
-          export ARM_TENANT_ID=$(tenantId)
-          cd $(terraformWorkingDirectory)
-          terraform plan -var-file="dev.tfvars"
 
     - task: AzureCLI@2
-      displayName: 'Terraform Apply'
       inputs:
         azureSubscription: $(azureSubscription)
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
-          export ARM_CLIENT_ID=$(servicePrincipalId)
-          export ARM_CLIENT_SECRET=$(servicePrincipalKey)
-          export ARM_SUBSCRIPTION_ID=$(azureSubscription)
-          export ARM_TENANT_ID=$(tenantId)
           cd $(terraformWorkingDirectory)
-          terraform apply -var-file="dev.tfvars" -auto-approve
+          terraform apply -var-file="$(environment).tfvars" -auto-approve
+      displayName: 'Terraform Apply'
 
 #- stage: Build
 #  displayName: 'Build Stage'
