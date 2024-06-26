@@ -16,6 +16,11 @@ variable "function_app_name" {
   type        = string
 }
 
+variable "app_service_plan_name" {
+  description = "The name of the App Service Plan."
+  type        = string
+}
+
 variable "function_app_storage_account_name" {
   description = "The name of the Storage Account for the Function App."
   type        = string
@@ -28,6 +33,16 @@ variable "app_config_name" {
 
 variable "data_storage_account_name" {
   description = "The name of the Data Lake Storage Account."
+  type        = string
+}
+
+variable "data_storage_container_name" {
+  description = "The name of the container for storing files in the Data Lake Storage Account."
+  type        = string
+}
+
+variable "app_configuration_name" {
+  description = "The name of the app configuration used by the function app to keep the state."
   type        = string
 }
 
