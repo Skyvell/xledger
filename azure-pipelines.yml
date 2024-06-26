@@ -40,6 +40,10 @@ stages:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
+          export ARM_CLIENT_ID=$(servicePrincipalId)
+          export ARM_CLIENT_SECRET=$(servicePrincipalKey)
+          export ARM_SUBSCRIPTION_ID=$(azureSubscription)
+          export ARM_TENANT_ID=$(tenantId)
           cd $(terraformWorkingDirectory)
           terraform init
 
@@ -50,6 +54,10 @@ stages:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
+          export ARM_CLIENT_ID=$(servicePrincipalId)
+          export ARM_CLIENT_SECRET=$(servicePrincipalKey)
+          export ARM_SUBSCRIPTION_ID=$(azureSubscription)
+          export ARM_TENANT_ID=$(tenantId)
           cd $(terraformWorkingDirectory)
           terraform plan -var-file="dev.tfvars"
 
@@ -60,6 +68,10 @@ stages:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
+          export ARM_CLIENT_ID=$(servicePrincipalId)
+          export ARM_CLIENT_SECRET=$(servicePrincipalKey)
+          export ARM_SUBSCRIPTION_ID=$(azureSubscription)
+          export ARM_TENANT_ID=$(tenantId)
           cd $(terraformWorkingDirectory)
           terraform apply -var-file="dev.tfvars" -auto-approve
 
