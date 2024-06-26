@@ -24,32 +24,26 @@ stages:
       vmImage: $(vmImageName)
 
     steps:
-    - task: TerraformInstaller@0
-      inputs:
-        terraformVersion: $(terraformVersion)
+    - script: |
+        curl -LO "https://releases.hashicorp.com/terraform/${terraformVersion}/terraform_${terraformVersion}_linux_amd64.zip"
+        unzip terraform_${terraformVersion}_linux_amd64.zip
+        sudo mv terraform /usr/local/bin/
+        terraform --version
+      displayName: 'Install Terraform'
 
     - checkout: self
 
-    - task: TerraformTaskV2@2
-      inputs:
-        provider: 'azurerm'
-        command: 'init'
-        workingDirectory: $(workingDirectory)
-        backendServiceArm: $(azureSubscription)
+    - script: |
+        terraform init
+      displayName: 'Terraform Init'
 
-    - task: TerraformTaskV2@2
-      inputs:
-        provider: 'azurerm'
-        command: 'plan'
-        workingDirectory: $(workingDirectory)
-        commandOptions: '-var-file="dev.tfvars"'
+    - script: |
+        terraform plan -var-file="dev.tfvars"
+      displayName: 'Terraform Plan'
 
-    - task: TerraformTaskV2@2
-      inputs:
-        provider: 'azurerm'
-        command: 'apply'
-        workingDirectory: $(workingDirectory)
-        commandOptions: '-var-file="dev.tfvars" -auto-approve'
+    - script: |
+        terraform apply -var-file="dev.tfvars" -auto-approve
+      displayName: 'Terraform Apply'
 
 #- stage: Build
 #  displayName: 'Build Stage'
