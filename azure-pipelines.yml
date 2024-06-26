@@ -33,20 +33,32 @@ stages:
 
     - checkout: self
 
-    - script: |
-        cd $(terraformWorkingDirectory)
-        terraform init
+    - task: AzureCLI@2
       displayName: 'Terraform Init'
+      inputs:
+        azureSubscription: $(azureSubscription)
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          terraform init
 
-    - script: |
-        cd $(terraformWorkingDirectory)
-        terraform plan -var-file="dev.tfvars"
+    - task: AzureCLI@2
       displayName: 'Terraform Plan'
+      inputs:
+        azureSubscription: $(azureSubscription)
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          terraform plan -var-file="dev.tfvars"
 
-    - script: |
-        cd $(terraformWorkingDirectory)
-        terraform apply -var-file="dev.tfvars" -auto-approve
+    - task: AzureCLI@2
       displayName: 'Terraform Apply'
+      inputs:
+        azureSubscription: $(azureSubscription)
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          terraform apply -var-file="dev.tfvars" -auto-approve
 
 #- stage: Build
 #  displayName: 'Build Stage'
