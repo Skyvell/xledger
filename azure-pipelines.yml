@@ -34,14 +34,17 @@ stages:
     - checkout: self
 
     - script: |
+        cd $(terraformWorkingDirectory)
         terraform init
       displayName: 'Terraform Init'
 
     - script: |
+        cd $(terraformWorkingDirectory)
         terraform plan -var-file="dev.tfvars"
       displayName: 'Terraform Plan'
 
     - script: |
+        cd $(terraformWorkingDirectory)
         terraform apply -var-file="dev.tfvars" -auto-approve
       displayName: 'Terraform Apply'
 
