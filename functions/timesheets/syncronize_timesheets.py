@@ -9,6 +9,7 @@ from shared.delta_fetcher import DeltaFetcher
 from shared.item_fetcher import ItemFetcher
 from shared.data_syncronizer import DataSynchronizer
 from shared.gql_client import GraphQLClient
+from shared.environment_config import EnvironmentConfig
 
 from functions.timesheets.queries import (
     GET_TIMESHEET_DELTAS,
@@ -29,18 +30,14 @@ def syncronize_timesheets(myTimer: func.TimerRequest) -> None:
     credential = DefaultAzureCredential()
 
     # Get environment variables.
-    api_endpoint = os.getenv("API_ENDPOINT")
-    api_key = os.getenv("API_KEY")
-    data_storage_account = os.getenv("DATA_STORAGE_ACCOUNT_NAME")
-    data_storage_container = os.getenv("DATA_STORAGE_CONTAINER_NAME")
-    app_config_endpoint = os.getenv("APP_CONFIG_ENDPOINT")
+    config = EnvironmentConfig()
 
     ## Initialize classes needed for syncronizing data.
-    grapql_client = GraphQLClient(api_endpoint, api_key)
-    data_lake_writer = DataLakeWriter(data_storage_account, credential, data_storage_container, NAME)
+    grapql_client = GraphQLClient(config.api_endpoint, config.api_key)
+    data_lake_writer = DataLakeWriter(config.data_storage_account, credential, config.data_storage_container, NAME)
     delta_fetcher = DeltaFetcher(grapql_client, GET_TIMESHEET_DELTAS)
     item_fetcher = ItemFetcher(grapql_client, GET_TIMESHEETS_FROM_DBIDS, GET_TIMESHEETS_AFTER_CURSOR)
-    state_manager = SynchronizerStateManager(app_config_endpoint, credential, f"{NAME}-")
+    state_manager = SynchronizerStateManager(config.app_config_endpoint, credential, f"{NAME}-")
 
     # Initialize the data syncronizer.
     syncronizer = DataSynchronizer(
