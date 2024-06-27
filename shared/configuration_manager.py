@@ -2,6 +2,7 @@ import logging
 from azure.appconfiguration import AzureAppConfigurationClient
 from azure.appconfiguration import ConfigurationSetting
 from azure.core.exceptions import ResourceNotFoundError, AzureError
+from azure.identity import DefaultAzureCredential
 
 
 class ConfigurationManager:
@@ -49,14 +50,15 @@ class SynchronizerStateManager:
     The state is stored and retrieved directly from Azure App Configuration.
     """
 
-    def __init__(self, connection_string: str, prefix: str = ''):
+    def __init__(self, app_config_endpoint: str, credential: DefaultAzureCredential, prefix: str = ''):
         """
         Initialize the SynchronizerStateManager.
 
-        :param connection_string: Connection string for Azure App Configuration.
+        :param app_config_endpoint: Endpoint URL for Azure App Configuration.
+        :param credential: Credential for Azure authentication.
         :param prefix: Optional prefix for filtering configuration keys.
         """
-        self._client = AzureAppConfigurationClient.from_connection_string(connection_string)
+        self._client = AzureAppConfigurationClient(app_config_endpoint, credential)
         self._prefix = prefix
 
     def _get_state(self, key: str):
