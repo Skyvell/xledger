@@ -4,7 +4,7 @@ from azure.storage.filedatalake import DataLakeServiceClient, DataLakeFileClient
 from azure.core.exceptions import ResourceExistsError, HttpResponseError
 from azure.identity import DefaultAzureCredential
 
-#
+
 class DataLakeWriter:
     """
     Handles writing data to Azure Data Lake Storage.
