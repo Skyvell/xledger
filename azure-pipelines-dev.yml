@@ -1,20 +1,29 @@
+# Python Function App to Linux on Azure
+# Build a Python function app and deploy it to Azure as a Linux function app.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/python
+
 trigger:
   branches:
     include:
       - dev
 
 variables:
+  # Azure Resource Manager connection created during pipeline creation
   azureSubscription: 'c970b736-a87d-42e2-b2a6-73d193d9034e'
-  vmImageName: 'ubuntu-latest'
-  terraformWorkingDirectory: '$(Build.SourcesDirectory)/infrastructure/terraform'
-  terraformVersion: '1.8.5'
-  workingDirectory: '.'
+
+  # Function app name
   functionAppName: 'xledger-syncronizer-dev'
+
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+
+  # Working Directory. 
+  workingDirectory: '.'
 
 stages:
 - stage: Build
   displayName: 'Build Stage'
-
   jobs:
   - job: Build
     displayName: 'Build'
@@ -22,6 +31,14 @@ stages:
       vmImage: $(vmImageName)
 
     steps:
+    - bash: |
+        if [ -f extensions.csproj ]
+        then
+            dotnet build extensions.csproj --runtime ubuntu.16.04-x64 --output ./bin
+        fi
+      workingDirectory: $(workingDirectory)
+      displayName: 'Build extensions'
+
     - task: UsePythonVersion@0
       displayName: 'Use Python 3.11'
       inputs:
@@ -52,7 +69,7 @@ stages:
   jobs:
   - deployment: Deploy
     displayName: 'Deploy'
-    environment: $(environment)
+    environment: 'development'
     pool:
       vmImage: $(vmImageName)
 
