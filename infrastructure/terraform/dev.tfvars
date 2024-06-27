@@ -4,12 +4,13 @@ resource_group_name           = "DDBI-ResourceGroup"
 
 # Function App infrastructure settings.
 function_app_name               = "xledger-syncronizer-dev"
-app_service_plan_name = "xledeger-syncronizer-service-asp-dev"
+app_service_plan_name = "xledeger-syncronizer-asp-dev"
 function_app_storage_account_name = "syncronizerstoragedev"
 app_config_name                 = "xledger-syncronizer-statemanager-dev"
 data_storage_account_name    = "ddbistorage"
 data_storage_container_name = "xledger-dev"
 app_configuration_name = "xledger-syncronizer-state-dev"
+app_insights_name = "xledger-syncronizer-ai-dev"
 
 # Function App environment settings.
 api_endpoint = "https://demo.xledger.net/graphql"

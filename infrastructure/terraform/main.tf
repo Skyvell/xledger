@@ -34,6 +34,13 @@ resource "azurerm_service_plan" "service_plan" {
   sku_name            = "Y1"
 }
 
+resource "azurerm_application_insights" "application_insights" {
+  name                = var.app_insights_name
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  application_type    = "web"
+}
+
 resource "azurerm_linux_function_app" "function_app" {
   name                       = var.function_app_name
   service_plan_id            = azurerm_service_plan.service_plan.id
@@ -59,6 +66,7 @@ resource "azurerm_linux_function_app" "function_app" {
     "DATA_STORAGE_ACCOUNT_NAME"   = var.data_storage_account_name,
     "DATA_STORAGE_CONTAINER_NAME" = var.data_storage_container_name,
     "APP_CONFIG_ENDPOINT"         = azurerm_app_configuration.app_configuration.endpoint
+    "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.application_insights.instrumentation_key
   }
 }
 

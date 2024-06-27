@@ -46,6 +46,11 @@ variable "app_configuration_name" {
   type        = string
 }
 
+variable "app_insights_name" {
+  description = "The name of the Application Insights."
+  type        = string
+}
+
 
 # Configuration of Function App.
 variable "api_key" {
