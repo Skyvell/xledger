@@ -7,121 +7,63 @@ variables:
   terraformWorkingDirectory: '$(Build.SourcesDirectory)/infrastructure/terraform'
   terraformVersion: '1.8.5'
   environment: 'dev'  # Change this to 'prod' for production environment
+  workdingdirDirectory: '.'
+  functionAppName: 'xledger-syncronizer-dev'
 
-stages:
-- stage: Infra
-  displayName: 'Infrastructure Deployment'
+- stage: Build
+  displayName: 'Build Stage'
+  dependsOn: Infra
+  condition: succeeded()
+
   jobs:
-  - job: DeployInfra
-    displayName: 'Deploy Infrastructure'
+  - job: Build
+    displayName: 'Build'
     pool:
       vmImage: $(vmImageName)
 
     steps:
-    - task: AzureCLI@2
-      displayName: 'Login to Azure CLI'
+    - task: UsePythonVersion@0
+      displayName: 'Use Python 3.11'
       inputs:
-        azureSubscription: $(azureSubscription)
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          echo "Extracting Azure credentials..."
-          ARM_CLIENT_ID=$(az ad sp show --id $(servicePrincipalId) --query appId -o tsv)
-          ARM_TENANT_ID=$(az account show --query tenantId -o tsv)
-          ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
-          echo "Setting environment variables for Terraform..."
+        versionSpec: 3.11
 
-    - checkout: self
+    - bash: |
+        pip install --target="./.python_packages/lib/site-packages" -r ./requirements.txt
+      workingDirectory: $(workingDirectory)
+      displayName: 'Install application dependencies'
 
-    - script: |
-        echo "Setting environment variables for Terraform..."
-        export ARM_CLIENT_ID=$ARM_CLIENT_ID
-        export ARM_CLIENT_SECRET=$(servicePrincipalKey)
-        export ARM_TENANT_ID=$ARM_TENANT_ID
-        export ARM_SUBSCRIPTION_ID=$ARM_SUBSCRIPTION_ID
-        cd $(terraformWorkingDirectory)
-        if [ "$(environment)" = "dev" ]; then
-          cp backend-dev.tf backend.tf
-        else
-          cp backend-prod.tf backend.tf
-        fi
-        terraform init
-      displayName: 'Terraform Init'
+    - task: ArchiveFiles@2
+      displayName: 'Archive files'
+      inputs:
+        rootFolderOrFile: '$(workingDirectory)'
+        includeRootFolder: false
+        archiveType: zip
+        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+        replaceExistingArchive: true
 
-    - script: |
-        echo "Setting environment variables for Terraform..."
-        export ARM_CLIENT_ID=$(az ad sp show --id $(servicePrincipalId) --query appId -o tsv)
-        export ARM_CLIENT_SECRET=$(servicePrincipalKey)
-        export ARM_TENANT_ID=$(az account show --query tenantId -o tsv)
-        export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
-        cd $(terraformWorkingDirectory)
-        terraform plan -var-file="$(environment).tfvars"
-      displayName: 'Terraform Plan'
+    - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+      artifact: drop
 
-    - script: |
-        echo "Setting environment variables for Terraform..."
-        export ARM_CLIENT_ID=$(az ad sp show --id $(servicePrincipalId) --query appId -o tsv)
-        export ARM_CLIENT_SECRET=$(servicePrincipalKey)
-        export ARM_TENANT_ID=$(az account show --query tenantId -o tsv)
-        export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
-        cd $(terraformWorkingDirectory)
-        terraform apply -var-file="$(environment).tfvars" -auto-approve
-      displayName: 'Terraform Apply'
+- stage: Deploy
+  displayName: 'Deploy Stage'
+  dependsOn: Build
+  condition: succeeded()
 
-#- stage: Build
-#  displayName: 'Build Stage'
-#  dependsOn: Infra
-#  condition: succeeded()
-#
-#  jobs:
-#  - job: Build
-#    displayName: 'Build'
-#    pool:
-#      vmImage: $(vmImageName)
-#
-#    steps:
-#    - task: UsePythonVersion@0
-#      displayName: 'Use Python 3.11'
-#      inputs:
-#        versionSpec: 3.11
-#
-#    - bash: |
-#        pip install --target="./.python_packages/lib/site-packages" -r ./requirements.txt
-#      workingDirectory: $(workingDirectory)
-#      displayName: 'Install application dependencies'
-#
-#    - task: ArchiveFiles@2
-#      displayName: 'Archive files'
-#      inputs:
-#        rootFolderOrFile: '$(workingDirectory)'
-#        includeRootFolder: false
-#        archiveType: zip
-#        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-#        replaceExistingArchive: true
-#
-#    - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-#      artifact: drop
-#
-#- stage: Deploy
-#  displayName: 'Deploy Stage'
-#  dependsOn: Build
-#  condition: succeeded()
-#
-#  jobs:
-#  - deployment: Deploy
-#    displayName: 'Deploy'
-#    environment: 'development'
-#    pool:
-#      vmImage: $(vmImageName)
-#
-#    strategy:
-#      runOnce:
-#        deploy:
-#          steps:
-#          - task: AzureFunctionApp@2
-#            displayName: 'Deploy Azure Function App'
-#            inputs:
-#              azureSubscription: '$(azureSubscription)'
-#              appType: functionAppLinux
-#              appName: $(functionAppName)
-#              package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
+  jobs:
+  - deployment: Deploy
+    displayName: 'Deploy'
+    environment: 'development'
+    pool:
+      vmImage: $(vmImageName)
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureFunctionApp@2
+            displayName: 'Deploy Azure Function App'
+            inputs:
+              azureSubscription: '$(azureSubscription)'
+              appType: functionAppLinux
+              appName: $(functionAppName)
+              package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
