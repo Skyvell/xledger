@@ -52,7 +52,10 @@ resource "azurerm_linux_function_app" "function_app" {
 
   site_config {
     application_stack {
-        python_version = "3.11"
+      python_version = "3.11"
+    }
+    cors {
+      allowed_origins = ["https://portal.azure.com"]
     }
   }
 
