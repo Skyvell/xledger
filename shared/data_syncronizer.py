@@ -43,7 +43,7 @@ class DataSynchronizer:
         items_transformed = convert_dicts_to_parquet(flatten_list_of_dicts(items.get_items()))
         
         # Write items to data lake.
-        self.data_lake_writer.write_data(f"{get_current_time_for_filename()}-{self.name}.parquet", items_transformed)
+        self.data_lake_writer.write_data(f"full_sync-{get_current_time_for_filename()}-{self.name}.parquet", items_transformed)
 
         # Update state.
         self.state_manager.initial_sync_cursor = items.get_last_item_cursor()
@@ -79,7 +79,7 @@ class DataSynchronizer:
         parquet = convert_dicts_to_parquet(flatten_list_of_dicts(all_changed_items))
 
         # Write items to data lake.
-        self.data_lake_writer.write_data(f"{get_current_time_for_filename()}-{self.name}.parquet", parquet)
+        self.data_lake_writer.write_data(f"sync_changes-{get_current_time_for_filename()}-{self.name}.parquet", parquet)
 
         # Update state.
         self.state_manager.deltas_cursor = deltas.last_cursor
