@@ -7,13 +7,12 @@ variables:
   terraformWorkingDirectory: '$(Build.SourcesDirectory)/infrastructure/terraform'
   terraformVersion: '1.8.5'
   environment: 'dev'  # Change this to 'prod' for production environment
-  workdingdirDirectory: '.'
+  workingDirectory: '.'
   functionAppName: 'xledger-syncronizer-dev'
 
+stages:
 - stage: Build
   displayName: 'Build Stage'
-  dependsOn: Infra
-  condition: succeeded()
 
   jobs:
   - job: Build
@@ -25,7 +24,7 @@ variables:
     - task: UsePythonVersion@0
       displayName: 'Use Python 3.11'
       inputs:
-        versionSpec: 3.11
+        versionSpec: '3.11'
 
     - bash: |
         pip install --target="./.python_packages/lib/site-packages" -r ./requirements.txt
@@ -52,7 +51,7 @@ variables:
   jobs:
   - deployment: Deploy
     displayName: 'Deploy'
-    environment: 'development'
+    environment: $(environment)
     pool:
       vmImage: $(vmImageName)
 
