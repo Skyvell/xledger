@@ -2,6 +2,7 @@ import logging
 from io import BytesIO
 from azure.storage.filedatalake import DataLakeServiceClient, DataLakeFileClient
 from azure.core.exceptions import ResourceExistsError, HttpResponseError
+from azure.identity import DefaultAzureCredential
 
 
 class DataLakeWriter:
@@ -12,17 +13,21 @@ class DataLakeWriter:
     and supports writing string data or data from a BytesIO object directly to Azure Data Lake Storage.
     """
 
-    def __init__(self, account_name: str, account_key: str):
+    def __init__(self, account_name: str, credential: DefaultAzureCredential, default_file_system: str = None, default_directory: str = None):
         """
-        Initialize the DataLakeWriter with the storage account credentials.
+        Initialize the DataLakeWriter with the storage account credentials and default file system/directory.
 
         :param account_name: Azure storage account name
-        :param account_key: Azure storage account key
+        :param credential: Azure credential for authentication
+        :param default_file_system: Default file system (container) name
+        :param default_directory: Default directory name
         """
         self.service_client = DataLakeServiceClient(
             account_url=f"https://{account_name}.dfs.core.windows.net",
-            credential=account_key
+            credential=credential
         )
+        self.default_file_system = default_file_system
+        self.default_directory = default_directory
 
     def _get_file_system_client(self, file_system_name: str):
         """
@@ -109,15 +114,21 @@ class DataLakeWriter:
             logging.error(f"Failed to write data to file '{file_client.path_name}': {e}")
             raise
 
-    def write_data(self, file_system_name: str, directory_name: str, file_name: str, data) -> None:
+    def write_data(self, file_name: str, data, file_system_name: str = None, directory_name: str = None) -> None:
         """
         Write data to a file in Azure Data Lake Storage.
 
-        :param file_system_name: Name of the file system (container)
-        :param directory_name: Name of the directory
         :param file_name: Name of the file
         :param data: Data to write to the file, can be a string or BytesIO object
+        :param file_system_name: Name of the file system (container), uses default if not specified
+        :param directory_name: Name of the directory, uses default if not specified
         """
+        file_system_name = file_system_name or self.default_file_system
+        directory_name = directory_name or self.default_directory
+
+        if not file_system_name or not directory_name:
+            raise ValueError("File system and directory must be specified either as parameters or defaults.")
+
         # Ensure the file system exists.
         self._ensure_file_system_exists(file_system_name)
 
