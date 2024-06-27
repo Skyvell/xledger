@@ -33,7 +33,7 @@ def syncronize_timesheets(myTimer: func.TimerRequest) -> None:
     api_key = os.getenv("API_KEY")
     data_storage_account = os.getenv("DATA_STORAGE_ACCOUNT_NAME")
     data_storage_container = os.getenv("DATA_STORAGE_CONTAINER_NAME")
-    app_config_endpoint = os.getenv("APP_CONFIG_ENDPOINT"))
+    app_config_endpoint = os.getenv("APP_CONFIG_ENDPOINT")
 
     ## Initialize classes needed for syncronizing data.
     grapql_client = GraphQLClient(api_endpoint, api_key)
