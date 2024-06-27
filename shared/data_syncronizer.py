@@ -15,7 +15,7 @@ class DataSynchronizer:
                  delta_fetcher: DeltaFetcher, 
                  item_fetcher: ItemFetcher,
                  data_lake_writer: DataLakeWriter,
-                 state_manager: SynchronizerStateManager = None) -> None:
+                 state_manager: SynchronizerStateManager) -> None:
         self.name = name
         self.delta_fetcher = delta_fetcher
         self.item_fetcher = item_fetcher
