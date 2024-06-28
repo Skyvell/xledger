@@ -7,11 +7,13 @@ from shared.configuration_manager import SynchronizerStateManager
 from shared.utils.data_transformation import flatten_list_of_dicts
 from shared.utils.files import convert_dicts_to_parquet
 from shared.utils.time import get_current_time_for_filename
+from shared.utils.files import convert_dicts_to_parquet_pandas
 
 
 class DataSynchronizer:
     def __init__(self, 
-                 name: str, 
+                 name: str,
+                 columns: List[str],
                  delta_fetcher: DeltaFetcher, 
                  item_fetcher: ItemFetcher,
                  data_lake_writer: DataLakeWriter,
@@ -21,6 +23,7 @@ class DataSynchronizer:
         self.item_fetcher = item_fetcher
         self.state_manager = state_manager
         self.data_lake_writer = data_lake_writer
+        self.columns = columns
 
     def syncronize(self, sync_from_scratch: bool) -> None:
         if sync_from_scratch:
@@ -40,7 +43,7 @@ class DataSynchronizer:
         
         # Transform items.
         items.add_key_value_to_items("mutationType", "ADDED")
-        items_transformed = convert_dicts_to_parquet(flatten_list_of_dicts(items.get_items()))
+        items_transformed = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(items.get_items()), self.columns)
         
         # Write items to data lake.
         self.data_lake_writer.write_data(f"full_sync-{get_current_time_for_filename()}-{self.name}.parquet", items_transformed)
@@ -76,7 +79,7 @@ class DataSynchronizer:
             all_changed_items.extend(deletions)
 
         # Transform items.
-        parquet = convert_dicts_to_parquet(flatten_list_of_dicts(all_changed_items))
+        parquet = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(all_changed_items), self.columns)
 
         # Write items to data lake.
         self.data_lake_writer.write_data(f"sync_changes-{get_current_time_for_filename()}-{self.name}.parquet", parquet)
