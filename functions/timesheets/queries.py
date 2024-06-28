@@ -13,17 +13,21 @@ GET_TIMESHEETS_FROM_DBIDS = gql("""
             edges {
                 node {
                     dbId
+                    createdAt
+                    modifiedAt
                     assignmentDate
+                    workingHours
                     isHeaderApproved
                     headerApprovedAt
+                    hourlyRevenueCurrency
                     owner {
-                        description
                         dbId
+                        description
                     }
                     employee {
-                        code
-                        description
                         dbId
+                        description
+                        code
                     }
                     activity {
                         code
@@ -33,8 +37,11 @@ GET_TIMESHEETS_FROM_DBIDS = gql("""
                         code
                         description
                     }
-                    workingHours
-                    assignmentDate
+                    project {
+                        dbId
+                        description
+                        code
+                    }
                 }
                 cursor
             }
@@ -54,17 +61,21 @@ GET_TIMESHEETS_AFTER_CURSOR = gql("""
             edges {
                 node {
                     dbId
+                    createdAt
+                    modifiedAt
                     assignmentDate
+                    workingHours
                     isHeaderApproved
                     headerApprovedAt
+                    hourlyRevenueCurrency
                     owner {
-                        description
                         dbId
+                        description
                     }
                     employee {
-                        code
-                        description
                         dbId
+                        description
+                        code
                     }
                     activity {
                         code
@@ -74,8 +85,11 @@ GET_TIMESHEETS_AFTER_CURSOR = gql("""
                         code
                         description
                     }
-                    workingHours
-                    assignmentDate
+                    project {
+                        dbId
+                        description
+                        code
+                    }
                 }
                 cursor
             }
