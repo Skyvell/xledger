@@ -73,19 +73,19 @@ def add_key_value_to_dicts(dicts_list: List[Dict[str, Any]], key: str, value: An
     return dicts_list
 
 
-def flatten_graphql_fields(input: str, separator: str = "."):
+def flatten_graphql_fields(input: str, separator: str = ".") -> List[str]:
     """
     Extracts hierarchical field names from a structured string input.
 
     Args:
-        input_str (str): The structured string input containing fields and braces to denote hierarchy.
+        input (str): The structured string input containing fields and braces to denote hierarchy.
         separator (str): The custom separator to use for nested fields. Defaults to ".".
 
     Returns:
         list: A list of extracted field names with hierarchy indicated by the custom separator.
 
     Example:
-        input_str = '''
+        input = '''
         user {
             id
             name {
@@ -95,35 +95,43 @@ def flatten_graphql_fields(input: str, separator: str = "."):
             email
         }
         '''
-        extract_fields(input_str) returns:
+        flatten_graphql_fields(input) returns:
         ['user.id', 'user.name.first', 'user.name.last', 'user.email']
 
-        extract_fields(input_str, separator="/") returns:
+        flatten_graphql_fields(input, separator="/") returns:
         ['user/id', 'user/name/first', 'user/name/last', 'user/email']
+
+    Limitations:
+        - Does only support node structure in its most simple form. Only fields and nested fields are supported.
+        - Must follow the exaxt formatting shown in the example.
+        - Empty lines are supported.
     """
-    # Split the input string into lines and strip any leading/trailing whitespace
+    # Split the input string into lines and strip any leading/trailing whitespace.
     lines = input.strip().split("\n")
-    fields = []  # Initialize an empty list to store the fields
-    stack = []   # Initialize an empty stack to keep track of the hierarchy
+
+    fields = []
+    stack = []
 
     for line in lines:
-        # Strip leading/trailing whitespace from each line
         line = line.strip()
+        if not line:
+            # Skip empty lines.
+            continue
         if line.endswith("{"):
-            # If the line ends with '{', it's a base for nested fields
+            # If the line ends with '{', it's a base for nested fields.
             base = line.split("{")[0].strip()
             if stack:
-                # If there's an existing hierarchy, prepend it to the base
+                # If there's an existing hierarchy, prepend it to the base.
                 base = f"{stack[-1]}{separator}{base}"
             stack.append(base)
         elif line == "}":
-            # If the line is '}', it indicates the end of a nested block
+            # If the line is '}', it indicates the end of a nested block.
             stack.pop()
         else:
-            # Otherwise, it's a field name
+            # Otherwise, it's a field name.
             field = line.split()[0]
             if stack:
-                # If there's an existing hierarchy, prepend it to the field
+                # If there's an existing hierarchy, prepend it to the field.
                 fields.append(f"{stack[-1]}{separator}{field}")
             else:
                 fields.append(field)
