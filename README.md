@@ -22,6 +22,8 @@
 11. [Contact](#contact)
 
 ---
+# BUGS to fix:
+- Now different columns will be included in the parquet files depending on which fields are present in the fechted data. Ensure the column strucutre is set from the query structure.
 
 ## Overview
 
