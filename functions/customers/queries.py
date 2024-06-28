@@ -61,9 +61,10 @@ GET_CUSTOMERS_AFTER_CURSOR = gql("""
 """)
 
 GET_CUSTOMER_DELTAS = gql("""
-    query getCustomerDeltas($first: Int, $after: String) {
+    query getCustomerDeltas($first: Int, $last: Int, $after: String) {
         customer_deltas(
-            first: $first, 
+            first: $first,
+            last: $last, 
             after: $after
         ) {
             edges {

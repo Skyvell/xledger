@@ -51,9 +51,10 @@ GET_EMPLOYEES_FROM_DBIDS = gql("""
 """)
 
 GET_EMPLOYEES_AFTER_CURSOR = gql("""
-    query getEmployees($first: Int, $after: String) {
+    query getEmployees($first: Int, $last: Int, $after: String) {
         employees(
             first: $first,
+            last: $last,
             after: $after
         ) {
             edges {
