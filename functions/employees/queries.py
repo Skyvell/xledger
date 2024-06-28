@@ -13,8 +13,28 @@ GET_EMPLOYEES_FROM_DBIDS = gql("""
             edges {
                 cursor
                 node {
+                    dbId
                     email
                     description
+                    createdAt
+                    modifiedAt
+                    employmentFrom
+                    employmentTo
+                    positionValue {
+                        dbId
+                        description
+                        code
+                    }
+                    positionCategory {
+                        dbId
+                        description
+                        code
+                    }
+                    compensationType {
+                        dbId
+                        description
+                        code
+                    }
                     employmentType {
                         description
                         owner {
@@ -22,25 +42,28 @@ GET_EMPLOYEES_FROM_DBIDS = gql("""
                         }
                     }
                     contact {
+                        firstName
+                        lastName
+                        birthday
                         age
                         country {
                             description
                         }
-                        firstName
-                        lastName
                         gender {
                             name
                         }
                     }
                     exitReason {
+                        dbId
                         description
                         code
                     }
                     glObject1 {
-                        id
+                        dbId
                         description
+                        code
+                        id
                     }
-                    code
                 }
             }
             pageInfo {
@@ -60,8 +83,28 @@ GET_EMPLOYEES_AFTER_CURSOR = gql("""
             edges {
                 cursor
                 node {
+                    dbId
                     email
                     description
+                    createdAt
+                    modifiedAt
+                    employmentFrom
+                    employmentTo
+                    positionValue {
+                        dbId
+                        description
+                        code
+                    }
+                    positionCategory {
+                        dbId
+                        description
+                        code
+                    }
+                    compensationType {
+                        dbId
+                        description
+                        code
+                    }
                     employmentType {
                         description
                         owner {
@@ -69,25 +112,28 @@ GET_EMPLOYEES_AFTER_CURSOR = gql("""
                         }
                     }
                     contact {
+                        firstName
+                        lastName
+                        birthday
                         age
                         country {
                             description
                         }
-                        firstName
-                        lastName
                         gender {
                             name
                         }
                     }
                     exitReason {
+                        dbId
                         description
                         code
                     }
                     glObject1 {
-                        id
+                        dbId
                         description
+                        code
+                        id
                     }
-                    code
                 }
             }
             pageInfo {
