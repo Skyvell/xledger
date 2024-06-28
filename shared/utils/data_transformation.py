@@ -73,68 +73,59 @@ def add_key_value_to_dicts(dicts_list: List[Dict[str, Any]], key: str, value: An
     return dicts_list
 
 
-def flatten_graphql_fields(field_str: str, parent_key: str = '', separator: str = '.') -> List[str]:
+def flatten_graphql_fields(input: str, separator: str = "."):
     """
-    Recursively flattens a nested GraphQL fields string into a list of dot-separated field paths.
+    Extracts hierarchical field names from a structured string input.
 
-    Parameters:
-        field_str (str): The string representing nested GraphQL fields.
-        parent_key (str): The base path for the current level of fields. Used during recursion.
-        separator (str): The separator used to denote nesting in the field paths.
+    Args:
+        input_str (str): The structured string input containing fields and braces to denote hierarchy.
+        separator (str): The custom separator to use for nested fields. Defaults to ".".
 
     Returns:
-        List[str]: A list of flattened field paths.
+        list: A list of extracted field names with hierarchy indicated by the custom separator.
 
-    Raises:
-        ValueError: If there are unbalanced braces in the input string.
+    Example:
+        input_str = '''
+        user {
+            id
+            name {
+                first
+                last
+            }
+            email
+        }
+        '''
+        extract_fields(input_str) returns:
+        ['user.id', 'user.name.first', 'user.name.last', 'user.email']
+
+        extract_fields(input_str, separator="/") returns:
+        ['user/id', 'user/name/first', 'user/name/last', 'user/email']
     """
-    flattened_fields = []
+    # Split the input string into lines and strip any leading/trailing whitespace
+    lines = input.strip().split("\n")
+    fields = []  # Initialize an empty list to store the fields
+    stack = []   # Initialize an empty stack to keep track of the hierarchy
 
-    def recurse(fields: str, parent_key: str) -> None:
-        """
-        Helper function to recursively flatten the nested fields.
-
-        Parameters:
-            fields (str): The string of fields to process.
-            parent_key (str): The base path for the current level of fields.
-
-        Raises:
-            ValueError: If there are unbalanced braces in the input string.
-        """
-        i = 0
-        n = len(fields)
-        while i < n:
-            if fields[i] == '{':
-                i += 1
-                nested_fields = ""
-                brace_count = 1
-
-                # Collect nested fields.
-                while i < n and brace_count > 0:
-                    if fields[i] == '{':
-                        brace_count += 1
-                    elif fields[i] == '}':
-                        brace_count -= 1
-                    if brace_count > 0:
-                        nested_fields += fields[i]
-                    i += 1
-
-                if brace_count != 0:
-                    raise ValueError("Unbalanced braces in input string")
-
-                # Recurse into nested fields.
-                recurse(nested_fields, parent_key)
+    for line in lines:
+        # Strip leading/trailing whitespace from each line
+        line = line.strip()
+        if line.endswith("{"):
+            # If the line ends with '{', it's a base for nested fields
+            base = line.split("{")[0].strip()
+            if stack:
+                # If there's an existing hierarchy, prepend it to the base
+                base = f"{stack[-1]}{separator}{base}"
+            stack.append(base)
+        elif line == "}":
+            # If the line is '}', it indicates the end of a nested block
+            stack.pop()
+        else:
+            # Otherwise, it's a field name
+            field = line.split()[0]
+            if stack:
+                # If there's an existing hierarchy, prepend it to the field
+                fields.append(f"{stack[-1]}{separator}{field}")
             else:
-                # Collect field name.
-                field_name = ""
-                while i < n and fields[i] not in ('{', '}'):
-                    field_name += fields[i]
-                    i += 1
-                field_name = field_name.strip()
+                fields.append(field)
 
-                if field_name:
-                    key = f"{parent_key}{separator}{field_name}" if parent_key else field_name
-                    flattened_fields.append(key)
-
-    recurse(field_str, parent_key)
-    return flattened_fields
+    return fields
