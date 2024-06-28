@@ -12,6 +12,7 @@ from shared.gql_client import GraphQLClient
 from shared.environment_config import EnvironmentConfig
 
 from functions.customers.queries import (
+    COLUMNS,
     GET_CUSTOMERS_FROM_DBIDS,
     GET_CUSTOMERS_AFTER_CURSOR,
     GET_CUSTOMER_DELTAS
@@ -41,7 +42,8 @@ def syncronize_customers(myTimer: func.TimerRequest) -> None:
 
     # Initialize the data syncronizer.
     syncronizer = DataSynchronizer(
-        NAME, 
+        NAME,
+        COLUMNS,
         delta_fetcher,
         item_fetcher,
         data_lake_writer,
