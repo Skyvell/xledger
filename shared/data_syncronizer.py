@@ -26,6 +26,7 @@ class DataSynchronizer:
         self.columns = columns
 
     def syncronize(self, sync_from_scratch: bool) -> None:
+        logging.warning(f"Syncronizing {self.name} data.")
         if sync_from_scratch:
             self._full_syncronization()
         else:
@@ -43,8 +44,10 @@ class DataSynchronizer:
         
         # Transform items.
         items.add_key_value_to_items("mutationType", "ADDED")
+        logging.warning(f"Before transformation.")
         items_transformed = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(items.get_items()), self.columns)
-        
+        logging.warning(f"After transformation.")
+
         # Write items to data lake.
         self.data_lake_writer.write_data(f"full_sync-{get_current_time_for_filename()}-{self.name}.parquet", items_transformed)
 
