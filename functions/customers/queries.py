@@ -33,7 +33,7 @@ GET_CUSTOMERS_FROM_DBIDS = gql("""
 
 GET_CUSTOMERS_AFTER_CURSOR = gql("""
     query getTimesheets($first: Int, $after: String) {
-        timesheets(
+        customers(
             first: $first,
             after: $after
         ) {
