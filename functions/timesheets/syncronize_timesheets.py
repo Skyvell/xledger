@@ -12,6 +12,7 @@ from shared.gql_client import GraphQLClient
 from shared.environment_config import EnvironmentConfig
 
 from functions.timesheets.queries import (
+    COLUMNS,
     GET_TIMESHEET_DELTAS,
     GET_TIMESHEETS_AFTER_CURSOR,
     GET_TIMESHEETS_FROM_DBIDS
@@ -41,11 +42,12 @@ def syncronize_timesheets(myTimer: func.TimerRequest) -> None:
 
     # Initialize the data syncronizer.
     syncronizer = DataSynchronizer(
-        NAME, 
-        delta_fetcher,
+        NAME,
+        COLUMNS,
         item_fetcher,
         data_lake_writer,
-        state_manager
+        state_manager,
+        delta_fetcher,
     )
 
     # Syncronize the data.
