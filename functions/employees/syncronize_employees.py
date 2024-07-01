@@ -44,10 +44,10 @@ def syncronize_employees(myTimer: func.TimerRequest) -> None:
     syncronizer = DataSynchronizer(
         NAME,
         COLUMNS,
-        delta_fetcher,
         item_fetcher,
         data_lake_writer,
-        state_manager
+        state_manager,
+        delta_fetcher
     )
 
     # Syncronize the data.
