@@ -40,8 +40,6 @@ def syncronize_employees(myTimer: func.TimerRequest) -> None:
     item_fetcher = ItemFetcher(grapql_client, GET_EMPLOYEES_FROM_DBIDS, GET_EMPLOYEES_AFTER_CURSOR)
     state_manager = SynchronizerStateManager(config.app_config_endpoint, credential, f"{NAME}-")
 
-    logging.warning("COLUMNS: {COLUMNS}")
-
     # Initialize the data syncronizer.
     syncronizer = DataSynchronizer(
         NAME,
