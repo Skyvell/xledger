@@ -8,7 +8,7 @@ SUPPLIER_NODE_FIELDS = """
     dbId
     description
     code
-    companyId
+    companyDbId
     number
     phone
     address {
