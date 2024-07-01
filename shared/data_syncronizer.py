@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 import logging
 from shared.delta_fetcher import DeltaFetcher
 from shared.item_fetcher import ItemFetcher
@@ -38,20 +38,20 @@ class DataSynchronizer:
     def __init__(self, 
                  name: str,
                  columns: List[str],
-                 delta_fetcher: DeltaFetcher, 
                  item_fetcher: ItemFetcher,
                  data_lake_writer: DataLakeWriter,
-                 state_manager: SynchronizerStateManager) -> None:
+                 state_manager: SynchronizerStateManager,
+                 delta_fetcher: Optional[DeltaFetcher] = None) -> None:
         """
         Initialize a new instance of DataSynchronizer.
 
         Args:
         name (str): The name of the synchronizer.
         columns (List[str]): The list of columns to include in the data lake.
-        delta_fetcher (DeltaFetcher): The instance used to fetch deltas (added, updated, or deleted items).
         item_fetcher (ItemFetcher): The instance to fetch items.
         data_lake_writer (DataLakeWriter): The instance used to write data to the data lake.
         state_manager (SynchronizerStateManager): The instance used to manage synchronization state.
+        delta_fetcher (Optional[DeltaFetcher]): The instance to fetch deltas (added, updated, or deleted items).
         """
         self.name = name
         self.delta_fetcher = delta_fetcher
