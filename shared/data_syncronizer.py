@@ -67,6 +67,10 @@ class DataSynchronizer:
         Args:
         sync_from_scratch (bool): If True, perform a full synchronization; otherwise, synchronize changes.
         """
+        if not sync_from_scratch:
+            if not self.delta_fetcher:
+                raise ValueError("A DeltaFetcher is required for syncronizing changes.")
+
         if sync_from_scratch:
             self._full_syncronization()
         else:
@@ -77,7 +81,9 @@ class DataSynchronizer:
         Perform a full synchronization of data.
         """
         # Get the last delta.
-        deltas = self.delta_fetcher.fetch_deltas({"last": 1})
+        deltas = None
+        if self.delta_fetcher:
+            deltas = self.delta_fetcher.fetch_deltas({"last": 1})
         
         # Fetch all items.
         items = self.item_fetcher.fetch_all_items_after_cursor(first=10000)
@@ -95,7 +101,8 @@ class DataSynchronizer:
         # Update state.
         self.state_manager.initial_sync_cursor = items.get_last_item_cursor()
         self.state_manager.initial_sync_complete = True
-        self.state_manager.deltas_cursor = deltas.last_cursor
+        if deltas:
+            self.state_manager.deltas_cursor = deltas.last_cursor
 
         # Can call _syncronize_changes here to get the changes since the full sync.
         # Use the last delta fetched at the beginning of this function.
