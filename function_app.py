@@ -4,6 +4,7 @@ from functions.timesheets.syncronize_timesheets import bp as timesheets_bp
 from functions.customers.syncronize_customers import bp as customers_bp
 from functions.employees.syncronize_employees import bp as employees_bp
 from functions.projects.syncronize_projects import bp as projects_bp
+from functions.suppliers.syncronize_suppliers import bp as suppliers_bp
 
 
 # Create the function app.
@@ -14,3 +15,4 @@ app.register_blueprint(timesheets_bp)
 app.register_blueprint(customers_bp)
 app.register_blueprint(employees_bp)
 app.register_blueprint(projects_bp)
+app.register_blueprint(suppliers_bp)
