@@ -1,16 +1,40 @@
-from typing import List, Dict, Any
+from typing import List
 import logging
 from shared.delta_fetcher import DeltaFetcher
 from shared.item_fetcher import ItemFetcher
 from shared.data_lake_writer import DataLakeWriter
 from shared.configuration_manager import SynchronizerStateManager
 from shared.utils.data_transformation import flatten_list_of_dicts
-from shared.utils.files import convert_dicts_to_parquet
 from shared.utils.time import get_current_time_for_filename
 from shared.utils.files import convert_dicts_to_parquet_pandas
 
 
 class DataSynchronizer:
+    """
+    A class used to syncronize a specifc type of data from Xledger.
+    The synchronizer can perform a full syncronization or
+    fetch only the latest changes. State of syncronizations are stored in Azure. Which endpoint to fetch
+    data from is defined in the item_fetcher and delta_fetcher.
+
+    Full syncronization: 
+    The synchronizer fetches all items and writes them to the data lake. The state manager updates the
+    state in Azure Blob Storage with the cursor of the last item fetched, and whether the syncronization completed or not.
+
+    Syncronize changes:
+    The synchronizer uses a DeltaFetcher to get the the dbIds and which type of change occured (addition, update or deletion).
+    An ItemFetcher is used to fetch the items based on the dbIds. The items are then transformed and written to the data lake.
+    The state manager updates the state of Azure to keep track of the last delta processed.
+
+
+    Attributes:
+    name (str): The name of the synchronizer.
+    columns (List[str]): The list of columns that should be included in the data lake.
+    delta_fetcher (DeltaFetcher): The instance to fetch deltas (added, updated, or deleted items).
+    item_fetcher (ItemFetcher): The instance to fetch items.
+    data_lake_writer (DataLakeWriter): The instance to write data to the data lake.
+    state_manager (SynchronizerStateManager): The instance to manage synchronization state.
+    """
+
     def __init__(self, 
                  name: str,
                  columns: List[str],
@@ -18,6 +42,17 @@ class DataSynchronizer:
                  item_fetcher: ItemFetcher,
                  data_lake_writer: DataLakeWriter,
                  state_manager: SynchronizerStateManager) -> None:
+        """
+        Initialize a new instance of DataSynchronizer.
+
+        Args:
+        name (str): The name of the synchronizer.
+        columns (List[str]): The list of columns to include in the data lake.
+        delta_fetcher (DeltaFetcher): The instance used to fetch deltas (added, updated, or deleted items).
+        item_fetcher (ItemFetcher): The instance to fetch items.
+        data_lake_writer (DataLakeWriter): The instance used to write data to the data lake.
+        state_manager (SynchronizerStateManager): The instance used to manage synchronization state.
+        """
         self.name = name
         self.delta_fetcher = delta_fetcher
         self.item_fetcher = item_fetcher
@@ -26,12 +61,21 @@ class DataSynchronizer:
         self.columns = columns
 
     def syncronize(self, sync_from_scratch: bool) -> None:
+        """
+        Perform a full data syncronization or syncronize only changes.
+
+        Args:
+        sync_from_scratch (bool): If True, perform a full synchronization; otherwise, synchronize changes.
+        """
         if sync_from_scratch:
             self._full_syncronization()
         else:
             self._syncronize_changes()
 
     def _full_syncronization(self) -> None:
+        """
+        Perform a full synchronization of data.
+        """
         # Get the last delta.
         deltas = self.delta_fetcher.fetch_deltas({"last": 1})
         
@@ -53,7 +97,13 @@ class DataSynchronizer:
         self.state_manager.initial_sync_complete = True
         self.state_manager.deltas_cursor = deltas.last_cursor
 
+        # Can call _syncronize_changes here to get the changes since the full sync.
+        # Use the last delta fetched at the beginning of this function.
+
     def _syncronize_changes(self) -> None:
+        """
+        Synchronize only the changes (additions, updates, deletions) since the last synchronization.
+        """
         # Get all deltas since last sync.
         deltas = self.delta_fetcher.fetch_deltas({"first": 10000, "after": self.state_manager.deltas_cursor})
 
