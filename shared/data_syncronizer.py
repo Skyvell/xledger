@@ -41,7 +41,8 @@ class DataSynchronizer:
                  item_fetcher: ItemFetcher,
                  data_lake_writer: DataLakeWriter,
                  state_manager: SynchronizerStateManager,
-                 delta_fetcher: Optional[DeltaFetcher] = None) -> None:
+                 delta_fetcher: Optional[DeltaFetcher] = None,
+                 add_mutation_type_to_columns: bool = True) -> None:
         """
         Initialize a new instance of DataSynchronizer.
 
@@ -59,6 +60,9 @@ class DataSynchronizer:
         self.state_manager = state_manager
         self.data_lake_writer = data_lake_writer
         self.columns = columns
+
+        if add_mutation_type_to_columns:
+            self.columns.append("mutationType")
 
     def syncronize(self, sync_from_scratch: bool) -> None:
         """
