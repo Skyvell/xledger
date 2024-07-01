@@ -4,9 +4,45 @@ from shared.utils.data_transformation import flatten_graphql_fields
 
 # Define all the fields that we want to fetch from the xledger API here. 
 # This way we only need to add/remove fields in one place.
+
+# Not sure I should use company or customer here.
 PROJECT_NODE_FIELDS = """
     dbId
     description
+    code
+    shortInfo
+    shortInternalInfo
+    yourReference
+
+    customer {
+        dbId
+        description
+        email
+        code
+        address {
+            country {
+              description
+            }
+        }
+    }
+
+    company {
+          dbId
+          description
+          companyNumber
+          code
+          country
+        }
+
+    glObject1 {
+          description
+          dbId
+          code
+    }
+    projectManager {
+          dbId
+          description
+    }
 """
 
 
