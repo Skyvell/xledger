@@ -6,7 +6,6 @@ from shared.utils.data_transformation import flatten_graphql_fields
 # This way we only need to add/remove fields in one place.
 AP_TRANSACTIONS_NODE_FIELDS = """
     dbId
-    description
 """
 
 
@@ -62,7 +61,7 @@ GET_AP_TRANSACTIONS_AFTER_CURSOR = gql(f"""
 
 GET_AP_TRANSACTION_DELTAS = gql("""
     query getApTransactionDeltas($first: Int, $last: Int, $after: String) {
-        arTransaction_deltas(
+        apTransaction_deltas(
             first: $first,
             last: $last, 
             after: $after
