@@ -12,7 +12,8 @@ variables:
   # Azure Resource Manager connection created during pipeline creation
   azureSubscription: 'c970b736-a87d-42e2-b2a6-73d193d9034e'
 
-  # Function app name
+  # Function app name. This should match the 
+  # name of the function app in terraform.tfvars file.
   functionAppName: 'xledger-syncronizer-dev'
 
   # Agent VM image name
@@ -61,8 +62,8 @@ stages:
     - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       artifact: drop
 
-- stage: Deploy
-  displayName: 'Deploy Stage'
+- stage: Deploy Function App
+  displayName: 'Deploy function app'
   dependsOn: Build
   condition: succeeded()
 
