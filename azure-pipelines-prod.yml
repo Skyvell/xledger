@@ -13,7 +13,7 @@ variables:
   azureSubscription: 'c970b736-a87d-42e2-b2a6-73d193d9034e'
 
   # Function app name
-  functionAppName: 'xledger-syncronizer-dev'
+  functionAppName: 'xledger-syncronizer-prod'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
