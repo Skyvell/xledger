@@ -62,7 +62,7 @@ stages:
     - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       artifact: drop
 
-- stage: Deploy Function App
+- stage: DeployFunctionApp
   displayName: 'Deploy function app'
   dependsOn: Build
   condition: succeeded()
