@@ -1,10 +1,14 @@
 from gql import gql
 from shared.utils.data_transformation import flatten_graphql_fields
 
+# Name of the queries.
+ITEMS_QUERY_NAME = "timesheets"
+DELTAS_QUERY_NAME = "timesheet_deltas"
+
 
 # Define all the fields that we want to fetch from the xledger API here. 
 # This way we only need to add/remove fields in one place.
-TIMESHEET_NODE_FIELDS = """
+NODE_FIELDS = """
     dbId
     createdAt
     modifiedAt
@@ -40,14 +44,14 @@ TIMESHEET_NODE_FIELDS = """
 
 # This is the final list of columns that we want in the pandas dataframe,
 # and the resulting parquet file.
-# Derived directly from the TIMESHEET_NODE_FIELDS above to make sure the columns
+# Derived directly from the NODE_FIELDS above to make sure the columns
 # Are deterministic and up-to date.
-COLUMNS = flatten_graphql_fields(TIMESHEET_NODE_FIELDS)
+COLUMNS = flatten_graphql_fields(NODE_FIELDS)
 
 
-GET_TIMESHEETS_FROM_DBIDS = gql(f"""
-    query getTimesheets($first: Int, $after: String, $dbIdList: [Int64String!]) {{
-        timesheets(
+GET_ITEMS_FROM_DBIDS = gql(f"""
+    query get_{ITEMS_QUERY_NAME}($first: Int, $after: String, $dbIdList: [Int64String!]) {{
+        {ITEMS_QUERY_NAME}(
             first: $first,
             after: $after, 
             filter: {{ 
@@ -56,7 +60,7 @@ GET_TIMESHEETS_FROM_DBIDS = gql(f"""
         ) {{
             edges {{
                 node {{
-                    {TIMESHEET_NODE_FIELDS}
+                    {NODE_FIELDS}
                 }}
                 cursor
             }}
@@ -68,7 +72,7 @@ GET_TIMESHEETS_FROM_DBIDS = gql(f"""
 """)
 
 
-GET_TIMESHEETS_AFTER_CURSOR = gql(f"""
+GET_ITEMS_AFTER_CURSOR = gql(f"""
     query getTimesheets($first: Int, $after: String) {{
         timesheets(
             first: $first,
@@ -76,7 +80,7 @@ GET_TIMESHEETS_AFTER_CURSOR = gql(f"""
         ) {{
             edges {{
                 node {{
-                    {TIMESHEET_NODE_FIELDS}
+                    {NODE_FIELDS}
                 }}
                 cursor
             }}
@@ -88,23 +92,23 @@ GET_TIMESHEETS_AFTER_CURSOR = gql(f"""
 """)
 
 
-GET_TIMESHEET_DELTAS = gql("""
-    query getTimesheetDeltas($first: Int, $last: Int, $after: String) {
-        timesheet_deltas(
+GET_DELTAS = gql(f"""
+    query get_{DELTAS_QUERY_NAME}($first: Int, $last: Int, $after: String) {{
+        {DELTAS_QUERY_NAME}(
             first: $first,
             last: $last, 
             after: $after
-        ) {
-            edges {
-                node {
+        ) {{
+            edges {{
+                node {{
                     dbId
                     mutationType
-                }
+                }}
                 cursor
-            }
-            pageInfo {
+            }}
+            pageInfo {{
                 hasNextPage
-            }
-        }
-    }
+            }}
+        }}
+    }}
 """)
