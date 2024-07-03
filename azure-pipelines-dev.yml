@@ -28,7 +28,13 @@ variables:
   - name: workingDirectory
     value: '.'
 
-  # Group of variables for Azure DevOps service principal.
+  # Additional variables for Terraform
+  - name: rootFolder
+    value: 'infrastructure/dev'
+  - name: tfvarsFile
+    value: 'terraform.tfvars'
+  - name: adoEnvironment
+    value: 'env01'
 
 stages:
 - stage: TerraformDeploy
@@ -36,9 +42,9 @@ stages:
   jobs:
   - template: terraform-template.yml
     parameters:
-      rootFolder: './infrastructure/dev/'
-      tfvarsFile: 'terraform.tfvars'
-      adoEnvironment: 'env01'
+      rootFolder: '$(rootFolder)'
+      tfvarsFile: '$(tfvarsFile)'
+      adoEnvironment: '$(adoEnvironment)'
 
 - stage: Build
   displayName: 'Build Stage'
@@ -85,7 +91,6 @@ stages:
   displayName: 'Deploy function app'
   dependsOn: Build
   condition: succeeded()
-
   jobs:
   - deployment: Deploy
     displayName: 'Deploy'
