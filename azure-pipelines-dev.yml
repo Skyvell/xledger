@@ -19,7 +19,7 @@ variables:
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
-  # Working Directory. 
+  # Working Directoryy. 
   workingDirectory: '.'
 
   - group: azure-devops-service-principal
