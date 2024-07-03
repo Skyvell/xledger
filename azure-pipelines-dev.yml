@@ -22,7 +22,7 @@ variables:
   # Working Directory. 
   workingDirectory: '.'
 
-  -group: azure-devops-service-principal
+  - group: azure-devops-service-principal
 
 stages:
 - stage: TerraformDeploy
@@ -36,6 +36,8 @@ stages:
 
 - stage: Build
   displayName: 'Build Stage'
+  dependsOn: TerraformDeploy
+  condition: succeeded()
   jobs:
   - job: Build
     displayName: 'Build'
