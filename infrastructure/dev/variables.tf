@@ -83,18 +83,18 @@ variable "backend_key_name" {
 
 
 # Configure service principal to use in pipeline.
-variable "client_id" {
-  description = "Client ID for Azure DevOps"
-}
-
-variable "tenant_id" {
-  description = "Tenant ID for Azure DevOps"
-}
-
-variable "client_secret" {
-  description = "Client Secret for Azure DevOps"
-  sensitive   = true
-}
+#variable "client_id" {
+#  description = "Client ID for Azure DevOps"
+#}
+#
+#variable "tenant_id" {
+#  description = "Tenant ID for Azure DevOps"
+#}
+#
+#variable "client_secret" {
+#  description = "Client Secret for Azure DevOps"
+#  sensitive   = true
+#}
 
 variable "org_service_url" {
   description = "Organization Service URL for Azure DevOps"
