@@ -19,9 +19,10 @@ variables:
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
-  # Working Directoryy. 
+  # Working Directory. 
   workingDirectory: '.'
 
+  # Group of variables for Azure DevOps service principal
   - group: azure-devops-service-principal
 
 stages:
