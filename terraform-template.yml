@@ -38,7 +38,7 @@ stages:
   - deployment: 'Terraform_Apply'
     pool:
       vmImage: 'ubuntu-latest'
-    environment: ${{ parameters.adoEnvironment }} # using an ADO environment allows us to add a manual approval check
+    environment: ${{ parameters.adoEnvironment }} # using  an ADO environment allows us to add a manual approval check
     strategy:
       runOnce:
         deploy:
