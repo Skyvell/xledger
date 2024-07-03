@@ -1,0 +1,31 @@
+parameters:
+- name: azureSubscription
+  type: string
+- name: functionAppName
+  type: string
+- name: vmImageName
+  type: string
+
+stages:
+- stage: DeployFunctionApp
+  displayName: 'Deploy function app'
+  dependsOn: Build
+  condition: succeeded()
+  jobs:
+  - deployment: Deploy
+    displayName: 'Deploy'
+    environment: 'development'
+    pool:
+      vmImage: ${{ parameters.vmImageName }}
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureFunctionApp@2
+            displayName: 'Deploy Azure Function App'
+            inputs:
+              azureSubscription: ${{ parameters.azureSubscription }}
+              appType: functionAppLinux
+              appName: ${{ parameters.functionAppName }}
+              package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
