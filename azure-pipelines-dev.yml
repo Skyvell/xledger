@@ -43,6 +43,7 @@ stages:
     rootFolder: '$(rootFolder)'
     tfvarsFile: '$(tfvarsFile)'
     adoEnvironment: '$(adoEnvironment)'
+    vmImageName: '$(vmImageName)'
 
 # Build the function app.
 - template: templates/build_function_app.yml

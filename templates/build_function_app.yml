@@ -5,8 +5,8 @@ parameters:
   type: string
 
 stages:
-- stage: Build
-  displayName: 'Build Stage'
+- stage: 'Build_Function_App'
+  displayName: 'Build Function App'
   jobs:
   - job: Build
     displayName: 'Build'

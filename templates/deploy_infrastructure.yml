@@ -5,6 +5,8 @@ parameters:
   type: string
 - name: adoEnvironment
   type: string
+- name: vmImageName
+  type: string
 
 stages:
 - stage: 'Terraform_Plan'
@@ -12,7 +14,7 @@ stages:
   jobs:
   - job: 'Terraform_Plan'
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: ${{ parameters.vmImageName }}
     steps:
     - script: |
         echo "Running Terraform init..."
@@ -22,7 +24,7 @@ stages:
       displayName: 'Terraform plan'
       workingDirectory: ${{ parameters.rootFolder }}
       env:
-        ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET) # this needs to be explicitly set as it's a sensitive value
+        ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
 
 - stage: 'Terraform_Apply'
   displayName: 'Terraform Apply'
@@ -32,8 +34,8 @@ stages:
   jobs:
   - deployment: 'Terraform_Apply'
     pool:
-      vmImage: 'ubuntu-latest'
-    environment: ${{ parameters.adoEnvironment }} # using  an ADO environment allows us to add a manual approval check
+      vmImage: ${{ parameters.vmImageName }}
+    environment: ${{ parameters.adoEnvironment }}
     strategy:
       runOnce:
         deploy:

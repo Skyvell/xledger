@@ -7,7 +7,7 @@ parameters:
   type: string
 
 stages:
-- stage: DeployFunctionApp
+- stage: 'Deploy_Function_App'
   displayName: 'Deploy function app'
   dependsOn: Build
   condition: succeeded()
