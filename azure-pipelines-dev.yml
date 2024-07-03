@@ -10,18 +10,23 @@ trigger:
 
 variables:
   - group: azure-devops-service-principal
-  # Azure Resource Manager connection created during pipeline creation.
-  azureSubscription: 'c970b736-a87d-42e2-b2a6-73d193d9034e'
+
+  # Azure Resource Manager connection created during pipeline creation
+  - name: azureSubscription
+    value: 'c970b736-a87d-42e2-b2a6-73d193d9034e'
 
   # Function app name. This should match the 
   # name of the function app in terraform.tfvars file.
-  functionAppName: 'xledger-syncronizer-dev'
+  - name: functionAppName
+    value: 'xledger-syncronizer-dev'
 
   # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+  - name: vmImageName
+    value: 'ubuntu-latest'
 
-  # Working Directory. 
-  workingDirectory: '.'
+  # Working Directory
+  - name: workingDirectory
+    value: '.'
 
   # Group of variables for Azure DevOps service principal.
 
