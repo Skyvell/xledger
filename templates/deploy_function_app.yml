@@ -9,8 +9,6 @@ parameters:
 stages:
 - stage: 'Deploy_Function_App'
   displayName: 'Deploy function app'
-  dependsOn: Build
-  condition: succeeded()
   jobs:
   - deployment: Deploy
     displayName: 'Deploy'
