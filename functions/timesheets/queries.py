@@ -5,7 +5,6 @@ from shared.utils.data_transformation import flatten_graphql_fields
 ITEMS_QUERY_NAME = "timesheets"
 DELTAS_QUERY_NAME = "timesheet_deltas"
 
-
 # Define all the fields that we want to fetch from the xledger API here. 
 # This way we only need to add/remove fields in one place.
 NODE_FIELDS = """
@@ -73,8 +72,8 @@ GET_ITEMS_FROM_DBIDS = gql(f"""
 
 
 GET_ITEMS_AFTER_CURSOR = gql(f"""
-    query getTimesheets($first: Int, $after: String) {{
-        timesheets(
+    query get_{ITEMS_QUERY_NAME}($first: Int, $after: String) {{
+        {ITEMS_QUERY_NAME}(
             first: $first,
             after: $after
         ) {{
