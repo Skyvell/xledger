@@ -37,14 +37,11 @@ variables:
     value: 'env01'
 
 stages:
-- stage: TerraformDeploy
-  displayName: 'Terraform - deploy Service Bus to env01'
-  jobs:
-  - template: terraform-template.yml
-    parameters:
-      rootFolder: '$(rootFolder)'
-      tfvarsFile: '$(tfvarsFile)'
-      adoEnvironment: '$(adoEnvironment)'
+- template: terraform-template.yml
+  parameters:
+    rootFolder: '$(rootFolder)'
+    tfvarsFile: '$(tfvarsFile)'
+    adoEnvironment: '$(adoEnvironment)'
 
 - stage: Build
   displayName: 'Build Stage'
