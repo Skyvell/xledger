@@ -28,7 +28,7 @@ stages:
 - stage: TerraformDeploy
   displayName: 'Terraform - deploy Service Bus to env01'
   jobs:
-  - template: ./terraform-template.yml
+  - template: terraform-template.yml
     parameters:
       rootFolder: './infrastructure/dev/'
       tfvarsFile: 'terraform.tfvars'
