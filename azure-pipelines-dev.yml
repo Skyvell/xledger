@@ -45,13 +45,13 @@ stages:
     adoEnvironment: '$(adoEnvironment)'
 
 # Build the function app.
-- template: templates/build-template.yml
+- template: templates/build_function_app.yml
   parameters:
     vmImageName: '$(vmImageName)'
     workingDirectory: '$(workingDirectory)'
 
 # Deploy the function app.
-- template: templates/deploy-template.yml
+- template: templates/deploy_function_app.yml
   parameters:
     azureSubscription: '$(azureSubscription)'
     functionAppName: '$(functionAppName)'
