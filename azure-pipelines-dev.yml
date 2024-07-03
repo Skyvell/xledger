@@ -9,6 +9,7 @@ trigger:
       - configure_terraform
 
 variables:
+  - group: azure-devops-service-principal
   # Azure Resource Manager connection created during pipeline creation.
   azureSubscription: 'c970b736-a87d-42e2-b2a6-73d193d9034e'
 
@@ -22,8 +23,7 @@ variables:
   # Working Directory. 
   workingDirectory: '.'
 
-  # Group of variables for Azure DevOps service principal
-  - group: azure-devops-service-principal
+  # Group of variables for Azure DevOps service principal.
 
 stages:
 - stage: TerraformDeploy
