@@ -29,7 +29,7 @@ stages:
     tfvarsFile: '$(tfvarsFile)'
     deploymentEnvironment: '$(deploymentEnvironment)'
     vmImageName: '$(vmImageName)'
-    apiKey: $(apiKey)
+    apiKey: $(api_key)
 
 - template: templates/build_and_deploy_function_app.yml
   parameters:
