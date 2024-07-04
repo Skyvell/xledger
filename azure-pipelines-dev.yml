@@ -6,6 +6,7 @@ trigger:
 variables:
   # This group has variables needed for the service principal to authenticate with Azure.
   - group: azure-devops-service-principal
+  - group: xledger-syncronizer-dev
   - name: azureSubscription
     value: 'c970b736-a87d-42e2-b2a6-73d193d9034e'
   - name: functionAppName
@@ -28,6 +29,7 @@ stages:
     tfvarsFile: '$(tfvarsFile)'
     deploymentEnvironment: '$(deploymentEnvironment)'
     vmImageName: '$(vmImageName)'
+    apiKey: $(apiKey)
 
 - template: templates/build_and_deploy_function_app.yml
   parameters:
