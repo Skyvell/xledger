@@ -9,10 +9,10 @@ parameters:
   type: string
 
 stages:
-- stage: 'Build_And_Deploy_Function_App'
-  displayName: 'Build and Deploy Function App'
+- stage: 'Build_Function_App'
+  displayName: 'Build Function App'
   jobs:
-  - job: Build_Function_App
+  - job: Build
     displayName: 'Build Function App'
     pool:
       vmImage: ${{ parameters.vmImageName }}
@@ -48,7 +48,11 @@ stages:
     - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       artifact: drop
 
-  - deployment: Deploy_Function_App
+- stage: 'Deploy_Function_App'
+  displayName: 'Deploy Function App'
+  dependsOn: 'Build_Function_App'
+  jobs:
+  - deployment: Deploy
     displayName: 'Deploy Function App'
     environment: 'development'
     pool:
