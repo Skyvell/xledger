@@ -26,3 +26,4 @@ tags = {
   environment                     = "dev"
   project                         = "xledger-syncronizer"
 }
+org_service_url                   = "https://dev.azure.com/dataductusddbi"

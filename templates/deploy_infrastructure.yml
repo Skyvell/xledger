@@ -1,0 +1,54 @@
+parameters:
+- name: infrastructureRootFolder
+  type: string
+- name: tfvarsFile
+  type: string
+- name: deploymentEnvironment
+  type: string
+- name: vmImageName
+  type: string
+
+stages:
+- stage: 'Terraform_Plan'
+  displayName: 'Terraform Plan'
+  jobs:
+  - job: 'Terraform_Plan_Job'
+    displayName: 'Terraform Plan'
+    pool:
+      vmImage: ${{ parameters.vmImageName }}
+
+    steps:
+    - script: |
+        echo "Running Terraform init..."
+        terraform init
+        echo "Running Terraform plan..."
+        terraform plan -var-file ${{ parameters.tfvarsFile }} -var "api_key=$(api_key)"
+      displayName: 'Terraform Plan'
+      workingDirectory: ${{ parameters.infrastructureRootFolder }}
+      env:
+        ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+
+- stage: 'Terraform_Apply'
+  displayName: 'Terraform Apply'
+  dependsOn: 'Terraform_Plan'
+  condition: succeeded()
+  jobs:
+  - deployment: 'Terraform_Apply_Job'
+    displayName: 'Terraform Apply'
+    pool:
+      vmImage: ${{ parameters.vmImageName }}
+    environment: ${{ parameters.deploymentEnvironment }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+          - script: |
+              echo "Running Terraform init..."
+              terraform init
+              echo "Running Terraform apply..."
+              terraform apply -var-file ${{ parameters.tfvarsFile }} -var "api_key=$(api_key)" -auto-approve
+            displayName: 'Terraform Apply'
+            workingDirectory: ${{ parameters.infrastructureRootFolder }}
+            env:
+              ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
