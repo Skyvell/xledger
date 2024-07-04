@@ -1,59 +1,37 @@
-# Python Function App to Linux on Azure
-# Build a Python function app and deploy it to Azure as a Linux function app.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/python
-
 trigger:
   branches:
     include:
       - configure_terraform
 
 variables:
+  # This group has variables needed for the service principal to authenticate with Azure.
   - group: azure-devops-service-principal
-
-  # Azure Resource Manager -connection created during pipeline creation.
   - name: azureSubscription
     value: 'c970b736-a87d-42e2-b2a6-73d193d9034e'
-
-  # Function app name. This should match the 
-  # name of the function app in terraform.tfvars file.
   - name: functionAppName
     value: 'xledger-syncronizer-dev'
-
-  # Working Directory for function app.
-  - name: workingDirectory
+  - name: functionAppRootDirectory
     value: '.'
-
-  # Agent VM image name.
   - name: vmImageName
     value: 'ubuntu-latest'
-
-  # Additional variables for Terraform.
-  - name: rootFolder
+  - name: infrastructureRootFolder
     value: 'infrastructure/dev'
   - name: tfvarsFile
     value: 'terraform.tfvars'
-  - name: adoEnvironment
+  - name: deploymentEnvironment
     value: 'env01'
 
 stages:
-# Deploy azure infrastructure using Terraform.
 - template: templates/deploy_infrastructure.yml
   parameters:
-    rootFolder: '$(rootFolder)'
+    infrastructureRootFolder: '$(infrastructureRootFolder)'
     tfvarsFile: '$(tfvarsFile)'
-    adoEnvironment: '$(adoEnvironment)'
+    deploymentEnvironment: '$(deploymentEnvironment)'
     vmImageName: '$(vmImageName)'
 
-# Build the function app.
-- template: templates/build_function_app.yml
-  parameters:
-    vmImageName: '$(vmImageName)'
-    workingDirectory: '$(workingDirectory)'
-
-# Deploy the function app.
-- template: templates/deploy_function_app.yml
+- template: templates/build_and_deploy_function_app.yml
   parameters:
     azureSubscription: '$(azureSubscription)'
     functionAppName: '$(functionAppName)'
     vmImageName: '$(vmImageName)'
+    functionAppRootDirectory: '$(functionAppRootDirectory)'
