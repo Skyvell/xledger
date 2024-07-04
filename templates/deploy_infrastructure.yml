@@ -8,7 +8,6 @@ parameters:
 - name: vmImageName
   type: string
 
-
 stages:
 - stage: 'Terraform_Plan'
   displayName: 'Terraform Plan'
@@ -21,7 +20,7 @@ stages:
         echo "Running Terraform init..."
         terraform init
         echo "Running Terraform plan..."
-        terraform plan -var-file ${{ parameters.tfvarsFile }}
+        terraform plan -var-file ${{ parameters.tfvarsFile }} -var "api_key=$(api_key)"
       displayName: 'Terraform Plan'
       workingDirectory: ${{ parameters.infrastructureRootFolder }}
       env:
@@ -46,7 +45,7 @@ stages:
               echo "Running Terraform init..."
               terraform init
               echo "Running Terraform apply..."
-              terraform apply -var-file ${{ parameters.tfvarsFile }} -auto-approve
+              terraform apply -var-file ${{ parameters.tfvarsFile }} -var "api_key=$(api_key)" -auto-approve
             displayName: 'Terraform Apply'
             workingDirectory: ${{ parameters.infrastructureRootFolder }}
             env:
