@@ -8,6 +8,6 @@ terraform import azurerm_application_insights.application_insights /subscription
 
 terraform import azurerm_linux_function_app.function_app /subscriptions/a42468e7-3510-409f-849a-111d4574481d/resourceGroups/DDBI-ResourceGroup/providers/Microsoft.Web/sites/xledger-syncronizer-dev
 
-terraform import azurerm_role_assignment.storage_container_access /subscriptions/a42468e7-3510-409f-849a-111d4574481d/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe
+terraform import azurerm_role_assignment.storage_container_access /subscriptions/a42468e7-3510-409f-849a-111d4574481d/resourceGroups/DDBI-ResourceGroup/providers/Microsoft.Storage/storageAccounts/ddbistorage/blobServices/default/containers/xledger-dev/providers/Microsoft.Authorization/roleAssignments/ab285942-f789-019f-e3c1-b1dadd1c0d38
 
 terraform import azurerm_role_assignment.app_configuration_access /subscriptions/a42468e7-3510-409f-849a-111d4574481d/resourceGroups/DDBI-ResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/xledger-syncronizer-state-dev/providers/Microsoft.Authorization/roleAssignments/a9f8a22a-415c-9f2b-dd91-5cb452fd8334
