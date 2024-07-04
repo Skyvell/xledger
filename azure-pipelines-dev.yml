@@ -1,7 +1,7 @@
 trigger:
   branches:
     include:
-      - configure_terraform
+      - dev
 
 variables:
   # This group has variables needed for the service principal to authenticate with Azure
@@ -23,6 +23,7 @@ variables:
     value: 'env01'
 
 stages:
+# Deploy infrastructure with terraform.
 - template: templates/deploy_infrastructure.yml
   parameters:
     infrastructureRootFolder: '$(infrastructureRootFolder)'
@@ -30,6 +31,7 @@ stages:
     deploymentEnvironment: '$(deploymentEnvironment)'
     vmImageName: '$(vmImageName)'
 
+# Build and deploy function app.
 - template: templates/build_and_deploy_function_app.yml
   parameters:
     azureSubscription: '$(azureSubscription)'
