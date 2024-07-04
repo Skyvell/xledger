@@ -29,8 +29,8 @@ stages:
     tfvarsFile: '$(tfvarsFile)'
     deploymentEnvironment: '$(deploymentEnvironment)'
     vmImageName: '$(vmImageName)'
-    apiKey: $(api_key)
-
+    apiKey: '$(api_key)'
+    
 - template: templates/build_and_deploy_function_app.yml
   parameters:
     azureSubscription: '$(azureSubscription)'
