@@ -6,17 +6,17 @@ trigger:
 variables:
   # This group has variables needed for the service principal to authenticate with Azure
   - group: azure-devops-service-principal
-  - group: xledger-syncronizer-dev
+  - group: xledger-syncronizer-prod
   - name: azureSubscription
     value: 'c970b736-a87d-42e2-b2a6-73d193d9034e'
   - name: functionAppName
-    value: 'xledger-syncronizer-dev'
+    value: 'xledger-syncronizer-prod'
   - name: functionAppRootDirectory
     value: '.'
   - name: vmImageName
     value: 'ubuntu-latest'
   - name: infrastructureRootFolder
-    value: 'infrastructure/dev'
+    value: 'infrastructure/prod'
   - name: tfvarsFile
     value: 'terraform.tfvars'
   - name: deploymentEnvironment
