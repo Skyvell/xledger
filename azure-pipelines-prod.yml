@@ -1,87 +1,40 @@
-# Python Function App to Linux on Azure
-# Build a Python function app and deploy it to Azure as a Linux function app.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/python
-
 trigger:
   branches:
     include:
       - main
 
 variables:
-  # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: 'c970b736-a87d-42e2-b2a6-73d193d9034e'
-
-  # Function app name. This should match the 
-  # name of the function app in terraform.tfvars file.
-  functionAppName: 'xledger-syncronizer-prod'
-
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
-
-  # Working Directory.
-  workingDirectory: '.'
+  # This group has variables needed for the service principal to authenticate with Azure
+  - group: azure-devops-service-principal
+  - group: xledger-syncronizer-dev
+  - name: azureSubscription
+    value: 'c970b736-a87d-42e2-b2a6-73d193d9034e'
+  - name: functionAppName
+    value: 'xledger-syncronizer-dev'
+  - name: functionAppRootDirectory
+    value: '.'
+  - name: vmImageName
+    value: 'ubuntu-latest'
+  - name: infrastructureRootFolder
+    value: 'infrastructure/dev'
+  - name: tfvarsFile
+    value: 'terraform.tfvars'
+  - name: deploymentEnvironment
+    value: 'env01'
 
 stages:
-- stage: Build
-  displayName: 'Build Stage'
-  jobs:
-  - job: Build
-    displayName: 'Build'
-    pool:
-      vmImage: $(vmImageName)
+# Deploy infrastructure with terraform.
+- template: templates/deploy_infrastructure.yml
+  parameters:
+    infrastructureRootFolder: '$(infrastructureRootFolder)'
+    tfvarsFile: '$(tfvarsFile)'
+    deploymentEnvironment: '$(deploymentEnvironment)'
+    vmImageName: '$(vmImageName)'
 
-    steps:
-    - bash: |
-        if [ -f extensions.csproj ]
-        then
-            dotnet build extensions.csproj --runtime ubuntu.16.04-x64 --output ./bin
-        fi
-      workingDirectory: $(workingDirectory)
-      displayName: 'Build extensions'
-
-    - task: UsePythonVersion@0
-      displayName: 'Use Python 3.11'
-      inputs:
-        versionSpec: '3.11'
-
-    - bash: |
-        pip install --target="./.python_packages/lib/site-packages" -r ./requirements.txt
-      workingDirectory: $(workingDirectory)
-      displayName: 'Install application dependencies'
-
-    - task: ArchiveFiles@2
-      displayName: 'Archive files'
-      inputs:
-        rootFolderOrFile: '$(workingDirectory)'
-        includeRootFolder: false
-        archiveType: zip
-        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-        replaceExistingArchive: true
-
-    - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-      artifact: drop
-
-- stage: Deploy
-  displayName: 'Deploy Stage'
-  dependsOn: Build
-  condition: succeeded()
-
-  jobs:
-  - deployment: Deploy
-    displayName: 'Deploy'
-    environment: 'development'
-    pool:
-      vmImage: $(vmImageName)
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: AzureFunctionApp@2
-            displayName: 'Deploy Azure Function App'
-            inputs:
-              azureSubscription: '$(azureSubscription)'
-              appType: functionAppLinux
-              appName: $(functionAppName)
-              package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
+# Build and deploy function app.
+- template: templates/build_and_deploy_function_app.yml
+  parameters:
+    azureSubscription: '$(azureSubscription)'
+    functionAppName: '$(functionAppName)'
+    vmImageName: '$(vmImageName)'
+    functionAppRootDirectory: '$(functionAppRootDirectory)'
