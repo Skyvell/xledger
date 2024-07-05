@@ -16,7 +16,7 @@ resource "azurerm_app_configuration" "app_configuration" {
   name                = var.app_configuration_name
   resource_group_name = data.azurerm_resource_group.existing.name
   location            = var.location
-  sku                 = "Standard"
+  sku                 = "standard"
 }
 
 resource "azurerm_storage_account" "app_storage_account" {
