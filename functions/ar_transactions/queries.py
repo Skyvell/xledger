@@ -6,6 +6,38 @@ from shared.utils.data_transformation import flatten_graphql_fields
 # This way we only need to add/remove fields in one place.
 AR_TRANSACTIONS_NODE_FIELDS = """
     dbId
+    invoiceNumber
+    exchangeRate
+    invoiceRemaining
+    invoiceAmount
+    interest
+    lateFee
+    extIdentifier
+    paymentDate
+    reminderDate
+    lastPaymentDate
+    invoiceDate
+    dueDate
+    modifiedAt
+    reconciled
+    interestDate
+    matchId
+    company {
+      dbId
+      description
+      code
+      country
+      email
+      phone
+      address {
+        streetAddress
+        zipCode
+        place
+        country {
+          description
+        }
+      }
+    }
 """
 
 
