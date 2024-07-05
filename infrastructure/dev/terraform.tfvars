@@ -14,7 +14,6 @@ app_insights_name                 = "xledger-syncronizer-ai-dev"
 
 # Xledger API settings.
 api_endpoint                      = "https://demo.xledger.net/graphql"
-api_key                           = "AABA3lMcMgAAAAACD2TJCDBFPJ-0zrpMAhykBr4Msf0TbOiUAiw_xeQsnPkElVcXCtceS_CZVcBEeuSB48H12UrFiS7HaSIC38a4BRj7hmrzc6RUxED02m2_5vZ7vordbwXOlZZni839CQEmHSo_IVdpao8rRdXb-3rKbvD_CN7j_KGQDWhow2rfVUnNC7rPrYatbwvdKGE7WX2NQ-QAvJ2_j6MrJ5T50hs9dEeI9k6vhwfZ1iUQHko5we6TpJQ9zZjmvWK37RbGFMbDdQnhzARP62ZJFDa-Q-SrT4eL18o4b1AGQOQ5xqxK-Uk8YJFDWiKUf3c8GMXSmqCGpA4A"
 
 # Backend settings.
 backend_storage_account_name      = "devterraformstate"

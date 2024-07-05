@@ -1,7 +1,7 @@
 data "azurerm_resource_group" "existing" {
   name = var.resource_group_name
 }
-
+#
 data "azurerm_storage_account" "existing" {
   name                = var.data_storage_account_name
   resource_group_name = data.azurerm_resource_group.existing.name
@@ -54,6 +54,7 @@ resource "azurerm_linux_function_app" "function_app" {
     application_stack {
       python_version = "3.11"
     }
+    application_insights_key = azurerm_application_insights.application_insights.instrumentation_key
     cors {
       allowed_origins = ["https://portal.azure.com"]
     }
@@ -69,7 +70,6 @@ resource "azurerm_linux_function_app" "function_app" {
     "DATA_STORAGE_ACCOUNT_NAME"   = var.data_storage_account_name,
     "DATA_STORAGE_CONTAINER_NAME" = var.data_storage_container_name,
     "APP_CONFIG_ENDPOINT"         = azurerm_app_configuration.app_configuration.endpoint
-    "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.application_insights.instrumentation_key
   }
 }
 

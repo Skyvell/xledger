@@ -13,8 +13,7 @@ app_configuration_name            = "xledger-syncronizer-state-prod"
 app_insights_name                 = "xledger-syncronizer-ai-prod"
 
 # Xledger API settings.
-# api_endpoint                      =
-# api_key                           = 
+api_endpoint                      = "https://www.xledger.net/graphql"
 
 # Backend settings.
 backend_storage_account_name      = "prodterraformstate"
