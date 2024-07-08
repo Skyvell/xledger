@@ -21,16 +21,11 @@
 10. [License](#license)
 11. [Contact](#contact)
 
----
-# BUGS to fix:
-- Now different columns will be included in the parquet files depending on which fields are present in the fechted data. Ensure the column strucutre is set from the query structure.
 
 ## Overview
-
 Data Ductus is migrating from Brilliant to Xledger as a business system. The data stored with Xledger is needed for internal business analytics. This app will fetch the necessary business data from Xledger's GraphQL API and write the data to a Data Lake as .parquet files. This raw data will be transformed and loaded into a structure more suitable for business analytics, but that is not within the scope of this application. The scope of this application is to produce and keep the raw data synchronized in the Data Lake. The application is built on Azure serverless infrastructure.
 
 ## Features
-
 - **Timesheets**: Perform a full load of all timesheets data and keep it synchronized.
 - **Projects**: Perform a full load of all projects data and keep it synchronized.
 - **Employees**: Perform a full load of all employees' data and keep it synchronized.
@@ -159,7 +154,7 @@ API-keys are fetched in the deployment pipeline from variable groups. Make sure 
 
 ### Production
 
-## Infrastructure as code
+## Infrastructure
 The infrastructure is defined in terraform. It's deployed as part of the azure devops pipeline. But it you need to deploy it manually:
 
 ```bash
