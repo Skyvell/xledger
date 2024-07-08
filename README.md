@@ -171,6 +171,7 @@ terraform init
 
 # Apply the Terraform configuration
 terraform apply
+```
 
 
 ## Testing
