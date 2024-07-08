@@ -15,8 +15,7 @@
 6. [Deployment](#deployment)
     - [Development Environment](#development-environment)
     - [Production Environment](#production-environment)
-7. [Infrastructure as Code (IaC)](#infrastructure-as-code-iac)
-8. [Testing](#testing)
+7. [Infrastructure](#infrastructure)
 9. [Contributing](#contributing)
 10. [License](#license)
 11. [Contact](#contact)
@@ -44,79 +43,6 @@ Depending on which queries are available the procedure will vary a bit. If the q
 
 1. Go to the Xledger GraphQL API.
 2. Construct the queries needed for getting the data.
-
-GET_EMPLOYEES_FROM_DBIDS = gql("""
-    query getEmployees($first: Int, $after: String, $dbIdList: [Int64String!]) {
-        employees(
-            first: $first,
-            after: $after, 
-            filter: { 
-                dbId_in: $dbIdList
-            }
-        ) {
-            edges {
-                cursor
-                node {
-                    ## The fields you want goes here.
-                }
-            }
-            pageInfo {
-                hasNextPage
-            }
-        }
-    }
-""")
-
-GET_EMPLOYEES_AFTER_CURSOR = gql("""
-    query getEmployees($first: Int, $after: String) {
-        employees(
-            first: $first,
-            after: $after
-        ) {
-            edges {
-                cursor
-                node {
-                    ## The fields you want goes here.
-                }
-            }
-            pageInfo {
-                hasNextPage
-            }
-        }
-    }
-""")
-
-GET_EMPLOYEE_DELTAS = gql("""
-    query getEmployeeDeltas($first: Int, $last: Int, $after: String) {
-        employee_deltas(
-            first: $first,
-            last: $last,
-            after: $after
-        ) {
-            edges {
-                node {
-                    dbId
-                    mutationType
-                }
-                cursor
-            }
-            pageInfo {
-                hasNextPage
-            }
-        }
-    }
-""")
-
-### Prerequisites
-
-List the software and tools required to run the project. For example:
-
-- [Node.js](https://nodejs.org/)
-- [npm](https://www.npmjs.com/)
-- [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
-- [Terraform](https://www.terraform.io/)
-
-
 
 ## Usage
 
