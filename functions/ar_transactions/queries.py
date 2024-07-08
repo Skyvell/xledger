@@ -49,7 +49,7 @@ COLUMNS = flatten_graphql_fields(AR_TRANSACTIONS_NODE_FIELDS)
 
 
 GET_AR_TRANSACTIONS_FROM_DBIDS = gql(f"""
-    query getArTransactions($first: Int, $after: String, $dbIdList: [Int64String!]) {{
+    query getArTransactions($first: Int, $after: String, $dbIdList: [Int!]) {{
         arTransactions(
             first: $first,
             after: $after, 

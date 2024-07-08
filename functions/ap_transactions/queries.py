@@ -17,7 +17,7 @@ COLUMNS = flatten_graphql_fields(AP_TRANSACTIONS_NODE_FIELDS)
 
 
 GET_AP_TRANSACTIONS_FROM_DBIDS = gql(f"""
-    query getApTransactions($first: Int, $after: String, $dbIdList: [Int64String!]) {{
+    query getApTransactions($first: Int, $after: String, $dbIdList: [Int!]) {{
         apTransactions(
             first: $first,
             after: $after, 

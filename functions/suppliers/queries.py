@@ -28,7 +28,7 @@ COLUMNS = flatten_graphql_fields(SUPPLIER_NODE_FIELDS)
 
 
 GET_SUPPLIERS_FROM_DBIDS = gql(f"""
-    query getSuppliers($first: Int, $after: String, $dbIdList: [Int64String!]) {{
+    query getSuppliers($first: Int, $after: String, $dbIdList: [Int!]) {{
         suppliers(
             first: $first,
             after: $after, 

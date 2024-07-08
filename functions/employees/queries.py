@@ -68,7 +68,7 @@ COLUMNS = flatten_graphql_fields(EMPLOYEE_NODE_FIELDS)
 
 # Query to get employees from a list of database IDs
 GET_EMPLOYEES_FROM_DBIDS = gql(f"""
-    query getEmployees($first: Int, $after: String, $dbIdList: [Int64String!]) {{
+    query getEmployees($first: Int, $after: String, $dbIdList: [Int!]) {{
         employees(
             first: $first,
             after: $after, 

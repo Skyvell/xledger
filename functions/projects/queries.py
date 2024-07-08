@@ -54,7 +54,7 @@ COLUMNS = flatten_graphql_fields(PROJECT_NODE_FIELDS)
 
 
 GET_PROJECTS_FROM_DBIDS = gql(f"""
-    query getProjects($first: Int, $after: String, $dbIdList: [Int64String!]) {{
+    query getProjects($first: Int, $after: String, $dbIdList: [Int!]) {{
         projects(
             first: $first,
             after: $after, 
