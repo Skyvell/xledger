@@ -145,13 +145,13 @@ The files are written to a Datalake. When performing a full load of all the data
 Question/thought: Maybe full load files should be named differently. Maybe syncronization or full_load should be prefixed.
 
 ## Deployment
-- Deploy App Configuration with bicep files.
-- Parameter files for dev and prod.
-- Set environment variables in the bicep file in the Function App:
-    - Reference the parameter files to set variables.
-    - Get the keyvault values from the keyvault in the bicep file.
-    - After creating the App Configuration, get the connection string directly in the bicep file.
-    - Set the environment variable connection string.
+1. Configure terraform backend.
+Terraform stores the state in a storage account. This has to be configured manually. Decide where you want the statefiles. Create a storage account with a container for both dev and prod. Then configure the backend.tf files in both infrastructure/dev and infrastructure/prod.
+2. Configure Service Principal.
+The infrastructure is deployed via a service principal. Make sure it is set up and make sure all the needed enviroment variables are imported into the deployment pipeline.
+3. Configure API-keys.
+API-keys are fetched in the deployment pipeline from variable groups. Make sure they are present.
+4. Configure 
     
 
 
@@ -160,6 +160,18 @@ Question/thought: Maybe full load files should be named differently. Maybe syncr
 ### Production
 
 ## Infrastructure as code
+The infrastructure is defined in terraform. It's deployed as part of the azure devops pipeline. But it you need to deploy it manually:
+
+```bash
+# Cd into either the infrastructure.
+cd ./infrastructure/dev
+
+# Initialize the Terraform working directory.
+terraform init
+
+# Apply the Terraform configuration
+terraform apply
+
 
 ## Testing
 
