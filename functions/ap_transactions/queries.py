@@ -6,6 +6,66 @@ from shared.utils.data_transformation import flatten_graphql_fields
 # This way we only need to add/remove fields in one place.
 AP_TRANSACTIONS_NODE_FIELDS = """
     dbId
+    owner {
+      description
+    }
+    company {
+      description
+      phone
+      email
+      address {
+        streetAddress
+        zipCode
+        place
+        fullAddress
+      }
+    }
+    billAddress {
+      streetAddress
+      zipCode
+      place
+      fullAddress
+    }
+    account {
+      description
+      code
+      descriptionTranslated
+    }
+    slTransactionType {
+      name
+    }
+    glDimension {
+      glObject1 {
+        description
+        objectKind {
+          name
+        }
+      }
+      glObject2 {
+        description
+        code
+        objectKind {
+          name
+        }
+      }
+    }
+    ledgerType {
+      name
+    }
+    invoiceNumber
+    period {
+      description
+      fiscalYear
+    }
+    invoiceDate
+    dueDate
+    paymentDate
+    currency {
+      code
+    }
+    exchangeRate
+    invoiceAmount
+    invoiceRemaining
 """
 
 
