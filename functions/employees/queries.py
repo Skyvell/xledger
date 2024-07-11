@@ -2,9 +2,14 @@ from gql import gql
 from shared.utils.data_transformation import flatten_graphql_fields
 
 
+# Name of the queries.
+ITEMS_QUERY_NAME = "employees"
+DELTAS_QUERY_NAME = "employee_deltas"
+
+
 # Define all the fields that we want to fetch from the xledger API here. 
 # This way we only need to add/remove fields in one place.
-EMPLOYEE_NODE_FIELDS = """
+NODE_FIELDS = """
     dbId
     email
     description
@@ -61,15 +66,14 @@ EMPLOYEE_NODE_FIELDS = """
 
 # This is the final list of columns that we want in the pandas dataframe,
 # and the resulting parquet file.
-# Derived directly from the EMPLOYEE_NODE_FIELDS above to make sure the columns
+# Derived directly from the NODE_FIELDS above to make sure the columns
 # Are deterministic and up-to date.
-COLUMNS = flatten_graphql_fields(EMPLOYEE_NODE_FIELDS)
+COLUMNS = flatten_graphql_fields(NODE_FIELDS)
 
 
-# Query to get employees from a list of database IDs
-GET_EMPLOYEES_FROM_DBIDS = gql(f"""
-    query getEmployees($first: Int, $after: String, $dbIdList: [Int!]) {{
-        employees(
+GET_ITEMS_FROM_DBIDS = gql(f"""
+    query get_{ITEMS_QUERY_NAME}($first: Int, $after: String, $dbIdList: [Int!]) {{
+        {ITEMS_QUERY_NAME}(
             first: $first,
             after: $after, 
             filter: {{ 
@@ -77,10 +81,10 @@ GET_EMPLOYEES_FROM_DBIDS = gql(f"""
             }}
         ) {{
             edges {{
-                cursor
                 node {{
-                    {EMPLOYEE_NODE_FIELDS}
+                    {NODE_FIELDS}
                 }}
+                cursor
             }}
             pageInfo {{
                 hasNextPage
@@ -89,18 +93,18 @@ GET_EMPLOYEES_FROM_DBIDS = gql(f"""
     }}
 """)
 
-GET_EMPLOYEES_AFTER_CURSOR = gql(f"""
-    query getEmployees($first: Int, $last: Int, $after: String) {{
-        employees(
+
+GET_ITEMS_AFTER_CURSOR = gql(f"""
+    query get_{ITEMS_QUERY_NAME}($first: Int, $after: String) {{
+        {ITEMS_QUERY_NAME}(
             first: $first,
-            last: $last,
             after: $after
         ) {{
             edges {{
-                cursor
                 node {{
-                    {EMPLOYEE_NODE_FIELDS}
+                    {NODE_FIELDS}
                 }}
+                cursor
             }}
             pageInfo {{
                 hasNextPage
@@ -110,23 +114,23 @@ GET_EMPLOYEES_AFTER_CURSOR = gql(f"""
 """)
 
 
-GET_EMPLOYEE_DELTAS = gql("""
-    query getEmployeeDeltas($first: Int, $last: Int, $after: String) {
-        employee_deltas(
+GET_DELTAS = gql(f"""
+    query get_{DELTAS_QUERY_NAME}($first: Int, $last: Int, $after: String) {{
+        {DELTAS_QUERY_NAME}(
             first: $first,
-            last: $last,
+            last: $last, 
             after: $after
-        ) {
-            edges {
-                node {
+        ) {{
+            edges {{
+                node {{
                     dbId
                     mutationType
-                }
+                }}
                 cursor
-            }
-            pageInfo {
+            }}
+            pageInfo {{
                 hasNextPage
-            }
-        }
-    }
+            }}
+        }}
+    }}
 """)
