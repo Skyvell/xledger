@@ -6,7 +6,7 @@ from functions.employees.syncronize import bp as employees_bp
 from functions.projects.syncronize import bp as projects_bp
 from functions.suppliers.syncronize import bp as suppliers_bp
 from functions.ap_transactions.syncronize_ap_transactions import bp as ap_transactions_bp
-from functions.ar_transactions.syncronize_ar_transactions import bp as ar_transactions_bp
+from functions.ar_transactions.syncronize import bp as ar_transactions_bp
 from functions.transactions.syncronize import bp as transactions_bp
 
 
