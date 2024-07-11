@@ -29,6 +29,8 @@ Data Ductus is migrating from Brilliant to Xledger as a business system. The dat
 - **Projects**: Perform a full load of all projects data and keep it synchronized.
 - **Employees**: Perform a full load of all employees' data and keep it synchronized.
 - **Customers**: Perform a full load of all customers' data and keep it synchronized.
+- **transactions**: Perform a full load of all customers' data and keep it synchronized.
+Equivalent of "huvudbokstransaktioner".
 
 ## Architecture
 
