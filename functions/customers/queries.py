@@ -2,7 +2,14 @@ from gql import gql
 from shared.utils.data_transformation import flatten_graphql_fields
 
 
-CUSTOMER_NODE_FIELDS = """
+# Name of the queries.
+ITEMS_QUERY_NAME = "customers"
+DELTAS_QUERY_NAME = "customer_deltas"
+
+
+# Define all the fields that we want to fetch from the xledger API here. 
+# This way we only need to add/remove fields in one place.
+NODE_FIELDS = """
     dbId
     description
     email
@@ -17,21 +24,27 @@ CUSTOMER_NODE_FIELDS = """
 """
 
 
-COLUMNS = flatten_graphql_fields(CUSTOMER_NODE_FIELDS)
+# This is the final list of columns that we want in the pandas dataframe,
+# and the resulting parquet file.
+# Derived directly from the NODE_FIELDS above to make sure the columns
+# Are deterministic and up-to date.
+COLUMNS = flatten_graphql_fields(NODE_FIELDS)
 
 
-GET_CUSTOMERS_FROM_DBIDS = gql(f"""
-    query getCustomers($first: Int, $after: String, $dbIdList: [Int!]) {{
-        customers(
-            first: $first, 
+GET_ITEMS_FROM_DBIDS = gql(f"""
+    query get_{ITEMS_QUERY_NAME}($first: Int, $after: String, $dbIdList: [Int!]) {{
+        {ITEMS_QUERY_NAME}(
+            first: $first,
             after: $after, 
-            filter: {{ dbId_in: $dbIdList }}
+            filter: {{ 
+                dbId_in: $dbIdList
+            }}
         ) {{
             edges {{
-                cursor
                 node {{
-                    {CUSTOMER_NODE_FIELDS}
+                    {NODE_FIELDS}
                 }}
+                cursor
             }}
             pageInfo {{
                 hasNextPage
@@ -41,15 +54,15 @@ GET_CUSTOMERS_FROM_DBIDS = gql(f"""
 """)
 
 
-GET_CUSTOMERS_AFTER_CURSOR = gql(f"""
-    query getCustomers($first: Int, $after: String) {{
-        customers(
+GET_ITEMS_AFTER_CURSOR = gql(f"""
+    query get_{ITEMS_QUERY_NAME}($first: Int, $after: String) {{
+        {ITEMS_QUERY_NAME}(
             first: $first,
             after: $after
         ) {{
             edges {{
                 node {{
-                    {CUSTOMER_NODE_FIELDS}
+                    {NODE_FIELDS}
                 }}
                 cursor
             }}
@@ -61,23 +74,23 @@ GET_CUSTOMERS_AFTER_CURSOR = gql(f"""
 """)
 
 
-GET_CUSTOMER_DELTAS = gql("""
-    query getCustomerDeltas($first: Int, $last: Int, $after: String) {
-        customer_deltas(
+GET_DELTAS = gql(f"""
+    query get_{DELTAS_QUERY_NAME}($first: Int, $last: Int, $after: String) {{
+        {DELTAS_QUERY_NAME}(
             first: $first,
             last: $last, 
             after: $after
-        ) {
-            edges {
-                node {
+        ) {{
+            edges {{
+                node {{
                     dbId
                     mutationType
-                }
+                }}
                 cursor
-            }
-            pageInfo {
+            }}
+            pageInfo {{
                 hasNextPage
-            }
-        }
-    }
+            }}
+        }}
+    }}
 """)
