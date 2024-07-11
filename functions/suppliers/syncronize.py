@@ -13,9 +13,9 @@ from shared.environment_config import EnvironmentConfig
 
 from functions.suppliers.queries import (
     COLUMNS,
-    GET_SUPPLIERS_DELTAS,
-    GET_SUPPLIERS_FROM_DBIDS,
-    GET_SUPPLIERS_AFTER_CURSOR
+    GET_DELTAS,
+    GET_ITEMS_AFTER_CURSOR,
+    GET_ITEMS_FROM_DBIDS
 )
 
 
@@ -23,10 +23,10 @@ NAME = "suppliers"
 logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
 
-@bp.function_name("SyncronizeSuppliers")
+@bp.function_name(f"syncronize_{NAME}")
 @bp.schedule(schedule="0 0 * * * *", arg_name="myTimer", run_on_startup=True,
               use_monitor=False) 
-def syncronize_suppliers(myTimer: func.TimerRequest) -> None:
+def syncronize(myTimer: func.TimerRequest) -> None:
     # Get credentials.
     credential = DefaultAzureCredential()
 
@@ -36,8 +36,8 @@ def syncronize_suppliers(myTimer: func.TimerRequest) -> None:
     ## Initialize classes needed for syncronizing data.
     grapql_client = GraphQLClient(config.api_endpoint, config.api_key)
     data_lake_writer = DataLakeWriter(config.data_storage_account, credential, config.data_storage_container, NAME)
-    delta_fetcher = DeltaFetcher(grapql_client, GET_SUPPLIERS_DELTAS)
-    item_fetcher = ItemFetcher(grapql_client, GET_SUPPLIERS_FROM_DBIDS, GET_SUPPLIERS_AFTER_CURSOR)
+    delta_fetcher = DeltaFetcher(grapql_client, GET_DELTAS)
+    item_fetcher = ItemFetcher(grapql_client, GET_ITEMS_FROM_DBIDS, GET_ITEMS_AFTER_CURSOR)
     state_manager = SynchronizerStateManager(config.app_config_endpoint, credential, f"{NAME}-")
 
     # Initialize the data syncronizer.
