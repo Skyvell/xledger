@@ -7,7 +7,7 @@ from functions.projects.syncronize_projects import bp as projects_bp
 from functions.suppliers.syncronize_suppliers import bp as suppliers_bp
 from functions.ap_transactions.syncronize_ap_transactions import bp as ap_transactions_bp
 from functions.ar_transactions.syncronize_ar_transactions import bp as ar_transactions_bp
-from functions.transactions.syncronize_transactions import bp as transactions_bp
+from functions.transactions.syncronize import bp as transactions_bp
 
 
 # Create the function app.
