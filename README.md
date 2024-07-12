@@ -31,8 +31,8 @@ Data Ductus is migrating from Brilliant to Xledger as a business system. The dat
 ### Data Extraction and Syncronization
 
 #### Timesheets
-- ***Description:*** Performs a full load of all timesheets data using the timesheets endpoint. Also fetches any new data using a combination of the timesheets and timesheet_deltas endpoints.
-- ***Details:*** The data includes time reported by Data Ductus employees.
+- Description: Performs a full load of all timesheets data using the timesheets endpoint. Also fetches any new data using a combination of the timesheets and timesheet_deltas endpoints.
+- Details: The data includes time reported by Data Ductus employees.
 
 
 #### 1.1. Description
