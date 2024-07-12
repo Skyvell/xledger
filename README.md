@@ -28,31 +28,31 @@ Data Ductus is migrating from Brilliant to Xledger as a business system. The dat
 
 ## Features
 
-### Data Extraction and Syncronization
+### Data Extraction and Synchronization
 
 #### Timesheets
-Performs a full load of all timesheets data using the timesheets endpoint. After a full data load, only new data is retrieved using a combination of the timesheet_deltas endpoint and timesheets endpoint. The data includes time reported by Data Ductus employees.
+Performs a full load of all timesheets data using the *timesheets* endpoint. After a full data load, only new data is retrieved using a combination of the *timesheet_deltas* endpoint and *timesheets* endpoint. The data includes time reported by Data Ductus employees.
 
 #### Projects
-Performs a full load of all projects data using the projects endpoint. After a full data load, only new data is retrieved using a combination of the project_deltas endpoint and projects endpoint. The data includes information on ongoing projects for Data Ductus.
+Performs a full load of all projects data using the *projects* endpoint. After a full data load, only new data is retrieved using a combination of the *project_deltas* endpoint and *projects* endpoint. The data includes information on ongoing projects for Data Ductus.
 
 #### Employees
-Performs a full load of all employee data using the employees endpoint. After a full data load, only new data is retrieved using a combination of the employee_deltas endpoint and employees endpoint. The data includes information on all Data Ductus employees such as contact information, employment type, salary group, etc.
+Performs a full load of all employee data using the *employees* endpoint. After a full data load, only new data is retrieved using a combination of the *employee_deltas* endpoint and *employees* endpoint. The data includes information on all Data Ductus employees such as contact information, employment type, salary group, etc.
 
 #### Customers
-Performs a full load of all customers data using the customers endpoint. After a full data load, only new data is retrieved using a combination of the customer_deltas endpoint and customers endpoint. The data includes information on all Data Ductus customers such as company name, contact information, etc.
+Performs a full load of all customers data using the *customers* endpoint. After a full data load, only new data is retrieved using a combination of the *customer_deltas* endpoint and *customers* endpoint. The data includes information on all Data Ductus customers such as company name, contact information, etc.
 
 #### Suppliers
-Performs a full load of all suppliers data using the suppliers endpoint. After a full data load, only new data is retrieved using a combination of the supplier_deltas endpoint and suppliers endpoint. The data includes information on all Data Ductus suppliers such as company name, contact information, etc.
+Performs a full load of all suppliers data using the *suppliers* endpoint. After a full data load, only new data is retrieved using a combination of the *supplier_deltas* endpoint and *suppliers* endpoint. The data includes information on all Data Ductus suppliers such as company name, contact information, etc.
 
 #### Transactions
-Performs a full load of all transactions data using the transactions endpoint. After a full data load, only new data is retrieved using a combination of the transaction_deltas endpoint and transactions endpoint. The data includes all invoices, both incoming and outgoing, for Data Ductus. It corresponds to "Huvudbokstransaktioner" in Xledger.
+Performs a full load of all transactions data using the *transactions* endpoint. After a full data load, only new data is retrieved using a combination of the *transaction_deltas* endpoint and *transactions* endpoint. The data includes all invoices, both incoming and outgoing, for Data Ductus. It corresponds to "Huvudbokstransaktioner" in Xledger.
 
 #### ArTransactions (Accounts Receivable Transactions)
-Performs a full load of all artransactions data using the arTransactions endpoint. After a full data load, only new data is retrieved using a combination of the arTransaction_deltas endpoint and arTransactions endpoint. These transactions are invoices sent from Data Ductus to external entities (e.g., invoices to customers). 
+Performs a full load of all artransactions data using the *arTransactions* endpoint. After a full data load, only new data is retrieved using a combination of the *arTransaction_deltas* endpoint and *arTransactions* endpoint. These transactions are invoices sent from Data Ductus to external entities (e.g., invoices to customers). 
 
 #### ApTransactions (Accounts Payable Transactions)
-Performs a full load of all aptransactions data using the apTransactions endpoint. After a full data load, only new data is retrieved using a combination of the apTransaction_deltas endpoint and apTransactions endpoint. These transactions are invoices sent to Data Ductus (e.g., invoices from suppliers or travel expenses from employees).
+Performs a full load of all aptransactions data using the *apTransactions* endpoint. After a full data load, only new data is retrieved using a combination of the *apTransaction_deltas* endpoint and *apTransactions* endpoint. These transactions are invoices sent to Data Ductus (e.g., invoices from suppliers or travel expenses from employees).
 
 
 ## Architecture
