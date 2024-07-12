@@ -27,13 +27,13 @@ Data Ductus is migrating from Brilliant to Xledger as a business system. The dat
 ## Features
 
 ### Timesheets
-- **Description:** Perform a full load and synchronization of all timesheets data.
-- **Details:** 
+- Description: Perform a full load and synchronization of all timesheets data.
+- Details: 
   - Includes time reported by Data Ductus employees.
 
 ### Timesheets
-- **Description:** Perform a full load and synchronization of all timesheets data.
-- **Details:** 
+- Description: Perform a full load and synchronization of all timesheets data.
+- Details: 
   - Includes time reported by Data Ductus employees.
 
 - **Timesheets**: Perform a full load of all timesheets data and keep it synchronized.
