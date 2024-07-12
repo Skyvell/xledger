@@ -26,11 +26,26 @@ Data Ductus is migrating from Brilliant to Xledger as a business system. The dat
 
 ## Features
 - **Timesheets**: Perform a full load of all timesheets data and keep it synchronized.
+Time reported by Data Ductus employees.
+
 - **Projects**: Perform a full load of all projects data and keep it synchronized.
+All information about ongoing projects. 
+
 - **Employees**: Perform a full load of all employees' data and keep it synchronized.
+Employee information such as general information about each employee etc.
+
 - **Customers**: Perform a full load of all customers' data and keep it synchronized.
+Information about all Data Ductus customers. General information, contact information etc.
+
+- **ap_transactions**:
+Short for "accounts payable transactions". These are invoices that sent to Data Ductus.
+The transactions consists of travel invoices for Data Ductus employees and invoices from suppliers.
+
+- **ar_transactions**:
+Short for "accounts recievable transactions". Consists of invoices sent to Data Ductus customers.
+
 - **transactions**: Perform a full load of all customers' data and keep it synchronized.
-Equivalent of "huvudbokstransaktioner".
+Corresponds to "huvudbokstransaktioner" in Xledger.
 
 ## Architecture
 
