@@ -31,46 +31,29 @@ Data Ductus is migrating from Brilliant to Xledger as a business system. The dat
 ### Data Extraction and Syncronization
 
 #### Timesheets
-Performs a full load of all timesheets data using the timesheets endpoint. Also fetches any new data using a combination of the timesheets and timesheet_deltas endpoints. The data includes time reported by Data Ductus employees.
+Performs a full load of all timesheets data using the timesheets endpoint. After a full data load, only new data is retrieved using a combination of the timesheet_deltas endpoint and timesheets endpoint. The data includes time reported by Data Ductus employees.
 
+#### Projects
+Performs a full load of all projects data using the projects endpoint. After a full data load, only new data is retrieved using a combination of the project_deltas endpoint and projects endpoint. The data includes information on ongoing projects for Data Ductus.
 
-#### 1.1. Description
-Perform a full load and synchronization of all timesheets data.
+#### Employees
+Performs a full load of all employee data using the employees endpoint. After a full data load, only new data is retrieved using a combination of the employee_deltas endpoint and employees endpoint. The data includes information on all Data Ductus employees such as contact information, employment type, salary group, etc.
 
-#### 1.2. Details
-- Includes time reported by Data Ductus employees.
+#### Customers
+Performs a full load of all customers data using the customers endpoint. After a full data load, only new data is retrieved using a combination of the customer_deltas endpoint and customers endpoint. The data includes information on all Data Ductus customers such as company name, contact information, etc.
 
-### 2. Projects
+#### Suppliers
+Performs a full load of all suppliers data using the suppliers endpoint. After a full data load, only new data is retrieved using a combination of the supplier_deltas endpoint and suppliers endpoint. The data includes information on all Data Ductus suppliers such as company name, contact information, etc.
 
-#### 2.1. Description
-Perform a full load and synchronization of all projects data.
+#### Transactions
+Performs a full load of all transactions data using the transactions endpoint. After a full data load, only new data is retrieved using a combination of the transaction_deltas endpoint and transactions endpoint. The data includes all invoices, both incoming and outgoing, for Data Ductus. It corresponds to "Huvudbokstransaktioner" in Xledger.
 
-#### 2.2. Details
-- Contains information about all ongoing projects.
+#### ArTransactions (Accounts Receivable Transactions)
+Performs a full load of all artransactions data using the arTransactions endpoint. After a full data load, only new data is retrieved using a combination of the arTransaction_deltas endpoint and arTransactions endpoint. These transactions are invoices sent from Data Ductus to external entities (e.g., invoices to customers). 
 
-### 3. Employees.
+#### ApTransactions (Accounts Payable Transactions)
+Performs a full load of all aptransactions data using the apTransactions endpoint. After a full data load, only new data is retrieved using a combination of the apTransaction_deltas endpoint and apTransactions endpoint. These transactions are invoices sent to Data Ductus (e.g., invoices from suppliers or travel expenses from employees).
 
-- **Timesheets**: Perform a full load of all timesheets data and keep it synchronized.
-Time reported by Data Ductus employees.
-
-- **Projects**: Perform a full load of all projects data and keep it synchronized.
-All information about ongoing projects. 
-
-- **Employees**: Perform a full load of all employees' data and keep it synchronized.
-Employee information such as general information about each employee etc.
-
-- **Customers**: Perform a full load of all customers' data and keep it synchronized.
-Information about all Data Ductus customers. General information, contact information etc.
-
-- **ap_transactions**:
-Short for "accounts payable transactions". These are invoices that sent to Data Ductus.
-The transactions consists of travel invoices for Data Ductus employees and invoices from suppliers.
-
-- **ar_transactions**:
-Short for "accounts recievable transactions". Consists of invoices sent to Data Ductus customers.
-
-- **transactions**: Perform a full load of all customers' data and keep it synchronized.
-Corresponds to "huvudbokstransaktioner" in Xledger.
 
 ## Architecture
 
