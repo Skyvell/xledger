@@ -1,6 +1,5 @@
 from azure import functions as func
 from azure.identity import DefaultAzureCredential
-
 import logging
 
 from shared.data_lake_writer import DataLakeWriter

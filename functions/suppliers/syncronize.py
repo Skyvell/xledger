@@ -1,7 +1,6 @@
 from azure import functions as func
 from azure.identity import DefaultAzureCredential
 import logging
-import os
 
 from shared.data_lake_writer import DataLakeWriter
 from shared.configuration_manager import SynchronizerStateManager
