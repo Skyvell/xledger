@@ -1,7 +1,5 @@
 import io
 import csv
-import pyarrow as pa
-import pyarrow.parquet as pq
 import pandas as pd
 
 
@@ -34,36 +32,6 @@ def convert_dicts_to_csv(data: list[dict], separator: str = ';', encoding: str =
     output.close()
 
     return csv_data
-
-
-def convert_dicts_to_parquet(data: list[dict]) -> io.BytesIO:
-    """
-    Converts a list of dictionaries to a Parquet format in memory and returns a buffer containing the Parquet data.
-
-    Args:
-        data (list[dict]): A list of dictionaries where each dictionary represents a row of data to be converted into Parquet format.
-
-    Returns:
-        io.BytesIO: A buffer object that contains the Parquet file data as bytes, ready to be read or written to a file.
-    """
-    # Find all unique keys.
-    all_keys = set()
-    for row in data:
-        all_keys.update(row.keys())
-
-    # Ensure all dictionaries have the same keys.
-    # If a key is missing, add it with a value of None.
-    unified_data = []
-    for row in data:
-        unified_row = {key: row.get(key) for key in all_keys}
-        unified_data.append(unified_row)
-
-    # Create a Parquet table from the unified data.
-    table = pa.Table.from_pylist(unified_data)
-    buf = io.BytesIO()
-    pq.write_table(table, buf)
-    buf.seek(0)
-    return buf
 
 
 def write_buffer_to_file(buffer: io.BytesIO, file_path: str) -> None:
