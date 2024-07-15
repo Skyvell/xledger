@@ -49,7 +49,7 @@ Performs a full load of all suppliers data using the *suppliers* endpoint. After
 Performs a full load of all transactions data using the *transactions* endpoint. After a full data load, only new data is retrieved using a combination of the *transaction_deltas* endpoint and *transactions* endpoint. The data includes all invoices, both incoming and outgoing, for Data Ductus. It corresponds to "Huvudbokstransaktioner" in Xledger.
 
 #### ArTransactions (Accounts Receivable Transactions)
-Performs a full load of all artransactions data using the *arTransactions* endpoint. After a full data load, only new data is retrieved using a combination of the *arTransaction_deltas* endpoint and *arTransactions* endpoint. These transactions are invoices sent from Data Ductus to external entities (e.g., invoices to customers). 
+Performs a full load of all artransactions data using the *arTransactions* endpoint. After a full data load, only new data is retrieved using a combination of the *arTransaction_deltas* endpoint and *arTransactions* endpoint. These transactions are invoices sent from Data Ductus to external entities (e.g. invoices to customers). 
 
 #### ApTransactions (Accounts Payable Transactions)
 Performs a full load of all aptransactions data using the *apTransactions* endpoint. After a full data load, only new data is retrieved using a combination of the *apTransaction_deltas* endpoint and *apTransactions* endpoint. These transactions are invoices sent to Data Ductus (e.g., invoices from suppliers or travel expenses from employees).
@@ -57,7 +57,7 @@ Performs a full load of all aptransactions data using the *apTransactions* endpo
 
 ## Architecture
 
-The app is developed as a function app in Azure (Figure 1). It will consist of several Azure functions and associated triggers. Each function will be responsible for fetching and keeping a particular type of data synchronized in the Data Lake. For example, one function will be responsible for timesheets data, and another one for projects data. An App Configuration component will be used to store the state of the synchronization.
+The app is developed as a function app in Azure (Figure 1). It consist of several Azure functions and associated triggers. Each function will be responsible for fetching and keeping a particular type of data synchronized in the Data Lake. For example, one function will be responsible for timesheets data, and another one for projects data. An App Configuration component will be used to store the state of the synchronization. All data will be written to ddbistorage account.
 
 ![Azure architecture](https://dev.azure.com/dataductusddbi/ddbi/_apis/git/repositories/xledger/items?path=/architecture/azure_architecture.png&api-version=6.0&resolveLfs=true)
 
@@ -75,16 +75,16 @@ Depending on which queries are available the procedure will vary a bit. If the q
 
 ### GraphQL queries
 
-### File outputs
-The files are written to a Datalake. When performing a full load of all the data, all data is written to one file. Next time when data is syncronized, changes will be in a new file. Files are named in a standardised nammed. Here are a few examples:
+### Data output
+The files are written to a Datalake in ddbistorage account. Depending on which environment is used, the data will be written to the container xledger-dev or xledger-prod. There will be two types of files; either full_sync or sync_changes. The full_sync files contain a full syncronization, which sync_changes only fetch the items that have changed since the last full syncronization. The files will be organized in containers (folders), one folder for each busniess data type. 
+
+
 <pre>
 <code>
-`20240610_11_47_40_employees.parquet`
-`20240610_15_39_09_employees.parquet`
-`20240610_15_40_22_employees.parquet`
-`20240610_11_47_34_customers.parquet`
-`20240610_15_40_38_customers.parquet`
-`20240611_13_27_39_customers.parquet`
+`timesheets/full_sync-20240711_21_17_09-timesheets.parquet`
+`timesheets/sync_changes-20240712_21_17_09-timesheets.parquet`
+`projects/full_sync-20240711_21_17_09-projects.parquet`
+`projects/sync_changes-20240712_21_17_09-projects.parquet`
 </code>
 </pre>
 
