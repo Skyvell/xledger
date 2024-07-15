@@ -40,11 +40,11 @@ Performs a full load of all artransactions data using the *arTransactions* endpo
 Performs a full load of all aptransactions data using the *apTransactions* endpoint. After a full data load, only new data is retrieved using a combination of the *apTransaction_deltas* endpoint and *apTransactions* endpoint. These transactions are invoices sent to Data Ductus (e.g., invoices from suppliers or travel expenses from employees).
 
 ## Adding support for more data
-Go to Xledger and look for the right endpoint for your data (*https://demo.xledger.net/GraphQL*). If your data has endpoints that has support for deltas, then you can do both full syncronizations and syncronize changes. Otherwise you can only do a full sync. Once you have a query you are happy with on Xledger, just copy the node fields and create a new function that follows the same tempalte as the existing functions. You can copy almost all the code.
+Go to Xledger and look for the right endpoint for your data (*https://demo.xledger.net/GraphQL*). 
+If your data has endpoints that has support for deltas (e.g. timesheet_deltas, employee_deltas), then you can do both full syncronizations and syncronize changes over time. Otherwise you can only do a full syncronization every time the function is triggered. Once you have a query you are happy with on Xledger, just copy the node fields and create a new function that follows the same template as the existing functions in the function folder. You can copy almost all the code.
 
 ## Api Keys
 API keys for dev and prod environments are generated in an Xledger account. Administrator access is needed. Api keys are stored within variable groups in the azure devops pipeline and deployed within the pipeline. Upon expiry these keys will need to be changed to keep the app upp and running.
-
 
 ## Data output
 The files are written to a Datalake in ddbistorage account. Depending on which environment is used, the data will be written to the container xledger-dev or xledger-prod. There will be two types of files; either full_sync or sync_changes. The full_sync files contain a full syncronization. Sync_changes only fetch the items that have changed since the last full syncronization. The files will be organized in containers (folders), one folder for each busniess data type. 
