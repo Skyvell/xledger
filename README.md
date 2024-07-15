@@ -50,14 +50,12 @@ API keys for dev and prod environments are generated in an Xledger account. Admi
 The files are written to a Datalake in ddbistorage account. Depending on which environment is used, the data will be written to the container xledger-dev or xledger-prod. There will be two types of files; either full_sync or sync_changes. The full_sync files contain a full syncronization. Sync_changes only fetch the items that have changed since the last full syncronization. The files will be organized in containers (folders), one folder for each busniess data type. 
 
 Below is an illustration of the files format and file structure.
-<pre>
-<code>
+```
 `timesheets/full_sync-20240711_21_17_09-timesheets.parquet`
 `timesheets/sync_changes-20240712_21_17_09-timesheets.parquet`
 `projects/full_sync-20240711_21_17_09-projects.parquet`
 `projects/sync_changes-20240712_21_17_09-projects.parquet`
-</code>
-</pre>
+```
 
 ## Deployment
 1. Configure terraform backend.
