@@ -56,24 +56,11 @@ Below is an illustration of the files format and file structure.
 `projects/full_sync-20240711_21_17_09-projects.parquet`
 `projects/sync_changes-20240712_21_17_09-projects.parquet`
 ```
-
-## Deployment
-1. Configure terraform backend.
-Terraform stores the state in a storage account. This has to be configured manually. Decide where you want the statefiles. Create a storage account with a container for both dev and prod. Then configure the backend.tf files in both infrastructure/dev and infrastructure/prod.
-2. Configure Service Principal.
-The infrastructure is deployed via a service principal. Make sure it is set up and make sure all the needed enviroment variables are imported into the deployment pipeline.
-3. Configure API-keys.
-API-keys are fetched in the deployment pipeline from variable groups. Make sure they are present.
-4. Configure 
     
+## Deployment
 
-
-### Development
-
-### Production
-
-## Infrastructure
-The infrastructure is defined in terraform. It's deployed as part of the azure devops pipeline. But it you need to deploy it manually:
+### Infrastructure
+The infrastructure is defined in terraform. It's deployed as part of the azure devops pipeline. To deploy it manually:
 
 ```bash
 # Cd into either the infrastructure.
@@ -85,3 +72,16 @@ terraform init
 # Apply the Terraform configuration
 terraform apply
 ```
+
+### Function App
+The function app is also deployed as part of the azure devops pipeline.
+
+## KEEP?
+## Deployment
+1. Configure terraform backend.
+Terraform stores the state in a storage account. This has to be configured manually. Decide where you want the statefiles. Create a storage account with a container for both dev and prod. Then configure the backend.tf files in both infrastructure/dev and infrastructure/prod.
+2. Configure Service Principal.
+The infrastructure is deployed via a service principal. Make sure it is set up and make sure all the needed enviroment variables are imported into the deployment pipeline.
+3. Configure API-keys.
+API-keys are fetched in the deployment pipeline from variable groups. Make sure they are present.
+4. Configure 
