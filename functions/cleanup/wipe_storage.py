@@ -9,8 +9,7 @@ NAME = "wipe_storage"
 logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
 
-# This schedule will never run. February does not have 31 days.
-# This function should only be triggered manually via the azure portal.
+
 @bp.function_name(NAME)
 @bp.route(route=NAME, methods=["POST"], auth_level=func.AuthLevel.ADMIN)
 def wipe_storage(req: func.HttpRequest) -> func.HttpResponse:

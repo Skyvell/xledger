@@ -177,7 +177,7 @@ class DataLakeWriter:
             for path in paths:
                 if path.is_directory:
                     directory_client = file_system_client.get_directory_client(path.name)
-                    directory_client.delete_directory(recursive=True)
+                    directory_client.delete_directory()
                     logging.info(f"Deleted directory and its contents: {path.name}")
                     
         except HttpResponseError as e:
