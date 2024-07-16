@@ -12,9 +12,10 @@ bp = func.Blueprint()
 # This schedule will never run. February does not have 31 days.
 # This function should only be triggered manually via the azure portal.
 @bp.function_name(NAME)
-@bp.schedule(schedule="0 0 31 2 * *", arg_name="myTimer", run_on_startup=False,
-              use_monitor=False) 
-def reset_state(myTimer: func.TimerRequest) -> None:
+@bp.route(route=NAME, methods=["POST"], auth_level=func.AuthLevel.ADMIN)
+def wipe_storage(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info("Running wipe storage.")
+    
     # Get credentials.
     credential = DefaultAzureCredential()
 
@@ -24,3 +25,5 @@ def reset_state(myTimer: func.TimerRequest) -> None:
     ## Initialize classes needed for syncronizing data.
     data_lake_writer = DataLakeWriter(config.data_storage_account, credential, config.data_storage_container)
     data_lake_writer.delete_all_folders()
+
+    return func.HttpResponse("Storage wiped successfully.", status_code=200)
