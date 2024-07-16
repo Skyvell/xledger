@@ -1,168 +1,87 @@
-## Table of Contents
-
-1. [Overview](#overview)
-2. [Features](#features)
-3. [Architecture](#architecture)
-4. [Getting Started](#getting-started)
-    - [Prerequisites](#prerequisites)
-    - [Installation](#installation)
-    - [Configuration](#configuration)
-    - [Running the Application](#running-the-application)
-5. [Usage](#usage)
-    - [API Endpoints](#api-endpoints)
-    - [GraphQL Queries](#graphql-queries)
-    - [File Outputs](#file-outputs)
-6. [Deployment](#deployment)
-    - [Development Environment](#development-environment)
-    - [Production Environment](#production-environment)
-7. [Infrastructure as Code (IaC)](#infrastructure-as-code-iac)
-8. [Testing](#testing)
-9. [Contributing](#contributing)
-10. [License](#license)
-11. [Contact](#contact)
-
----
-# BUGS to fix:
-- Now different columns will be included in the parquet files depending on which fields are present in the fechted data. Ensure the column strucutre is set from the query structure.
+# Xledger Syncronizer
 
 ## Overview
-
 Data Ductus is migrating from Brilliant to Xledger as a business system. The data stored with Xledger is needed for internal business analytics. This app will fetch the necessary business data from Xledger's GraphQL API and write the data to a Data Lake as .parquet files. This raw data will be transformed and loaded into a structure more suitable for business analytics, but that is not within the scope of this application. The scope of this application is to produce and keep the raw data synchronized in the Data Lake. The application is built on Azure serverless infrastructure.
-
-## Features
-
-- **Timesheets**: Perform a full load of all timesheets data and keep it synchronized.
-- **Projects**: Perform a full load of all projects data and keep it synchronized.
-- **Employees**: Perform a full load of all employees' data and keep it synchronized.
-- **Customers**: Perform a full load of all customers' data and keep it synchronized.
 
 ## Architecture
 
-The app is developed as a function app in Azure (Figure 1). It will consist of several Azure functions and associated triggers. Each function will be responsible for fetching and keeping a particular type of data synchronized in the Data Lake. For example, one function will be responsible for timesheets data, and another one for projects data. An App Configuration component will be used to store the state of the synchronization.
+The app is developed as a function app in Azure (Figure 1). It consist of several Azure functions and associated triggers. Each function will be responsible for fetching and keeping a particular type of data synchronized in the Data Lake. For example, one function will be responsible for timesheets data, and another one for projects data. An App Configuration component will be used to store the state of the synchronization. All data will be written to ddbistorage account.
 
-![Azure architecture](architecture/azure_architecture.svg)
+![Azure architecture](https://dev.azure.com/dataductusddbi/ddbi/_apis/git/repositories/xledger/items?path=/architecture/azure_architecture.png&api-version=6.0&resolveLfs=true)
 
 *Figure 1: High-level architecture showing the flow of data from timers to Azure Functions and the Data Lake. The illustration only shows one function, but the function app will have a timer and function for each type of business data.*
 
-## Adding support for new business data
-Depending on which queries are available the procedure will vary a bit. If the query has a deltas query, no custom code will need to be written.
+## Features
 
-1. Go to the Xledger GraphQL API.
-2. Construct the queries needed for getting the data.
+### Data Extraction and Synchronization
 
-GET_EMPLOYEES_FROM_DBIDS = gql("""
-    query getEmployees($first: Int, $after: String, $dbIdList: [Int64String!]) {
-        employees(
-            first: $first,
-            after: $after, 
-            filter: { 
-                dbId_in: $dbIdList
-            }
-        ) {
-            edges {
-                cursor
-                node {
-                    ## The fields you want goes here.
-                }
-            }
-            pageInfo {
-                hasNextPage
-            }
-        }
-    }
-""")
+#### Timesheets
+Performs a full load of all timesheets data using the *timesheets* endpoint. After a full data load, only new data is retrieved using a combination of the *timesheet_deltas* endpoint and *timesheets* endpoint. The data includes time reported by Data Ductus employees.
 
-GET_EMPLOYEES_AFTER_CURSOR = gql("""
-    query getEmployees($first: Int, $after: String) {
-        employees(
-            first: $first,
-            after: $after
-        ) {
-            edges {
-                cursor
-                node {
-                    ## The fields you want goes here.
-                }
-            }
-            pageInfo {
-                hasNextPage
-            }
-        }
-    }
-""")
+#### Projects
+Performs a full load of all projects data using the *projects* endpoint. After a full data load, only new data is retrieved using a combination of the *project_deltas* endpoint and *projects* endpoint. The data includes information on ongoing projects for Data Ductus.
 
-GET_EMPLOYEE_DELTAS = gql("""
-    query getEmployeeDeltas($first: Int, $last: Int, $after: String) {
-        employee_deltas(
-            first: $first,
-            last: $last,
-            after: $after
-        ) {
-            edges {
-                node {
-                    dbId
-                    mutationType
-                }
-                cursor
-            }
-            pageInfo {
-                hasNextPage
-            }
-        }
-    }
-""")
+#### Employees
+Performs a full load of all employee data using the *employees* endpoint. After a full data load, only new data is retrieved using a combination of the *employee_deltas* endpoint and *employees* endpoint. The data includes information on all Data Ductus employees such as contact information, employment type, salary group, etc.
 
-### Prerequisites
+#### Customers
+Performs a full load of all customers data using the *customers* endpoint. After a full data load, only new data is retrieved using a combination of the *customer_deltas* endpoint and *customers* endpoint. The data includes information on all Data Ductus customers such as company name, contact information, etc.
 
-List the software and tools required to run the project. For example:
+#### Suppliers
+Performs a full load of all suppliers data using the *suppliers* endpoint. After a full data load, only new data is retrieved using a combination of the *supplier_deltas* endpoint and *suppliers* endpoint. The data includes information on all Data Ductus suppliers such as company name, contact information, etc.
 
-- [Node.js](https://nodejs.org/)
-- [npm](https://www.npmjs.com/)
-- [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
-- [Terraform](https://www.terraform.io/)
+#### Transactions
+Performs a full load of all transactions data using the *transactions* endpoint. After a full data load, only new data is retrieved using a combination of the *transaction_deltas* endpoint and *transactions* endpoint. The data includes all invoices, both incoming and outgoing, for Data Ductus. It corresponds to "Huvudbokstransaktioner" in Xledger.
 
+#### ArTransactions (Accounts Receivable Transactions)
+Performs a full load of all artransactions data using the *arTransactions* endpoint. After a full data load, only new data is retrieved using a combination of the *arTransaction_deltas* endpoint and *arTransactions* endpoint. These transactions are invoices sent from Data Ductus to external entities (e.g. invoices to customers). 
 
+#### ApTransactions (Accounts Payable Transactions)
+Performs a full load of all aptransactions data using the *apTransactions* endpoint. After a full data load, only new data is retrieved using a combination of the *apTransaction_deltas* endpoint and *apTransactions* endpoint. These transactions are invoices sent to Data Ductus (e.g., invoices from suppliers or travel expenses from employees).
 
-## Usage
+## Adding support for more data
+Go to Xledger and look for the right endpoint for your data (*https://demo.xledger.net/GraphQL*). 
+If your data has endpoints that has support for deltas (e.g. timesheet_deltas, employee_deltas), then you can do both full syncronizations and syncronize changes over time. Otherwise you can only do a full syncronization every time the function is triggered. Once you have a query you are happy with on Xledger, just copy the node fields and create a new function that follows the same template as the existing functions in the function folder. You can copy almost all the code.
 
-### Endpoint
+## Api Keys
+API keys for dev and prod environments are generated in an Xledger account. Administrator access is needed. Api keys are stored within variable groups in the azure devops pipeline and deployed within the pipeline. Upon expiry these keys will need to be changed to keep the app upp and running.
 
-### GraphQL queries
+## Data output
+The files are written to a Datalake in ddbistorage account. Depending on which environment is used, the data will be written to the container xledger-dev or xledger-prod. There will be two types of files; either full_sync or sync_changes. The full_sync files contain a full syncronization. Sync_changes only fetch the items that have changed since the last full syncronization. The files will be organized in containers (folders), one folder for each busniess data type. 
 
-### File outputs
-The files are written to a Datalake. When performing a full load of all the data, all data is written to one file. Next time when data is syncronized, changes will be in a new file. Files are named in a standardised nammed. Here are a few examples:
-<pre>
-<code>
-`20240610_11_47_40_employees.parquet`
-`20240610_15_39_09_employees.parquet`
-`20240610_15_40_22_employees.parquet`
-`20240610_11_47_34_customers.parquet`
-`20240610_15_40_38_customers.parquet`
-`20240611_13_27_39_customers.parquet`
-</code>
-</pre>
-
-Question/thought: Maybe full load files should be named differently. Maybe syncronization or full_load should be prefixed.
-
-## Deployment
-- Deploy App Configuration with bicep files.
-- Parameter files for dev and prod.
-- Set environment variables in the bicep file in the Function App:
-    - Reference the parameter files to set variables.
-    - Get the keyvault values from the keyvault in the bicep file.
-    - After creating the App Configuration, get the connection string directly in the bicep file.
-    - Set the environment variable connection string.
+Below is an illustration of the files format and file structure.
+```
+`timesheets/full_sync-20240711_21_17_09-timesheets.parquet`
+`timesheets/sync_changes-20240712_21_17_09-timesheets.parquet`
+`projects/full_sync-20240711_21_17_09-projects.parquet`
+`projects/sync_changes-20240712_21_17_09-projects.parquet`
+```
     
+## Deployment
 
+### Infrastructure
+The infrastructure is defined in terraform. It's deployed as part of the azure devops pipeline. To deploy it manually:
 
-### Development
+```bash
+# Cd into either the infrastructure.
+cd ./infrastructure/dev
 
-### Production
+# Initialize the Terraform working directory.
+terraform init
 
-## Infrastructure as code
+# Apply the Terraform configuration
+terraform apply
+```
 
-## Testing
+### Function App
+The function app is also deployed as part of the azure devops pipeline.
 
-## License
-
-## Contacts
+## KEEP?
+## Deployment
+1. Configure terraform backend.
+Terraform stores the state in a storage account. This has to be configured manually. Decide where you want the statefiles. Create a storage account with a container for both dev and prod. Then configure the backend.tf files in both infrastructure/dev and infrastructure/prod.
+2. Configure Service Principal.
+The infrastructure is deployed via a service principal. Make sure it is set up and make sure all the needed enviroment variables are imported into the deployment pipeline.
+3. Configure API-keys.
+API-keys are fetched in the deployment pipeline from variable groups. Make sure they are present.
+4. Configure 

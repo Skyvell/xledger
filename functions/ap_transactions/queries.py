@@ -2,23 +2,88 @@ from gql import gql
 from shared.utils.data_transformation import flatten_graphql_fields
 
 
+# Name of the queries.
+ITEMS_QUERY_NAME = "apTransactions"
+DELTAS_QUERY_NAME = "apTransaction_deltas"
+
+
 # Define all the fields that we want to fetch from the xledger API here. 
 # This way we only need to add/remove fields in one place.
-AP_TRANSACTIONS_NODE_FIELDS = """
+NODE_FIELDS = """
     dbId
+    owner {
+      description
+    }
+    company {
+      description
+      phone
+      email
+      address {
+        streetAddress
+        zipCode
+        place
+        fullAddress
+      }
+    }
+    billAddress {
+      streetAddress
+      zipCode
+      place
+      fullAddress
+    }
+    account {
+      description
+      code
+      descriptionTranslated
+    }
+    slTransactionType {
+      name
+    }
+    glDimension {
+      glObject1 {
+        description
+        objectKind {
+          name
+        }
+      }
+      glObject2 {
+        description
+        code
+        objectKind {
+          name
+        }
+      }
+    }
+    ledgerType {
+      name
+    }
+    invoiceNumber
+    period {
+      description
+      fiscalYear
+    }
+    invoiceDate
+    dueDate
+    paymentDate
+    currency {
+      code
+    }
+    exchangeRate
+    invoiceAmount
+    invoiceRemaining
 """
 
 
 # This is the final list of columns that we want in the pandas dataframe,
 # and the resulting parquet file.
-# Derived directly from the AP_TRANSACTIONS_NODE_FIELDS above to make sure the columns
+# Derived directly from the NODE_FIELDS above to make sure the columns
 # Are deterministic and up-to date.
-COLUMNS = flatten_graphql_fields(AP_TRANSACTIONS_NODE_FIELDS)
+COLUMNS = flatten_graphql_fields(NODE_FIELDS)
 
 
-GET_AP_TRANSACTIONS_FROM_DBIDS = gql(f"""
-    query getApTransactions($first: Int, $after: String, $dbIdList: [Int64String!]) {{
-        apTransactions(
+GET_ITEMS_FROM_DBIDS = gql(f"""
+    query get_{ITEMS_QUERY_NAME}($first: Int, $after: String, $dbIdList: [Int!]) {{
+        {ITEMS_QUERY_NAME}(
             first: $first,
             after: $after, 
             filter: {{ 
@@ -27,7 +92,7 @@ GET_AP_TRANSACTIONS_FROM_DBIDS = gql(f"""
         ) {{
             edges {{
                 node {{
-                    {AP_TRANSACTIONS_NODE_FIELDS}
+                    {NODE_FIELDS}
                 }}
                 cursor
             }}
@@ -39,15 +104,15 @@ GET_AP_TRANSACTIONS_FROM_DBIDS = gql(f"""
 """)
 
 
-GET_AP_TRANSACTIONS_AFTER_CURSOR = gql(f"""
-    query getApTransactions($first: Int, $after: String) {{
-        apTransactions(
+GET_ITEMS_AFTER_CURSOR = gql(f"""
+    query get_{ITEMS_QUERY_NAME}($first: Int, $after: String) {{
+        {ITEMS_QUERY_NAME}(
             first: $first,
             after: $after
         ) {{
             edges {{
                 node {{
-                    {AP_TRANSACTIONS_NODE_FIELDS}
+                    {NODE_FIELDS}
                 }}
                 cursor
             }}
@@ -59,23 +124,23 @@ GET_AP_TRANSACTIONS_AFTER_CURSOR = gql(f"""
 """)
 
 
-GET_AP_TRANSACTION_DELTAS = gql("""
-    query getApTransactionDeltas($first: Int, $last: Int, $after: String) {
-        apTransaction_deltas(
+GET_DELTAS = gql(f"""
+    query get_{DELTAS_QUERY_NAME}($first: Int, $last: Int, $after: String) {{
+        {DELTAS_QUERY_NAME}(
             first: $first,
             last: $last, 
             after: $after
-        ) {
-            edges {
-                node {
+        ) {{
+            edges {{
+                node {{
                     dbId
                     mutationType
-                }
+                }}
                 cursor
-            }
-            pageInfo {
+            }}
+            pageInfo {{
                 hasNextPage
-            }
-        }
-    }
+            }}
+        }}
+    }}
 """)

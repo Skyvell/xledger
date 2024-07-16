@@ -1,7 +1,8 @@
-trigger:
-  branches:
-    include:
-      - dev
+#trigger:
+#  branches:
+#    include:
+#      - dev
+trigger: none
 
 variables:
   # This group has variables needed for the service principal to authenticate with Azure

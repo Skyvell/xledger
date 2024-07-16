@@ -1,4 +1,5 @@
 import os
+import logging
 
 class EnvironmentConfig:
     """
@@ -43,5 +44,6 @@ class EnvironmentConfig:
         """
         value = os.getenv(var_name)
         if not value:
+            logging.error(f"Environment variable '{var_name}' is missing.")
             raise ValueError(f"Environment variable '{var_name}' is missing.")
         return value
