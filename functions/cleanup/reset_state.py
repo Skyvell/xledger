@@ -9,12 +9,10 @@ NAME = "reset_state"
 logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
 
-# This schedule will never run. February does not have 31 days.
-# This function should only be triggered manually via the azure portal.
+
 @bp.function_name(NAME)
-@bp.schedule(schedule="0 0 31 2 * *", arg_name="myTimer", run_on_startup=False,
-              use_monitor=False) 
-def reset_state(myTimer: func.TimerRequest) -> None:
+@bp.route(route="reset_state", methods=["POST"], auth_level=func.AuthLevel.ADMIN)
+def reset_state(req: func.HttpRequest) -> func.HttpResponse:
     # Get credentials.
     logging.info("RUNNING RESET STATE.")
     credential = DefaultAzureCredential()
@@ -25,3 +23,5 @@ def reset_state(myTimer: func.TimerRequest) -> None:
     ## Initialize classes needed for syncronizing data.
     state_manager = SynchronizerStateManager(config.app_config_endpoint, credential)
     state_manager.reset_state()
+    
+    return func.HttpResponse("State reset successfully.", status_code=200)
