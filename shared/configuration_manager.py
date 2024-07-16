@@ -149,3 +149,9 @@ class SynchronizerStateManager:
         :param cursor: The new value for the initial synchronization cursor.
         """
         self._save_state('initial_sync_cursor', cursor)
+
+    def reset_state(self):
+        settings = self._client.list_configuration_settings()
+        for setting in settings:
+            self._client.delete_configuration_setting(setting.key)
+            logging.info(f"Deleted state: {setting.key}.")
