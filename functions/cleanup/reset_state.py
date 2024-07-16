@@ -16,6 +16,7 @@ bp = func.Blueprint()
               use_monitor=False) 
 def reset_state(myTimer: func.TimerRequest) -> None:
     # Get credentials.
+    logging.info("RUNNING RESET STATE.")
     credential = DefaultAzureCredential()
 
     # Get environment variables.
