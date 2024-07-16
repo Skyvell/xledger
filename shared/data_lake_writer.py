@@ -154,3 +154,32 @@ class DataLakeWriter:
         self._write_to_file(file_client, bytes_data)
 
         logging.info(f"Data written to '{file_system_name}/{directory_name}/{file_name}' successfully.")
+
+    def delete_all_folders(self, file_system_name: str = None) -> None:
+        """
+        Delete all folders in the specified file system (container).
+
+        :param file_system_name: Name of the file system (container), uses default if not specified
+        """
+        file_system_name = file_system_name or self.default_file_system
+
+        if not file_system_name:
+            raise ValueError("File system must be specified either as a parameter or a default.")
+
+        # Get the file system client.
+        file_system_client = self._get_file_system_client(file_system_name)
+
+        try:
+            # List top-level directories.
+            paths = file_system_client.get_paths(path="", recursive=False)
+
+            # Delete each directory and its contents.
+            for path in paths:
+                if path.is_directory:
+                    directory_client = file_system_client.get_directory_client(path.name)
+                    directory_client.delete_directory(recursive=True)
+                    logging.info(f"Deleted directory and its contents: {path.name}")
+                    
+        except HttpResponseError as e:
+            logging.error(f"Failed to delete directories in file system '{file_system_name}': {e}")
+            raise
