@@ -24,6 +24,7 @@ multidict==6.0.5
 numpy==2.0.0
 pandas==2.2.2
 portalocker==2.10.1
+pyarrow==17.0.0
 pycparser==2.22
 PyJWT==2.8.0
 python-dateutil==2.9.0.post0
