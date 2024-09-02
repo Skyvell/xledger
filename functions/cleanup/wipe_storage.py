@@ -21,7 +21,7 @@ def wipe_storage(req: func.HttpRequest) -> func.HttpResponse:
     # Get environment variables.
     config = EnvironmentConfig()
 
-    ## Initialize classes needed for syncronizing data.
+    # Initialize classes needed for syncronizing data.
     data_lake_writer = DataLakeWriter(config.data_storage_account, credential, config.data_storage_container)
     data_lake_writer.delete_all_folders()
 

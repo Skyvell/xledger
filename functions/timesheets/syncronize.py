@@ -32,7 +32,7 @@ def syncronize(myTimer: func.TimerRequest) -> None:
     # Get environment variables.
     config = EnvironmentConfig()
 
-    ## Initialize classes needed for syncronizing data.
+    # Initialize classes needed for syncronizing data.
     grapql_client = GraphQLClient(config.api_endpoint, config.api_key)
     data_lake_writer = DataLakeWriter(config.data_storage_account, credential, config.data_storage_container, NAME)
     delta_fetcher = DeltaFetcher(grapql_client, GET_DELTAS)
