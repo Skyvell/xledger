@@ -19,7 +19,6 @@ NODE_FIELDS = """
         dbId
         description
         companyNumber
-        name
         address {
             streetAddress
             zipCode
