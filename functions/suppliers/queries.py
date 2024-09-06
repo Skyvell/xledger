@@ -13,14 +13,28 @@ NODE_FIELDS = """
     dbId
     description
     code
-    companyDbId
     number
     phone
+    bankAccount
+    notes
+    company {
+        dbId
+        companyNumber
+    }
+    subledgerGroup {
+        dbId
+        description
+    }
     address {
         dbId    
         streetAddress
         zipCode
         place
+        fullAddress
+    }
+    contact {
+        dbId
+        name
     }
 """
 
