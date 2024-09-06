@@ -17,9 +17,33 @@ NODE_FIELDS = """
     number
     company {
         dbId
-        name
         description
+        companyNumber
+        name
+        address {
+            streetAddress
+            zipCode
+            place
+            fullAddress
+        }
+        billAddress {
+            streetAddress
+            zipCode
+            place
+            fullAddress
+        }
+        shipAddress {
+            streetAddress
+            zipCode
+            place
+            fullAddress
+          }
         email
+        phone
+    }
+    subledgerGroup {
+        dbId
+        description
     }
 """
 
