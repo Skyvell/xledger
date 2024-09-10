@@ -38,13 +38,11 @@ NODE_FIELDS = """
         country
     }
 
-    glDimension {
-        glObject1 {
-            description
-            code
-            objectKind {
-                name
-            }
+    glObject1 {
+        description
+        code
+        objectKind {
+            name
         }
     }
     
