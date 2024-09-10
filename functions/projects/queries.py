@@ -25,31 +25,32 @@ NODE_FIELDS = """
         code
         address {
             country {
-              description
+                description
             }
         }
     }
 
     company {
-          dbId
-          description
-          companyNumber
-          code
-          country
-        }
+        dbId
+        description
+        companyNumber
+        code
+        country
+    }
 
     glDimension {
-      glObject1 {
-        description
-        code
-        objectKind {
-          name
+        glObject1 {
+            description
+            code
+            objectKind {
+                name
+            }
         }
     }
     
     projectManager {
-          dbId
-          description
+        dbId
+        description
     }
 """
 
