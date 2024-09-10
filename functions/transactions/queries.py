@@ -34,6 +34,7 @@ NODE_FIELDS = """
     glDimension {
       glObject1 {
         description
+        code
         objectKind {
           name
         }
