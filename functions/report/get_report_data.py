@@ -1,12 +1,12 @@
 from azure import functions as func
 from azure.identity import DefaultAzureCredential
 import logging
-import requests
 import json
 
 from shared.data_lake_writer import DataLakeWriter
 from shared.environment_config import EnvironmentConfig
 from shared.utils.time import get_current_time_for_filename
+from shared.reports import get_report
 
 
 NAME = "test_report"
@@ -29,11 +29,6 @@ def report(myTimer: func.TimerRequest) -> None:
     data_lake_writer = DataLakeWriter(config.data_storage_account, credential, config.data_storage_container, NAME)
 
     # Get the report data and write to storage.
-    response = requests.get(URL)
-    if response.status_code == 200:
-        data = response.json()
-        data_lake_writer.write_data(f"{get_current_time_for_filename()}-{NAME}.json", json.dumps(data))
-
-    else:
-        print(f"Failed to retrieve data. HTTP Status Code: {response.status_code}")
+    report_json = get_report(URL)
+    data_lake_writer.write_data(f"{get_current_time_for_filename()}-{NAME}.json", json.dumps(json.dumps(report_json)))
 
