@@ -9,7 +9,7 @@ variables:
   - group: azure-devops-service-principal
   - group: xledger-syncronizer-dev
   - name: azureSubscription
-    value: 'a42468e7-3510-409f-849a-111d4574481d'
+    value: 'dataductusddbi-ddbi-a42468e7-3510-409f-849a-111d4574481d'
   - name: functionAppName
     value: 'xledger-syncronizer-dev'
   - name: functionAppRootDirectory
