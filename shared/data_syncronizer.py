@@ -1,5 +1,6 @@
 from typing import List, Optional
 import logging
+import json
 from shared.delta_fetcher import DeltaFetcher
 from shared.item_fetcher import ItemFetcher
 from shared.data_lake_writer import DataLakeWriter
@@ -95,12 +96,20 @@ class DataSynchronizer:
             logging.info(f"No items found for {self.name}.")
             return
         
+        # If the schema exists in the data lake, use it. Otherwise the schema will be inferred.
+        schema_exists = self.data_lake_writer.file_exists("schema.json")
+        schema = None
+        if schema_exists:
+            schema = json.loads(self.data_lake_writer.read_file("schema.json"))
+
         # Transform items.
         items.add_key_value_to_items("mutationType", "ADDED")
-        items_transformed = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(items.get_items()), self.columns)
+        items_transformed, inferred_schema = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(items.get_items()), self.columns, schema = schema)
 
         # Write items to data lake.
         self.data_lake_writer.write_data(f"full_sync-{get_current_time_for_filename()}-{self.name}.parquet", items_transformed)
+        if inferred_schema:
+            self.data_lake_writer.write_data("schema.json", json.dumps(inferred_schema))
 
         # Update state.
         self.state_manager.initial_sync_cursor = items.get_last_item_cursor()
