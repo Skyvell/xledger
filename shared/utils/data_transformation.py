@@ -142,9 +142,10 @@ def flatten_graphql_fields(input: str, separator: str = ".") -> List[str]:
 
 def infer_pandas_dataframe_schema(df: pd.DataFrame) -> dict:
     """
-    Infers the schema from a DataFrame, returning a dictionary of column names and their datatypes.
+    Infers the schema from a DataFrame, returning a dictionary of column names and their datatypes
+    as strings, so that it can be serialized with json.dumps().
     """
-    schema = {col: df[col].dtype for col in df.columns}
+    schema = {col: str(df[col].dtype) for col in df.columns}
     return schema
 
 
