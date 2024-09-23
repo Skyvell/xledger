@@ -22,6 +22,8 @@ variables:
     value: 'terraform.tfvars'
   - name: deploymentEnvironment
     value: 'env01'
+  - name: System.Debug
+    value: 'true'
 
 stages:
 # Deploy infrastructure with terraform.
