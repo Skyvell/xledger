@@ -21,17 +21,17 @@ from functions.suppliers.queries import (
 NAME = "suppliers"
 logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
-logging.info(f"these are the column dtypes: {COLUMN_DTYPES}")
+
 @bp.function_name(f"syncronize_{NAME}")
 @bp.schedule(schedule="0 0 * * * *", arg_name="myTimer", run_on_startup=False,
               use_monitor=False) 
 def syncronize(myTimer: func.TimerRequest) -> None:
     # Get credentials.
     credential = DefaultAzureCredential()
-
+    
     # Get environment variables.
     config = EnvironmentConfig()
-
+    logging.info(f"these are the column dtypes: {COLUMN_DTYPES}")
     # Initialize classes needed for syncronizing data.
     grapql_client = GraphQLClient(config.api_endpoint, config.api_key)
     data_lake_writer = DataLakeWriter(config.data_storage_account, credential, config.data_storage_container, NAME)
