@@ -62,7 +62,7 @@ class DataSynchronizer:
         self.columns = columns
 
         if add_mutation_type_to_columns:
-            self.columns.append("mutationType")
+            self.columns["mutationType"] = "string"
 
     def syncronize(self, sync_from_scratch: bool) -> None:
         """
