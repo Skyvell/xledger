@@ -39,11 +39,34 @@ NODE_FIELDS = """
 """
 
 
+DATA_TYPES_LIST = [
+    'Int64',            # dbId
+    'string',           # description
+    'string',           # code
+    'Int64',            # number
+    'string',           # phone
+    'string',           # bankAccount
+    'string',           # notes
+    'Int64',            # company.dbId
+    'string',           # company.companyNumber
+    'Int64',            # subledgerGroup.dbId
+    'string',           # subledgerGroup.description
+    'Int64',            # address.dbId
+    'string',           # address.streetAddress
+    'string',           # address.zipCode
+    'string',           # address.place
+    'string',           # address.fullAddress
+    'Int64',            # contact.dbId
+    'string'            # contact.name
+]
+
+
 # This is the final list of columns that we want in the pandas dataframe,
 # and the resulting parquet file.
 # Derived directly from the NODE_FIELDS above to make sure the columns
 # Are deterministic and up-to date.
 COLUMNS = flatten_graphql_fields(NODE_FIELDS)
+COLUMN_DTYPES = dict(zip(COLUMNS, DATA_TYPES_LIST))
 
 
 GET_ITEMS_FROM_DBIDS = gql(f"""

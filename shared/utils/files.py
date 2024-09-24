@@ -53,7 +53,7 @@ def write_buffer_to_file(buffer: io.BytesIO, file_path: str) -> None:
         f.write(buffer.read())
 
 
-def convert_dicts_to_parquet_pandas(data: list[dict], columns: list[str]) -> io.BytesIO:
+def convert_dicts_to_parquet_pandas(data: list[dict], column_dtypes: dict) -> io.BytesIO:
     """
     Convert a list of dictionaries to a Parquet file stored in a BytesIO buffer.
 
@@ -65,7 +65,7 @@ def convert_dicts_to_parquet_pandas(data: list[dict], columns: list[str]) -> io.
     io.BytesIO: A BytesIO buffer containing the Parquet file.
     """
     # Create a DataFrame from the list of dictionaries, including only specified columns.
-    df = pd.DataFrame(data, columns=columns)
+    df = pd.DataFrame(data).astype(column_dtypes)
     df = df.astype(object)
     
     # Create a BytesIO buffer to hold the Parquet data.

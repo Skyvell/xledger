@@ -37,7 +37,7 @@ class DataSynchronizer:
 
     def __init__(self, 
                  name: str,
-                 columns: List[str],
+                 columns: dict,
                  item_fetcher: ItemFetcher,
                  data_lake_writer: DataLakeWriter,
                  state_manager: SynchronizerStateManager,
