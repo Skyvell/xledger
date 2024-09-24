@@ -152,7 +152,7 @@ class DataSynchronizer:
         schema = json.loads(self.data_lake_writer.read_file("schema.json"))
 
         # Transform items.
-        parquet = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(all_changed_items), self.columns, schema = schema)
+        parquet, _ = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(all_changed_items), self.columns, schema = schema)
 
         # Write items to data lake.
         self.data_lake_writer.write_data(f"sync_changes-{get_current_time_for_filename()}-{self.name}.parquet", parquet)
