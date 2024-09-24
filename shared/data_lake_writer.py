@@ -1,16 +1,16 @@
 import logging
 from io import BytesIO
 from azure.storage.filedatalake import DataLakeServiceClient, DataLakeFileClient
-from azure.core.exceptions import ResourceExistsError, HttpResponseError, ResourceNotFoundError
+from azure.core.exceptions import ResourceExistsError, HttpResponseError
 from azure.identity import DefaultAzureCredential
 
 
 class DataLakeWriter:
     """
-    Handles writing and reading data to/from Azure Data Lake Storage.
+    Handles writing data to Azure Data Lake Storage.
 
     This class manages the creation of file systems, directories, and files,
-    and supports writing and reading data directly from Azure Data Lake Storage.
+    and supports writing string data or data from a BytesIO object directly to Azure Data Lake Storage.
     """
 
     def __init__(self, account_name: str, credential: DefaultAzureCredential, default_file_system: str = None, default_directory: str = None):
@@ -182,68 +182,4 @@ class DataLakeWriter:
                     
         except HttpResponseError as e:
             logging.error(f"Failed to delete directories in file system '{file_system_name}': {e}")
-            raise
-
-    def read_file(self, file_name: str, file_system_name: str = None, directory_name: str = None) -> bytes:
-        """
-        Read data from a file in Azure Data Lake Storage.
-
-        :param file_name: Name of the file to read
-        :param file_system_name: Name of the file system (container), uses default if not specified
-        :param directory_name: Name of the directory, uses default if not specified
-        :return: The data read from the file as bytes
-        """
-        file_system_name = file_system_name or self.default_file_system
-        directory_name = directory_name or self.default_directory
-
-        if not file_system_name or not directory_name:
-            raise ValueError("File system and directory must be specified either as parameters or defaults.")
-
-        # Get the file system client.
-        file_system_client = self._get_file_system_client(file_system_name)
-
-        # Get the file client.
-        file_client = file_system_client.get_file_client(f"{directory_name}/{file_name}")
-
-        try:
-            # Read the file content
-            download = file_client.download_file()
-            file_data = download.readall()
-            logging.info(f"Data read from '{file_system_name}/{directory_name}/{file_name}' successfully.")
-            return file_data
-        except HttpResponseError as e:
-            logging.error(f"Failed to read data from file '{file_name}': {e}")
-            raise
-
-    def file_exists(self, file_name: str, file_system_name: str = None, directory_name: str = None) -> bool:
-        """
-        Check if a file exists in Azure Data Lake Storage.
-
-        :param file_name: Name of the file to check
-        :param file_system_name: Name of the file system (container), uses default if not specified
-        :param directory_name: Name of the directory, uses default if not specified
-        :return: True if the file exists, False otherwise
-        """
-        file_system_name = file_system_name or self.default_file_system
-        directory_name = directory_name or self.default_directory
-
-        if not file_system_name or not directory_name:
-            raise ValueError("File system and directory must be specified either as parameters or defaults.")
-
-        # Get the file system client.
-        file_system_client = self._get_file_system_client(file_system_name)
-
-        # Get the file client.
-        file_client = file_system_client.get_file_client(f"{directory_name}/{file_name}")
-
-        try:
-            # Try to get file properties, if it exists
-            file_client.get_file_properties()
-            logging.info(f"File '{file_name}' exists in '{file_system_name}/{directory_name}'.")
-            return True
-        except ResourceNotFoundError:
-            logging.info(f"File '{file_name}' does not exist in '{file_system_name}/{directory_name}'.")
-            return False
-        except HttpResponseError as e:
-            logging.error(f"Error checking if file exists: {e}")
             raise

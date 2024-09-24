@@ -1,8 +1,6 @@
 import io
 import csv
 import pandas as pd
-from shared.utils.files import infer_pandas_dataframe_schema
-from shared.utils.files import enforce_pandas_dataframe_schema
 
 
 def convert_dicts_to_csv(data: list[dict], separator: str = ';', encoding: str = 'utf-8') -> str:
@@ -55,7 +53,7 @@ def write_buffer_to_file(buffer: io.BytesIO, file_path: str) -> None:
         f.write(buffer.read())
 
 
-def convert_dicts_to_parquet_pandas(data: list[dict], columns: list[str], schema: dict = None) -> tuple[io.BytesIO, dict]:
+def convert_dicts_to_parquet_pandas(data: list[dict], columns: list[str]) -> io.BytesIO:
     """
     Convert a list of dictionaries to a Parquet file stored in a BytesIO buffer.
 
@@ -68,13 +66,6 @@ def convert_dicts_to_parquet_pandas(data: list[dict], columns: list[str], schema
     """
     # Create a DataFrame from the list of dictionaries, including only specified columns.
     df = pd.DataFrame(data, columns=columns)
-
-    if schema:
-        df = enforce_pandas_dataframe_schema(df, schema=schema)
-
-    # Infer the schema of the DataFrame.
-    if not schema:
-        schema = infer_pandas_dataframe_schema(df)
     
     # Create a BytesIO buffer to hold the Parquet data.
     buffer = io.BytesIO()
@@ -86,4 +77,4 @@ def convert_dicts_to_parquet_pandas(data: list[dict], columns: list[str], schema
     buffer.seek(0)
     
     # Return the buffer containing the Parquet data.
-    return buffer, schema
+    return buffer

@@ -1,5 +1,4 @@
 from typing import Any, Dict, List
-import pandas as pd
 
 
 def flatten_json(nested_json: Dict[str, Any], separator: str = '.') -> Dict[str, Any]:
@@ -138,32 +137,3 @@ def flatten_graphql_fields(input: str, separator: str = ".") -> List[str]:
                 fields.append(field)
 
     return fields
-
-
-def infer_pandas_dataframe_schema(df: pd.DataFrame) -> dict:
-    """
-    Infers the schema from a DataFrame, returning a dictionary of column names and their datatypes.
-    """
-    schema = {col: df[col].dtype for col in df.columns}
-    return schema
-
-
-def enforce_pandas_dataframe_schema(df: pd.DataFrame, schema: dict) -> pd.DataFrame:
-    """
-    Enforces the schema on a pandas DataFrame by casting columns to specified datatypes.
-
-    For each column in the schema, the function checks if the column exists in the DataFrame.
-    If the column is present, it is cast to the specified datatype using pandas' `astype()`.
-    Columns that are not present in the DataFrame are ignored.
-
-    :param df: The DataFrame whose schema needs to be enforced.
-    :param schema: A dictionary where the keys are column names and the values are the target datatypes.
-
-    :return: The DataFrame with columns cast to the datatypes specified in the schema.
-
-    :raises ValueError: If the input `df` is not a pandas DataFrame, or `schema` is not a dictionary.
-    """
-    for col, dtype in schema.items():
-        if col in df.columns:
-            df[col] = df[col].astype(dtype)
-    return df
