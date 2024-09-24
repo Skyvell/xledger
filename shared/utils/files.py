@@ -65,7 +65,7 @@ def convert_dicts_to_parquet_pandas(data: list[dict], column_dtypes: dict) -> io
     io.BytesIO: A BytesIO buffer containing the Parquet file.
     """
     # Create a DataFrame from the list of dictionaries, including only specified columns.
-    df = pd.DataFrame(data).astype(column_dtypes)
+    df = pd.DataFrame(data, columns=column_dtypes.keys()).astype(column_dtypes)
     
     # Create a BytesIO buffer to hold the Parquet data.
     buffer = io.BytesIO()
