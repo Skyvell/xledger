@@ -1,8 +1,8 @@
 import io
 import csv
 import pandas as pd
-from shared.utils.data_transformation import infer_pandas_dataframe_schema
-from shared.utils.data_transformation import enforce_pandas_dataframe_schema
+from shared.utils.files import infer_pandas_dataframe_schema
+from shared.utils.files import enforce_pandas_dataframe_schema
 
 
 def convert_dicts_to_csv(data: list[dict], separator: str = ';', encoding: str = 'utf-8') -> str:
