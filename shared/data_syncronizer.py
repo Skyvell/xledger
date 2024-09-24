@@ -148,8 +148,11 @@ class DataSynchronizer:
             deletions = [{"dbId": dbId, "mutationType": "DELETED"} for dbId in deltas.get_deletions()]
             all_changed_items.extend(deletions)
 
+        # Load schema.
+        schema = json.loads(self.data_lake_writer.read_file("schema.json"))
+
         # Transform items.
-        parquet = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(all_changed_items), self.columns)
+        parquet = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(all_changed_items), self.columns, schema = schema)
 
         # Write items to data lake.
         self.data_lake_writer.write_data(f"sync_changes-{get_current_time_for_filename()}-{self.name}.parquet", parquet)
