@@ -28,7 +28,7 @@ class DataSynchronizer:
 
     Attributes:
     name (str): The name of the synchronizer.
-    columns (List[str]): The list of columns that should be included in the data lake.
+    column_dtypes (List[str]): The list of column_dtypes that should be included in the data lake.
     delta_fetcher (DeltaFetcher): The instance to fetch deltas (added, updated, or deleted items).
     item_fetcher (ItemFetcher): The instance to fetch items.
     data_lake_writer (DataLakeWriter): The instance to write data to the data lake.
@@ -37,7 +37,7 @@ class DataSynchronizer:
 
     def __init__(self, 
                  name: str,
-                 columns: dict,
+                 column_dtypes: dict,
                  item_fetcher: ItemFetcher,
                  data_lake_writer: DataLakeWriter,
                  state_manager: SynchronizerStateManager,
@@ -48,7 +48,7 @@ class DataSynchronizer:
 
         Args:
         name (str): The name of the synchronizer.
-        columns (List[str]): The list of columns to include in the data lake.
+        column_dtypes (Dict): A dictionary of columns and their data types for pandas to use.
         item_fetcher (ItemFetcher): The instance to fetch items.
         data_lake_writer (DataLakeWriter): The instance used to write data to the data lake.
         state_manager (SynchronizerStateManager): The instance used to manage synchronization state.
@@ -59,10 +59,10 @@ class DataSynchronizer:
         self.item_fetcher = item_fetcher
         self.state_manager = state_manager
         self.data_lake_writer = data_lake_writer
-        self.columns = columns
+        self.column_dtypes = column_dtypes
 
         if add_mutation_type_to_columns:
-            self.columns["mutationType"] = "string"
+            self.column_dtypes["mutationType"] = "string"
 
     def syncronize(self, sync_from_scratch: bool) -> None:
         """
@@ -97,7 +97,7 @@ class DataSynchronizer:
         
         # Transform items.
         items.add_key_value_to_items("mutationType", "ADDED")
-        items_transformed = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(items.get_items()), self.columns)
+        items_transformed = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(items.get_items()), self.column_dtypes)
 
         # Write items to data lake.
         self.data_lake_writer.write_data(f"full_sync-{get_current_time_for_filename()}-{self.name}.parquet", items_transformed)
@@ -140,7 +140,7 @@ class DataSynchronizer:
             all_changed_items.extend(deletions)
 
         # Transform items.
-        parquet = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(all_changed_items), self.columns)
+        parquet = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(all_changed_items), self.column_dtypes)
 
         # Write items to data lake.
         self.data_lake_writer.write_data(f"sync_changes-{get_current_time_for_filename()}-{self.name}.parquet", parquet)
