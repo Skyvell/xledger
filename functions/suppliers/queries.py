@@ -38,7 +38,8 @@ NODE_FIELDS = """
     }
 """
 
-
+# Define the data types for each field in the NODE_FIELDS above.
+# Convert to these types in pandas.
 DATA_TYPES_LIST = [
     'Int64',            # dbId
     'string',           # description
