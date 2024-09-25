@@ -59,7 +59,7 @@ def convert_dicts_to_parquet_pandas(data: list[dict], column_dtypes: dict) -> io
 
     Parameters:
     data (list[dict]): A list of dictionaries containing the data.
-    columns (list[str]): A list of column names to include in the DataFrame.
+    column_dtypes (dict): A dictionary mapping column names to their data types.
 
     Returns:
     io.BytesIO: A BytesIO buffer containing the Parquet file.
