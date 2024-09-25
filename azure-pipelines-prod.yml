@@ -9,7 +9,7 @@ variables:
   - group: azure-devops-service-principal
   - group: xledger-syncronizer-prod
   - name: azureSubscription
-    value: 'c970b736-a87d-42e2-b2a6-73d193d9034e'
+    value: 'xledger'
   - name: functionAppName
     value: 'xledger-syncronizer-prod'
   - name: functionAppRootDirectory
