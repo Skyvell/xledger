@@ -74,7 +74,7 @@ NODE_FIELDS = """
     invoiceRemaining
 """
 
-
+# Datatypes of the columns in the resulting pandas dataframe.
 COLUMN_DATA_TYPES = [
     'Int64',            # dbId
     'string',           # owner.description

@@ -40,7 +40,7 @@ NODE_FIELDS = """
     }
 """
 
-
+# Datatypes of the columns in the resulting pandas dataframe.
 COLUMN_DATA_TYPES = [
     'Int64',            # dbId
     'datetime64[ns]',   # createdAt
