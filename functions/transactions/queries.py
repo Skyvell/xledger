@@ -59,11 +59,37 @@ NODE_FIELDS = """
 """
 
 
+COLUMN_DATA_TYPES = [
+    'Int64',            # dbId
+    'string',           # owner.description
+    'string',           # account.accountGroup.description
+    'string',           # account.accountGroup.codeTranslated
+    'string',           # account.sysAccount.description
+    'string',           # account.sysAccount.codeTranslated
+    'string',           # account.descriptionTranslated
+    'string',           # account.code
+    'string',           # company.description
+    'string',           # company.address.fullAddress
+    'string',           # glDimension.glObject1.description
+    'string',           # glDimension.glObject1.code
+    'string',           # glDimension.glObject1.objectKind.name
+    'string',           # glDimension.glObject2.description
+    'string',           # glDimension.glObject2.code
+    'string',           # glDimension.glObject2.objectKind.name
+    'string',           # currency.code
+    'float64',          # invoiceAmount
+    'string',           # taxRule.description
+    'string',           # taxRule.code
+    'float64'           # taxAmount
+]
+
+
 # This is the final list of columns that we want in the pandas dataframe,
 # and the resulting parquet file.
 # Derived directly from the NODE_FIELDS above to make sure the columns
 # Are deterministic and up-to date.
 COLUMNS = flatten_graphql_fields(NODE_FIELDS)
+COLUMN_DTYPES = dict(zip(COLUMNS, COLUMN_DATA_TYPES))
 
 
 GET_ITEMS_FROM_DBIDS = gql(f"""

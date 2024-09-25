@@ -41,7 +41,7 @@ NODE_FIELDS = """
 """
 
 
-DATA_TYPES_LIST = [
+COLUMN_DATA_TYPES = [
     'Int64',            # dbId
     'datetime64[ns]',   # createdAt
     'datetime64[ns]',   # modifiedAt
@@ -70,7 +70,7 @@ DATA_TYPES_LIST = [
 # Derived directly from the NODE_FIELDS above to make sure the columns
 # Are deterministic and up-to date.
 COLUMNS = flatten_graphql_fields(NODE_FIELDS)
-COLUMN_DTYPES = dict(zip(COLUMNS, DATA_TYPES_LIST))
+COLUMN_DTYPES = dict(zip(COLUMNS, COLUMN_DATA_TYPES))
 
 
 GET_ITEMS_FROM_DBIDS = gql(f"""

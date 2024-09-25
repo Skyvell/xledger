@@ -11,7 +11,7 @@ from shared.gql_client import GraphQLClient
 from shared.environment_config import EnvironmentConfig
 
 from functions.transactions.queries import (
-    COLUMNS,
+    COLUMN_DTYPES,
     GET_DELTAS,
     GET_ITEMS_AFTER_CURSOR,
     GET_ITEMS_FROM_DBIDS
@@ -42,7 +42,7 @@ def syncronize(myTimer: func.TimerRequest) -> None:
     # Initialize the data syncronizer.
     syncronizer = DataSynchronizer(
         NAME,
-        COLUMNS,
+        COLUMN_DTYPES,
         item_fetcher,
         data_lake_writer,
         state_manager,

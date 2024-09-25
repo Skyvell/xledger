@@ -40,7 +40,7 @@ NODE_FIELDS = """
 
 # Define the data types for each field in the NODE_FIELDS above.
 # Convert to these types in pandas.
-DATA_TYPES_LIST = [
+COLUMN_DATA_TYPES = [
     'Int64',            # dbId
     'string',           # description
     'string',           # code
@@ -67,7 +67,7 @@ DATA_TYPES_LIST = [
 # Derived directly from the NODE_FIELDS above to make sure the columns
 # Are deterministic and up-to date.
 COLUMNS = flatten_graphql_fields(NODE_FIELDS)
-COLUMN_DTYPES = dict(zip(COLUMNS, DATA_TYPES_LIST))
+COLUMN_DTYPES = dict(zip(COLUMNS, COLUMN_DATA_TYPES))
 
 
 GET_ITEMS_FROM_DBIDS = gql(f"""
