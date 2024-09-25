@@ -95,7 +95,7 @@ COLUMN_DATA_TYPES = [
     'Int64',            # glObject1.dbId
     'string',           # glObject1.description
     'string',           # glObject1.code
-    'Int64'             # glObject1.id
+    'string'            # glObject1.id
 ]
 
 
