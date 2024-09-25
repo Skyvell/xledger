@@ -64,11 +64,47 @@ NODE_FIELDS = """
 """
 
 
+COLUMN_DATA_TYPES = [
+    'Int64',            # dbId
+    'string',           # email
+    'string',           # description
+    'datetime64[ns]',   # createdAt
+    'datetime64[ns]',   # modifiedAt
+    'datetime64[ns]',   # employmentFrom
+    'datetime64[ns]',   # employmentTo
+    'Int64',            # positionValue.dbId
+    'string',           # positionValue.description
+    'string',           # positionValue.code
+    'Int64',            # positionCategory.dbId
+    'string',           # positionCategory.description
+    'string',           # positionCategory.code
+    'Int64',            # compensationType.dbId
+    'string',           # compensationType.description
+    'string',           # compensationType.code
+    'string',           # employmentType.description
+    'string',           # employmentType.owner.description
+    'string',           # contact.firstName
+    'string',           # contact.lastName
+    'datetime64[ns]',   # contact.birthday
+    'Int64',            # contact.age
+    'string',           # contact.country.description
+    'string',           # contact.gender.name
+    'Int64',            # exitReason.dbId
+    'string',           # exitReason.description
+    'string',           # exitReason.code
+    'Int64',            # glObject1.dbId
+    'string',           # glObject1.description
+    'string',           # glObject1.code
+    'Int64'             # glObject1.id
+]
+
+
 # This is the final list of columns that we want in the pandas dataframe,
 # and the resulting parquet file.
 # Derived directly from the NODE_FIELDS above to make sure the columns
 # Are deterministic and up-to date.
 COLUMNS = flatten_graphql_fields(NODE_FIELDS)
+COLUMN_DTYPES = dict(zip(COLUMNS, COLUMN_DATA_TYPES))
 
 
 GET_ITEMS_FROM_DBIDS = gql(f"""
