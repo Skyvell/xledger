@@ -9,7 +9,7 @@ from shared.flex_link_reader import FlexLinkReader
 
 from functions.cost_categories.settings import (
     COLUMN_DTYPES, 
-    FLEXLINK
+    FLEX_LINK
 )
 
 NAME = "cost_categories"
@@ -17,7 +17,7 @@ NAME = "cost_categories"
 logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
 
-@bp.function_name(f"read-flexlink-{NAME}")
+@bp.function_name(f"get_{NAME}")
 @bp.schedule(schedule="0 0 0 * * *", arg_name="myTimer", run_on_startup=False,
               use_monitor=False) 
 def report(myTimer: func.TimerRequest) -> None:
@@ -34,5 +34,5 @@ def report(myTimer: func.TimerRequest) -> None:
     flex_link_reader = FlexLinkReader()
     
     # Read data from flexlink and write to blob storage.
-    data = flex_link_reader.read_flexlink_xlsx(FLEXLINK, COLUMN_DTYPES)
+    data = flex_link_reader.read_flexlink_xlsx(FLEX_LINK, COLUMN_DTYPES)
     data_lake_writer.write_data(f"{get_current_time_for_filename()}-{NAME}.parquet", data)
