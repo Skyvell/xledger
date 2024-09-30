@@ -1,13 +1,10 @@
 from azure import functions as func
 from azure.identity import DefaultAzureCredential
 import logging
-import requests
-import io
 
 from shared.data_lake_writer import DataLakeWriter
 from shared.environment_config import EnvironmentConfig
 from shared.utils.time import get_current_time_for_filename
-from shared.utils.files import convert_xlsx_to_parquet_pandas
 from shared.flex_link_reader import FlexLinkReader
 
 from functions.cost_categories.columns import COLUMN_DTYPES
