@@ -78,3 +78,32 @@ def convert_dicts_to_parquet_pandas(data: list[dict], column_dtypes: dict) -> io
     
     # Return the buffer containing the Parquet data.
     return buffer
+
+def convert_xlsx_to_parquet_pandas(data: io.BytesIO, column_dtypes: dict) -> io.BytesIO:
+    """
+    Convert a list of dictionaries to a Parquet file stored in a BytesIO buffer.
+
+    Parameters:
+    data (list[dict]): A list of dictionaries containing the data.
+    column_dtypes (dict): A dictionary mapping column names to their data types.
+
+    Returns:
+    io.BytesIO: A BytesIO buffer containing the Parquet file.
+    """
+
+    # Read the Excel file into a DataFrame, including only specified columns,
+    # and convert the data types of the columns.
+    df = pd.read_excel(data)
+    df = df[list(column_dtypes.keys())].astype(column_dtypes)
+    
+    # Create a BytesIO buffer to hold the Parquet data.
+    buffer = io.BytesIO()
+    
+    # Write the DataFrame to the buffer in Parquet format, excluding the index.
+    df.to_parquet(buffer, engine='pyarrow', index=False)
+    
+    # Reset the buffer's position to the beginning.
+    buffer.seek(0)
+    
+    # Return the buffer containing the Parquet data.
+    return buffer
