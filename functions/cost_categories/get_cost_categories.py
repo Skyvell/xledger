@@ -34,5 +34,5 @@ def report(myTimer: func.TimerRequest) -> None:
     flex_link_reader = FlexLinkReader()
     
     # Read data from flexlink and write to blob storage.
-    data = flex_link_reader.read_flexlink_xlsx(FLEX_LINK, COLUMN_DTYPES)
+    data = flex_link_reader.read_xlsx_flex_link(FLEX_LINK, COLUMN_DTYPES)
     data_lake_writer.write_data(f"{get_current_time_for_filename()}-{NAME}.parquet", data)
