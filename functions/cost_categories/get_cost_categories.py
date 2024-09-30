@@ -8,6 +8,7 @@ from shared.data_lake_writer import DataLakeWriter
 from shared.environment_config import EnvironmentConfig
 from shared.utils.time import get_current_time_for_filename
 from shared.utils.files import convert_xlsx_to_parquet_pandas
+from shared.flex_link_reader import FlexLinkReader
 
 from functions.cost_categories.columns import COLUMN_DTYPES
 
@@ -31,12 +32,9 @@ def report(myTimer: func.TimerRequest) -> None:
     # Initialize writer.
     data_lake_writer = DataLakeWriter(config.data_storage_account, credential, config.data_storage_container, NAME)
 
-    # Get the report data and write to storage.
-    response = requests.get(URL)
-    if response.status_code == 200:
-        data = io.BytesIO(response.content)
-        data = convert_xlsx_to_parquet_pandas(data, column_dtypes=COLUMN_DTYPES)
-        data_lake_writer.write_data(f"{get_current_time_for_filename()}-{NAME}.parquet", data)
-
-    else:
-        print(f"Failed to retrieve data. HTTP Status Code: {response.status_code}")
+    # Initialize FlexLinkReader.
+    flex_link_reader = FlexLinkReader()
+    
+    # Read data from flexlink and write to blob storage.
+    data = flex_link_reader.read_flexlink_xlsx(URL, COLUMN_DTYPES)
+    data_lake_writer.write_data(f"{get_current_time_for_filename()}-{NAME}.parquet", data)
