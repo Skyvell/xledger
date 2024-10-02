@@ -68,10 +68,10 @@ COLUMN_DATA_TYPES = [
     'Int64',            # dbId
     'string',           # email
     'string',           # description
-    'datetime64[ns]',   # createdAt
-    'datetime64[ns]',   # modifiedAt
-    'datetime64[ns]',   # employmentFrom
-    'datetime64[ns]',   # employmentTo
+    'string',           # createdAt
+    'string',           # modifiedAt
+    'string',           # employmentFrom
+    'string',           # employmentTo
     'Int64',            # positionValue.dbId
     'string',           # positionValue.description
     'string',           # positionValue.code
@@ -85,7 +85,7 @@ COLUMN_DATA_TYPES = [
     'string',           # employmentType.owner.description
     'string',           # contact.firstName
     'string',           # contact.lastName
-    'datetime64[ns]',   # contact.birthday
+    'string',           # contact.birthday
     'Int64',            # contact.age
     'string',           # contact.country.description
     'string',           # contact.gender.name

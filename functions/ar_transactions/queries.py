@@ -103,9 +103,9 @@ COLUMN_DATA_TYPES = [
     'string',           # invoiceNumber
     'string',           # period.description
     'Int64',            # period.fiscalYear
-    'datetime64[ns]',   # invoiceDate
-    'datetime64[ns]',   # dueDate
-    'datetime64[ns]',   # paymentDate
+    'string',           # invoiceDate
+    'string',           # dueDate
+    'string',           # paymentDate
     'string',           # currency.code
     'float64',          # exchangeRate
     'float64',          # invoiceAmount

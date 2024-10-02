@@ -43,12 +43,12 @@ NODE_FIELDS = """
 # Datatypes of the columns in the resulting pandas dataframe.
 COLUMN_DATA_TYPES = [
     'Int64',            # dbId
-    'datetime64[ns]',   # createdAt
-    'datetime64[ns]',   # modifiedAt
-    'datetime64[ns]',   # assignmentDate
+    'string',           # createdAt
+    'string',           # modifiedAt
+    'string',           # assignmentDate
     'float64',          # workingHours
     'boolean',          # isHeaderApproved
-    'datetime64[ns]',   # headerApprovedAt
+    'string',           # headerApprovedAt
     'string',           # hourlyRevenueCurrency
     'Int64',            # owner.dbId
     'string',           # owner.description

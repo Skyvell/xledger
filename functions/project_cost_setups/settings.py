@@ -16,7 +16,7 @@ COLUMN_DATA_TYPES = [
     "string",
     "string",
     "string",
-    "datetime64[ns]",
+    "string",
     "string",
     "float64"
 ]

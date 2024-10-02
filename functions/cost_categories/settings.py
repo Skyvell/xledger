@@ -15,8 +15,8 @@ COLUMN_DATA_TYPES = [
     "string",
     "string",
     "string",
-    "datetime64[ns]",
-    "datetime64[ns]"
+    "string",
+    "string"
 ]
 
 # Create a dictionary mapping columns to their data types.
