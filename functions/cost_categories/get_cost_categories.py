@@ -13,6 +13,7 @@ from functions.cost_categories.settings import (
 )
 
 NAME = "cost_categories"
+OUTPUT_DIR = "setups"
 
 logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
@@ -44,4 +45,4 @@ def report(myTimer: func.TimerRequest) -> None:
     
     # Read data from flexlink and write to blob storage.
     data = flex_link_reader.read_xlsx_flex_link(FLEX_LINK, COLUMN_DTYPES)
-    data_lake_writer.write_data(f"{get_current_time_for_filename()}-{NAME}.parquet", data)
+    data_lake_writer.write_data(f"{get_current_time_for_filename()}-{NAME}.parquet", data, directory_name=OUTPUT_DIR)
