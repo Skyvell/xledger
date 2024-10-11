@@ -22,11 +22,15 @@ stages:
         echo "Running Terraform init..."
         terraform init
         echo "Running Terraform plan..."
-        terraform plan -var-file ${{ parameters.tfvarsFile }} -var "api_key=$(api_key)"
+        terraform plan -var-file ${{ parameters.tfvarsFile }} -var "api_key=$(api_key)" -out=tfplan.binary
       displayName: 'Terraform Plan'
       workingDirectory: ${{ parameters.infrastructureRootFolder }}
       env:
         ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+
+    - publish: tfplan.binary
+      artifact: terraformPlanArtifact
+      displayName: 'Publish Terraform Plan'
 
 - stage: 'Terraform_Apply'
   displayName: 'Terraform Apply'
@@ -43,11 +47,15 @@ stages:
         deploy:
           steps:
           - checkout: self
+          - download: current
+            artifact: terraformPlanArtifact
+            displayName: 'Download Terraform Plan'
+
           - script: |
               echo "Running Terraform init..."
               terraform init
-              echo "Running Terraform apply..."
-              terraform apply -var-file ${{ parameters.tfvarsFile }} -var "api_key=$(api_key)" -auto-approve
+              echo "Running Terraform apply using the saved plan..."
+              terraform apply tfplan.binary -auto-approve
             displayName: 'Terraform Apply'
             workingDirectory: ${{ parameters.infrastructureRootFolder }}
             env:
