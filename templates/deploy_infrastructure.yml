@@ -56,7 +56,7 @@ stages:
               echo "Running Terraform init..."
               terraform init
               echo "Running Terraform apply using the saved plan..."
-              terraform apply $(Pipeline.Workspace)/terraformPlanArtifact/tfplan.binary -auto-approve
+              terraform apply -auto-approve "$(Pipeline.Workspace)/terraformPlanArtifact/tfplan.binary"
             displayName: 'Terraform Apply'
             workingDirectory: ${{ parameters.infrastructureRootFolder }}
             env:
