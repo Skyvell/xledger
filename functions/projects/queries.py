@@ -14,6 +14,7 @@ NODE_FIELDS = """
     dbId
     description
     code
+    toDate
     shortInfo
     shortInternalInfo
     yourReference
@@ -57,6 +58,7 @@ COLUMN_DATA_TYPES = [
     'Int64',            # dbId
     'string',           # description
     'string',           # code
+    'string',           # toDate
     'string',           # shortInfo
     'string',           # shortInternalInfo
     'string',           # yourReference
