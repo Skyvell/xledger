@@ -39,6 +39,13 @@ Performs a full load of all artransaction data using the *arTransactions* endpoi
 #### ApTransactions (Accounts Payable Transactions)
 Performs a full load of all aptransaction data using the *apTransactions* endpoint. After a full data load, only new data is retrieved using a combination of the *apTransaction_deltas* endpoint and *apTransactions* endpoint. These transactions are invoices sent to Data Ductus (e.g., invoices from suppliers or travel expenses from employees).
 
+#### Cost Categories
+Fetches a table of cost category data from xledger using a flexlink.
+
+#### Project cost setups
+Fetches a table of cost category data from xledger using a flexlink.
+
+
 ## Adding Support for More Data
 Go to Xledger and look for the right endpoint for your data (*https://demo.xledger.net/GraphQL*). 
 If your data has endpoints that support deltas (e.g., timesheet_deltas, employee_deltas), then you can do both full synchronizations and synchronize changes over time. Otherwise, you can only do a full synchronization every time the function is triggered. Once you have a query you are happy with on Xledger, just copy the node fields and create a new function that follows the same template as the existing functions in the function folder. You can copy almost all the code.
