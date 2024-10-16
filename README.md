@@ -40,15 +40,22 @@ Performs a full load of all artransaction data using the *arTransactions* endpoi
 Performs a full load of all aptransaction data using the *apTransactions* endpoint. After a full data load, only new data is retrieved using a combination of the *apTransaction_deltas* endpoint and *apTransactions* endpoint. These transactions are invoices sent to Data Ductus (e.g., invoices from suppliers or travel expenses from employees).
 
 #### Cost Categories
-Fetches a table of cost category data from xledger using a flexlink.
+Fetches a table of cost category data from xledger using a flexlink. Write to data lake.
 
 #### Project cost setups
-Fetches a table of cost category data from xledger using a flexlink.
+Fetches a table of cost category data from xledger using a flexlink. Write to data lake.
 
+#### Cost element per time type
+Fetches a table of cost element sper time type using a flexlink. Write to data lake.
 
 ## Adding Support for More Data
+
+### Xledger API-data
 Go to Xledger and look for the right endpoint for your data (*https://demo.xledger.net/GraphQL*). 
 If your data has endpoints that support deltas (e.g., timesheet_deltas, employee_deltas), then you can do both full synchronizations and synchronize changes over time. Otherwise, you can only do a full synchronization every time the function is triggered. Once you have a query you are happy with on Xledger, just copy the node fields and create a new function that follows the same template as the existing functions in the function folder. You can copy almost all the code.
+
+### Xledger flexlink data
+Find the table in xledger that should be exported. Click on "create export link". Chose to export the link in excel format. If you want to use the link to filter the data in the table, select "allow parameter refinement", if not, leave it blank. Copy the flexlink and use the library code to extract and write the data to a datalake in Azure. See "cost_categories" as a template. Code will be almost identical.
 
 ## API Keys
 API keys for dev and prod environments are generated in an Xledger account. Administrator access is needed. The demo API key expires after 2 weeks, so the prod API key is used for both xledger-dev and xledger-prod. API keys are stored within variable groups in the Azure DevOps pipeline and deployed within the pipeline. Upon expiry, these keys will need to be changed to keep the app up and running.
