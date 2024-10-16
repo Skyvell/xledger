@@ -1,4 +1,3 @@
-
 from azure import functions as func
 from functions.timesheets.syncronize import bp as timesheets_bp
 from functions.customers.syncronize import bp as customers_bp
