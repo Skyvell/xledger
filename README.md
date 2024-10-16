@@ -73,19 +73,11 @@ Below is an illustration of the file format and file structure.
     
 ## Deployment
 
+### Authentication
+## TODO Service principal stuff.
+
 ### Infrastructure
-The infrastructure is defined in Terraform. It's deployed as part of the Azure DevOps pipeline. To deploy it manually, make sure the variables are set in the terraform.tfvars file and run:
-
-```bash
-# Cd into the infrastructure (./infrastructure/prod for prod).
-cd ./infrastructure/dev
-
-# Initialize the Terraform working directory.
-terraform plan -var-file=terraform.tfvars -var <api_key>
-
-# Apply the Terraform configuration
-terraform apply -var-file=terraform.tfvars -var <api_key>
-```
+The infrastructure is defined in Terraform. Storage account is used for state data. It's deployed as part of the Azure DevOps pipeline.
 
 ### Function App
 The function app is also deployed as part of the Azure DevOps pipeline.
