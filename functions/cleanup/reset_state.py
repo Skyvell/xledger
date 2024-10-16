@@ -21,7 +21,7 @@ def reset_state(req: func.HttpRequest) -> func.HttpResponse:
     # Get environment variables.
     config = EnvironmentConfig()
 
-    # Initialize classes needed for syncronizing data.
+    # Reset the syncronizer state.
     state_manager = SynchronizerStateManager(config.app_config_endpoint, credential)
     state_manager.reset_state()
 
