@@ -48,7 +48,7 @@ Fetches a table of project cost setup data from Xledger using a Flexlink and wri
 #### Cost Element Per Time Type
 Fetches a table of cost element data per time type using a Flexlink and writes it to the Data Lake.
 
-## Adding Support for More Data
+## Adding Support for More Data in Xledger
 
 ### Xledger API Data
 Go to Xledger and look for the correct endpoint for your data (*https://demo.xledger.net/GraphQL*). 
@@ -57,8 +57,8 @@ If your data has endpoints that support deltas (e.g., timesheet_deltas, employee
 ### Xledger Flexlink Data
 Find the table in Xledger that should be exported. Click on "Create Export Link." Choose to export the link in Excel format. If you want to use the link to filter data in the table, select "Allow Parameter Refinement." Otherwise, leave it unchecked. Copy the Flexlink and use the library code to extract and write the data to a Data Lake in Azure. See "cost_categories" as a template; the code will be almost identical.
 
-## API Keys
-API keys for the dev and prod environments are generated in an Xledger account. Administrator access is required. The demo API key expires after 2 weeks, so the prod API key is used for both xledger-dev and xledger-prod. API keys are stored within variable groups in the Azure DevOps pipeline and are deployed through the pipeline. Upon expiry, these keys will need to be updated to keep the app running.
+## Xledger authentication
+API keys for the dev and prod environments are generated in an Xledger account. Administrator access is required. The demo API keys expire after 2 weeks, so the prod API key is used for both xledger-dev and xledger-prod. API keys are stored within variable groups in the Azure DevOps pipeline and are deployed as environment variable of the function app in the pipeline. Upon expiry, these keys will need to be updated to keep the app running.
 
 ## Data Output
 The files are written to a Data Lake in the ddbistorage account. Depending on the environment, the data is written to either the xledger-dev or xledger-prod container. There are two types of files: full_sync or sync_changes. Full_sync files contain a complete data synchronization, while sync_changes files contain only the items that have changed since the last full synchronization. The files are organized in containers (folders), one folder per business data type.
