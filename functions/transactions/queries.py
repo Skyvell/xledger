@@ -94,7 +94,7 @@ COLUMN_DTYPES = dict(zip(COLUMNS, COLUMN_DATA_TYPES))
 
 
 GET_ITEMS_FROM_DBIDS = gql(f"""
-    query get_{ITEMS_QUERY_NAME}($first: Int, $after: String, $dbIdList: [Int!]) {{
+    query get_{ITEMS_QUERY_NAME}($first: Int, $after: String, $dbIdList: [Int64String!]) {{
         {ITEMS_QUERY_NAME}(
             first: $first,
             after: $after, 
