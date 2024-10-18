@@ -79,7 +79,7 @@ A service connection called "xledger" has been configured in Azure DevOps, point
 ### Infrastructure
 The infrastructure is defined in Terraform. An Azure storage account is used as the backend for the state. All deployment variables, backend settings, provider settings, and components can be found in:
 
-**`infrastructure/dev` or `infrastructure/prod`**.
+`infrastructure/dev` or `infrastructure/prod`.
 
 ### Function App
 The function app is also deployed as part of the Azure DevOps pipeline.
