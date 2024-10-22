@@ -14,6 +14,7 @@ from functions.report.get_report_data import bp as report_bp
 from functions.cost_categories.get_cost_categories import bp as cost_categories_bp
 from functions.cost_element_per_time_type.get_cost_element_per_time_type import bp as cost_element_per_time_type_bp
 from functions.project_cost_setups.get_project_cost_setups import bp as project_cost_setups_bp
+from functions.project_managers.get_project_managers import bp as project_managers_bp
 
 
 # Create the function app.
@@ -35,3 +36,4 @@ app.register_blueprint(reset_state_and_wipe_storage_bp)
 # app.register_blueprint(cost_categories_bp)
 # app.register_blueprint(project_cost_setups_bp)
 # app.register_blueprint(cost_element_per_time_type_bp)
+app.register_blueprint(project_managers_bp)

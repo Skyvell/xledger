@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <link rel="stylesheet" href="invoice.css">
+</head>
+<body>
+    <main class="invoice-container">
+        <header class="header">
+            <div class="invoice-title">
+                <h1>Invoice #1234</h1>
+                <p>Date: 2024-10-10</p>
+            </div>
+            <address class="company-info">
+                <p>Data Ductus</p>
+                <p>1234 Street Name</p>
+                <p>City, Country</p>
+            </address>
+        </header>
+
+        <section class="invoice-info">
+            <p><strong>Bill To:</strong> Client Company</p>
+            <p>Due Date: 2024-11-10</p>
+        </section>
+
+        <section class="invoice-items">
+            <table class="items-table" role="table" aria-label="Invoice details">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr>
+                        <td>Web Development Services</td>
+                        <td>10</td>
+                        <td>$100.0</td>
+                        <td>$1000.0</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Consultation</td>
+                        <td>5</td>
+                        <td>$50.0</td>
+                        <td>$250.0</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </section>
+
+        <section class="totals">
+            <p class="total">Subtotal: $1250.0</p>
+            <p class="total">Remaining Amount: <strong>$500.0</strong></p>
+        </section>
+
+        <footer class="footer">
+            <p>Thank you for your business! If you have any questions, feel free to contact us at info@dataductus.com</p>
+        </footer>
+    </main>
+</body>
+</html>
