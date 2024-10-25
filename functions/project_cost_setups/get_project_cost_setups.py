@@ -35,9 +35,9 @@ def report(myTimer: func.TimerRequest) -> None:
     # Initialize writer.
     data_lake_writer = DataLakeWriter(
         config.data_storage_account, 
-        credential, 
+        credential,
+        config.data_storage_container, 
         OUTPUT_DIR, 
-        NAME
     )
 
     # Initialize FlexLinkReader.
