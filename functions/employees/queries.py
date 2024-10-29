@@ -13,6 +13,7 @@ NODE_FIELDS = """
     dbId
     email
     description
+    code
     createdAt
     modifiedAt
     employmentFrom
@@ -68,6 +69,7 @@ COLUMN_DATA_TYPES = [
     'Int64',            # dbId
     'string',           # email
     'string',           # description
+    'int64',            # code
     'string',           # createdAt
     'string',           # modifiedAt
     'string',           # employmentFrom
