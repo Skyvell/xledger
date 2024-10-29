@@ -7,7 +7,7 @@ from shared.environment_config import EnvironmentConfig
 from shared.utils.time import get_current_time_for_filename
 from shared.flex_link_reader import FlexLinkReader
 
-from functions.project_cost_setups.settings import (
+from functions.price_list.settings import (
     COLUMN_DTYPES, 
     FLEX_LINK
 )
