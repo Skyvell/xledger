@@ -38,6 +38,9 @@ NODE_FIELDS = """
         description
         code
     }
+    timesheetStatus {
+        name
+    }
 """
 
 # Datatypes of the columns in the resulting pandas dataframe.
@@ -61,7 +64,8 @@ COLUMN_DATA_TYPES = [
     'string',           # timeType.description
     'Int64',            # project.dbId
     'string',           # project.description
-    'string'            # project.code
+    'string',           # project.code
+    'string',           # timesheetStatus.name
 ]
 
 
