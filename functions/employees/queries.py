@@ -69,7 +69,7 @@ COLUMN_DATA_TYPES = [
     'Int64',            # dbId
     'string',           # email
     'string',           # description
-    'int64',            # code
+    'string',           # code
     'string',           # createdAt
     'string',           # modifiedAt
     'string',           # employmentFrom
