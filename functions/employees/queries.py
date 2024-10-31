@@ -90,7 +90,7 @@ COLUMN_DATA_TYPES = [
     'string',           # employmentType.description
     'string',           # employmentType.owner.description
     'string',           # employmentGroup.description
-    'string',           # employmentGroup.code
+    'int64',            # employmentGroup.code
     'string',           # contact.firstName
     'string',           # contact.lastName
     'string',           # contact.birthday
