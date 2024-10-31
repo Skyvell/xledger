@@ -12,7 +12,7 @@ from functions.employee_groups.settings import (
     FLEX_LINK
 )
 
-NAME = "employee_group"
+NAME = "employee_groups"
 OUTPUT_DIR = "setups"
 
 logging.basicConfig(level=logging.INFO)

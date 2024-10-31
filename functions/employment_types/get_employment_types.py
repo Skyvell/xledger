@@ -12,7 +12,7 @@ from functions.employment_types.settings import (
     FLEX_LINK
 )
 
-NAME = "employment_type"
+NAME = "employment_types"
 OUTPUT_DIR = "setups"
 
 logging.basicConfig(level=logging.INFO)
