@@ -16,6 +16,7 @@ from functions.cost_element_per_time_type.get_cost_element_per_time_type import 
 from functions.project_cost_setups.get_project_cost_setups import bp as project_cost_setups_bp
 from functions.project_managers.get_project_managers import bp as project_managers_bp
 from functions.price_list.get_price_list import bp as price_list_bp
+from functions.cost_centers.get_cost_centers import bp as cost_centers_bp
 
 
 # Create the function app.
@@ -41,6 +42,7 @@ app.register_blueprint(reset_state_and_wipe_storage_bp)
 # Flexlink functions.
 app.register_blueprint(report_bp)
 app.register_blueprint(cost_categories_bp)
+app.register_blueprint(cost_centers_bp)
 app.register_blueprint(project_cost_setups_bp)
 app.register_blueprint(cost_element_per_time_type_bp)
 app.register_blueprint(project_managers_bp)
