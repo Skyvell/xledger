@@ -1,5 +1,5 @@
 # Flexlink pointing to the Excel file containing the cost categories.
-FLEX_LINK = "https://demo.xledger.net/Flex/112706066960924.xlsx?t=Ag9kyeRaNrajDAdVN-yO371sV0PiVRIO_gwW9-OGTDebjFLLcEK5wzPh90enehKTiekbP4i7tKinC3TZJb3EU3OjfiYvNf_oI-DV1OUHR6qZmyw0ZAV96mWLoJ3Y3HRd3sAr4scGXNuzpThaBBQiNhYvTJHtqzasZOW2vYFaiK_68ot2VAmQL7dSB9p-51PIOb4YnIAjbMydiBu-PEa2YfV-eIfR3X1zzai9K_GLFR-gmyUmWzt5ddjmDXiDXn41dApzxEIKvROP3WAlf5_BDw717ygLXX0EcskyBQPnPGncvQhuF2CtOO2v86tsQLFWMsV61PeD4k5vR9MReBsd"
+FLEX_LINK = "https://demo.xledger.net/Flex/112706068542803.xlsx?t=Ag9kyWRzmQIx1lQSlIdPv4ZFMUOF8t77zf83uyHSZ5_ylYq5UD5hFx-2T8WlBGi1P1zwuQAo4f56XNlV4N-x1LVUmXDJbLbQOjtS0A5ijY7QHubJfPW8Xy-i9H-2m8r5wQfPrgWt0zNUh3YXbSq_K3_SdkazR_HJZaxn3uMoQcebyOEj9ycZQ9J9cqWsTfQ_vV9EI2HEw6-6kfAdumvZYvjqXdX-STs-r_lx9nPO-fU1tLRG6CPbtkHhSPmfLyjJ2-hhrXwuvzsIJMgEnThpqwZ0q_TU54LgwVW0-oGeRHsoAMTsjdUeXUUcBYxmaeiH8v1e70saHlOK-9rmdlgb"
 
 # Only include these columns in the Parquet file.
 COLUMNS = [
