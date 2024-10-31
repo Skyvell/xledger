@@ -39,6 +39,10 @@ NODE_FIELDS = """
             description
         }
     }
+    employmentGroup {
+        description
+        code
+    }
     contact {
         firstName
         lastName
