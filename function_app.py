@@ -17,6 +17,8 @@ from functions.project_cost_setups.get_project_cost_setups import bp as project_
 from functions.project_managers.get_project_managers import bp as project_managers_bp
 from functions.price_list.get_price_list import bp as price_list_bp
 from functions.cost_centers.get_cost_centers import bp as cost_centers_bp
+from functions.employee_groups.get_employee_groups import bp as employee_groups_bp
+from functions.employment_types.get_employment_types import bp as employment_types_bp
 
 
 # Create the function app.
@@ -47,3 +49,5 @@ app.register_blueprint(project_cost_setups_bp)
 app.register_blueprint(cost_element_per_time_type_bp)
 app.register_blueprint(project_managers_bp)
 app.register_blueprint(price_list_bp)
+app.register_blueprint(employee_groups_bp)
+app.register_blueprint(employment_types_bp)
