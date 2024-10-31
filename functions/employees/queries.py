@@ -39,7 +39,7 @@ NODE_FIELDS = """
             description
         }
     }
-    employmentGroup {
+    employeeGroup {
         description
         code
     }
@@ -89,8 +89,8 @@ COLUMN_DATA_TYPES = [
     'string',           # compensationType.code
     'string',           # employmentType.description
     'string',           # employmentType.owner.description
-    'string',           # employmentGroup.description
-    'int64',            # employmentGroup.code
+    'string',           # employeeGroup.description
+    'int64',            # employeeGroup.code
     'string',           # contact.firstName
     'string',           # contact.lastName
     'string',           # contact.birthday
