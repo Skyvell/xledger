@@ -51,17 +51,15 @@ variable "app_insights_name" {
   type        = string
 }
 
+variable "api_endpoint" {
+  description = "API endpoint URL."
+  type = string
+}
 
-# Configuration of Function App.
 variable "api_key" {
   description = "The value of the API key."
   type        = string
   sensitive   = true
-}
-
-variable "api_endpoint" {
-  description = "API endpoint URL."
-  type = string
 }
 
 variable "cost_categories_flex_link" {
@@ -86,25 +84,9 @@ variable "backend_key_name" {
   type        = string
 }
 
-
-# Configure service principal to use in pipeline.
-#variable "client_id" {
-#  description = "Client ID for Azure DevOps"
-#}
-#
-#variable "tenant_id" {
-#  description = "Tenant ID for Azure DevOps"
-#}
-#
-#variable "client_secret" {
-#  description = "Client Secret for Azure DevOps"
-#  sensitive   = true
-#}
-
 variable "org_service_url" {
   description = "Organization Service URL for Azure DevOps"
 }
-
 
 # Others.
 variable "tags" {
