@@ -25,7 +25,8 @@ stages:
         terraform plan \
           -var-file ${{ parameters.tfvarsFile }} \
           -out=$(Build.ArtifactStagingDirectory)/tfplan.binary \
-          $(for var in $(env | grep '^TF_VAR_' | awk -F '=' '{print "-var \""$1"="$2"\""}'); do echo $var; done)
+          -var "api_key=$(api_key)" \
+          -var "cost_categories_flex_link=$(cost_categories_flex_link)"
       displayName: 'Terraform Plan'
       workingDirectory: ${{ parameters.infrastructureRootFolder }}
       env:
