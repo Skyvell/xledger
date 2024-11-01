@@ -22,6 +22,8 @@ variables:
     value: 'terraform.tfvars'
   - name: deploymentEnvironment
     value: 'env01'
+  - name: TF_LOG
+    value: 'TRACE'
 
 stages:
 # Deploy infrastructure with terraform.
