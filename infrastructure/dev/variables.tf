@@ -64,6 +64,11 @@ variable "api_endpoint" {
   type = string
 }
 
+variable "cost_categories_flex_link" {
+  description = "Xledger flexlink to get cost categories from."
+  type        = string
+  sensitive   = true
+}
 
 # Backend settings.
 variable "backend_storage_account_name" {
