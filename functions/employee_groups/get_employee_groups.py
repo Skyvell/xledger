@@ -13,7 +13,7 @@ from functions.employee_groups.settings import (
 )
 
 NAME = "employee_groups"
-OUTPUT_DIR = "setups"
+OUTPUT_DIR = "employee_groups"
 
 logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
