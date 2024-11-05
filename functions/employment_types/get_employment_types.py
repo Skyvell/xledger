@@ -13,7 +13,7 @@ from functions.employment_types.settings import (
 )
 
 NAME = "employment_types"
-OUTPUT_DIR = "setups"
+OUTPUT_DIR = "employment_types"
 
 logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
