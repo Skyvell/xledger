@@ -8,8 +8,7 @@ from shared.utils.time import get_current_time_for_filename
 from shared.flex_link_reader import FlexLinkReader
 
 from functions.employee_groups.settings import (
-    COLUMN_DTYPES, 
-    FLEX_LINK
+    COLUMN_DTYPES
 )
 
 NAME = "employee_groups"
@@ -44,5 +43,5 @@ def report(myTimer: func.TimerRequest) -> None:
     flex_link_reader = FlexLinkReader()
     
     # Read data from flexlink and write to blob storage.
-    data = flex_link_reader.read_xlsx_flex_link(FLEX_LINK, COLUMN_DTYPES)
+    data = flex_link_reader.read_xlsx_flex_link(config.employee_groups_flex_link, COLUMN_DTYPES)
     data_lake_writer.write_data(f"{NAME}.parquet", data)

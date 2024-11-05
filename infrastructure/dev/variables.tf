@@ -68,6 +68,18 @@ variable "cost_categories_flex_link" {
   sensitive   = true
 }
 
+variable "employee_groups_flex_link" {
+  description = "Xledger flexlink to get employee groups from."
+  type        = string
+  sensitive   = true
+}
+
+variable "employment_types_flex_link" {
+  description = "Xledger flexlink to get employment types from."
+  type        = string
+  sensitive   = true
+}
+
 # Backend settings.
 variable "backend_storage_account_name" {
   description = "The name of the Storage Account for the backend."
