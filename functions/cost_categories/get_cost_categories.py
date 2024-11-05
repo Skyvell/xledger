@@ -12,7 +12,7 @@ from functions.cost_categories.settings import (
 )
 
 NAME = "cost_categories"
-OUTPUT_DIR = "setups"
+OUTPUT_DIR = "cost_categories"
 
 logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
