@@ -51,6 +51,11 @@ NODE_FIELDS = """
         dbId
         description
     }
+
+    projectGroup {
+        code
+        description
+    }
 """
 
 # Datatypes of the columns in the resulting pandas dataframe.
@@ -76,9 +81,10 @@ COLUMN_DATA_TYPES = [
     'string',           # glObject1.code
     'string',           # glObject1.objectKind.name
     'Int64',            # projectManager.dbId
-    'string'            # projectManager.description
+    'string',           # projectManager.description
+    'string',           # projectGroup.description
+    'Int64',            # projectGroup.code
 ]
-
 
 
 # This is the final list of columns that we want in the pandas dataframe,
