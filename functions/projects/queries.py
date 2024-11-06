@@ -53,8 +53,8 @@ NODE_FIELDS = """
     }
 
     projectGroup {
-        code
         description
+        code
     }
 """
 
