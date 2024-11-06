@@ -42,6 +42,7 @@ app.register_blueprint(wipe_storage_bp)
 app.register_blueprint(reset_state_and_wipe_storage_bp)
 
 # Flexlink functions.
+# Uncommented functions currently not in use.
 # app.register_blueprint(report_bp)
 # app.register_blueprint(cost_categories_bp)
 # app.register_blueprint(cost_centers_bp)
