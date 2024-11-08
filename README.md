@@ -60,8 +60,17 @@ Fetches a table of cost element data per time type using a Flexlink and writes i
 Go to Xledger and look for the correct endpoint for your data (*https://demo.xledger.net/GraphQL*). 
 If your data has endpoints that support deltas (e.g., timesheet_deltas, employee_deltas), you can perform both full synchronizations and synchronize changes over time. Otherwise, you can only perform a full synchronization each time the function is triggered. Once you have a query you are satisfied with in Xledger, copy the node fields and create a new function following the same template as the existing functions in the function folder. You can reuse most of the code.
 
-### Xledger Flexlink Data
-Find the table in Xledger that should be exported. Click on "Create Export Link." Choose to export the link in Excel format. If you want to use the link to filter data in the table, select "Allow Parameter Refinement." Otherwise, leave it unchecked. Copy the Flexlink and use the library code to extract and write the data to a Data Lake in Azure. See "cost_categories" as a template; the code will be almost identical. Flexlink are securely stored in variable groups in the azure devops pipeline.
+### Xledger Flexlink Data 
+Step by step:
+1. Identify the table in Xledger you want to export.
+2. Click "Create Export Link".
+3. Choose to export the link in Excel format. Parameter refinement is not currently used.
+4. Copy the Flexlink and securely store it in the azure pipeline variable group. There is one varaible group for dev and one for prod.
+5. Add the variable to ./infrastructure/{dev || prod}/variables.tf.
+6. Update ./infrastructure/{dev || prod}/main.tf to include the variable in app_settings.
+7. Update ./shared/environment_config to load the variable from the environment.
+8. Update ./templates/deploy_infrastructure.yml to deploy the app with the new variable.
+9. Write the function using existing library code. See ./function/employee_groups as template. You can copy most of the function code with a few modifications, but have to write the settings.py file.
 
 ## Xledger authentication
 API keys for the dev and prod environments are generated in an Xledger account. Administrator access is required. The demo API keys expire after 2 weeks, so the prod API key is used for both xledger-dev and xledger-prod. API keys are stored within variable groups in the Azure DevOps pipeline and are deployed as environment variable of the function app in the pipeline. Upon expiry, these keys will need to be updated to keep the app running.
