@@ -39,6 +39,12 @@ Performs a full load of all accounts receivable transaction data using the *arTr
 #### ApTransactions (Accounts Payable Transactions)
 Performs a full load of all accounts payable transaction data using the *apTransactions* endpoint. After a full data load, only new data is retrieved using a combination of the *apTransaction_deltas* and *apTransactions* endpoints. These transactions are invoices sent to Data Ductus (e.g., invoices from suppliers or travel expenses from employees).
 
+#### Employee Groups
+Fetches a table of Employee Groups from Xledger using a Flexlink and writes it to the Data lake.
+
+#### Employment Types
+Fetches a table of Employment Types from Xledger using a Flexlink and writes it to the Data lake.
+
 #### Cost Categories
 Fetches a table of cost category data from Xledger using a Flexlink and writes it to the Data Lake.
 
