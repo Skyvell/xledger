@@ -56,6 +56,13 @@ NODE_FIELDS = """
         description
         code
     }
+
+    flexiFieldsItem {
+        code2 {
+            description
+            code
+        }
+    }
 """
 
 # Datatypes of the columns in the resulting pandas dataframe.
