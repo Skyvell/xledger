@@ -61,18 +61,15 @@ Go to Xledger and look for the correct endpoint for your data (*https://demo.xle
 If your data has endpoints that support deltas (e.g., timesheet_deltas, employee_deltas), you can perform both full synchronizations and synchronize changes over time. Otherwise, you can only perform a full synchronization each time the function is triggered. Once you have a query you are satisfied with in Xledger, copy the node fields and create a new function following the same template as the existing functions in the function folder. You can reuse most of the code.
 
 ### Xledger FlexLink Data
-1. **Identify Table**: Select the table in Xledger to export.
-2. **Create Export Link**: Click "Create Export Link" and choose Excel format (no parameter refinement needed).
-3. **Store FlexLink**: Copy the FlexLink and securely save it in the Azure Pipeline Variable Group:
-   - Use separate groups for Dev and Prod.
-4. **Add Variable**: Add the variable to `./infrastructure/[dev|prod]/variables.tf`.
-5. **Update Configuration**:
-   - In `./infrastructure/[dev|prod]/main.tf`, include the variable in `app_settings`.
-   - In `./shared/environment_config`, load the variable from the environment.
-6. **Deploy Update**: Modify `./templates/deploy_infrastructure.yml` to deploy the app with the new variable.
-7. **Write the Function**: Use `./function/employee_groups` as a template to write the function:
-   - Copy and adjust the function code as needed.
-   - Create a `settings.py` file with the required configuration.
+1. Identify the table in Xledger you want to export.
+2. Click "Create Export Link".
+3. Choose to export the link in Excel format. Parameter refinement is not currently used.
+4. Copy the Flexlink and securely store it in the azure pipeline variable group. There is one variable group for dev and one for prod.
+5. Add the variable to `./infrastructure/[dev|prod]/variables.tf`.
+6. Update `./infrastructure/[dev|prod]/main.tf` to include the variable in app_settings.
+7. Update `./shared/environment_config` to load the variable from the environment.
+8. Update `./templates/deploy_infrastructure.yml` to deploy the app with the new variable.
+9. Write the function using existing library code. See `./function/employee_groups` as template. You can copy most of the function code with a few modifications, but have to write the `settings.py` file.
 
 ## Xledger authentication
 API keys for the dev and prod environments are generated in an Xledger account. Administrator access is required. The demo API keys expire after 2 weeks, so the prod API key is used for both xledger-dev and xledger-prod. API keys are stored within variable groups in the Azure DevOps pipeline and are deployed as environment variable of the function app in the pipeline. Upon expiry, these keys will need to be updated to keep the app running.
