@@ -92,7 +92,7 @@ COLUMN_DATA_TYPES = [
     'string',           # projectGroup.description
     'Int64',            # projectGroup.code
     'string',           # flexiFieldsItem.code2.description
-    'Int64',            # flexiFieldsItem.code2.code
+    'Int64'             # flexiFieldsItem.code2.code
 ]
 
 
