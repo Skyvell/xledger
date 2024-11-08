@@ -60,10 +60,7 @@ Fetches a table of cost element data per time type using a Flexlink and writes i
 Go to Xledger and look for the correct endpoint for your data (*https://demo.xledger.net/GraphQL*). 
 If your data has endpoints that support deltas (e.g., timesheet_deltas, employee_deltas), you can perform both full synchronizations and synchronize changes over time. Otherwise, you can only perform a full synchronization each time the function is triggered. Once you have a query you are satisfied with in Xledger, copy the node fields and create a new function following the same template as the existing functions in the function folder. You can reuse most of the code.
 
-### Xledger FlexLink Data Export Guide
-
-#### Steps:
-
+### Xledger FlexLink Data
 1. **Identify Table**: Select the table in Xledger to export.
 2. **Create Export Link**: Click "Create Export Link" and choose Excel format (no parameter refinement needed).
 3. **Store FlexLink**: Copy the FlexLink and securely save it in the Azure Pipeline Variable Group:
