@@ -5,7 +5,7 @@
 trigger: none
 
 variables:
-  # This group has variables needed for the service principal to authenticate with Azure
+  # This group has variables needed for the service principal to authenticate with Azure.
   - group: azure-devops-service-principal
   - group: xledger-syncronizer-dev
   - name: azureSubscription
