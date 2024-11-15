@@ -7,12 +7,12 @@ from shared.environment_config import EnvironmentConfig
 from shared.utils.time import get_current_time_for_filename
 from shared.flex_link_reader import FlexLinkReader
 
-from functions.cost_element_per_time_type.settings import (
+from functions.flexlink_functions.project_managers.settings import (
     COLUMN_DTYPES, 
     FLEX_LINK
 )
 
-NAME = "cost_element_per_time_type"
+NAME = "project_managers"
 OUTPUT_DIR = "setups"
 
 logging.basicConfig(level=logging.INFO)

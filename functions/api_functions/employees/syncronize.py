@@ -10,7 +10,7 @@ from shared.data_syncronizer import DataSynchronizer
 from shared.gql_client import GraphQLClient
 from shared.environment_config import EnvironmentConfig
 
-from functions.customers.queries import (
+from functions.api_functions.employees.queries import (
     COLUMN_DTYPES,
     GET_DELTAS,
     GET_ITEMS_AFTER_CURSOR,
@@ -18,7 +18,7 @@ from functions.customers.queries import (
 )
 
 
-NAME = "customers"
+NAME = "employees"
 logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
 

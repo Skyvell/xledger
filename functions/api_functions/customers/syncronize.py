@@ -10,7 +10,7 @@ from shared.data_syncronizer import DataSynchronizer
 from shared.gql_client import GraphQLClient
 from shared.environment_config import EnvironmentConfig
 
-from functions.timesheets.queries import (
+from functions.api_functions.customers.queries import (
     COLUMN_DTYPES,
     GET_DELTAS,
     GET_ITEMS_AFTER_CURSOR,
@@ -18,7 +18,7 @@ from functions.timesheets.queries import (
 )
 
 
-NAME = "timesheets"
+NAME = "customers"
 logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
 

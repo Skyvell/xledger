@@ -7,13 +7,12 @@ from shared.environment_config import EnvironmentConfig
 from shared.utils.time import get_current_time_for_filename
 from shared.flex_link_reader import FlexLinkReader
 
-from functions.price_list.settings import (
-    COLUMN_DTYPES, 
-    FLEX_LINK
+from functions.flexlink_functions.employee_groups.settings import (
+    COLUMN_DTYPES
 )
 
-NAME = "price_list"
-OUTPUT_DIR = "setups"
+NAME = "employee_groups"
+OUTPUT_DIR = "employee_groups"
 
 logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
@@ -44,5 +43,5 @@ def report(myTimer: func.TimerRequest) -> None:
     flex_link_reader = FlexLinkReader()
     
     # Read data from flexlink and write to blob storage.
-    data = flex_link_reader.read_xlsx_flex_link(FLEX_LINK, COLUMN_DTYPES)
+    data = flex_link_reader.read_xlsx_flex_link(config.employee_groups_flex_link, COLUMN_DTYPES)
     data_lake_writer.write_data(f"{NAME}.parquet", data)
