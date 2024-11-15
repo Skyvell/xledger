@@ -55,6 +55,10 @@ NODE_FIELDS = """
     projectGroup {
         description
         code
+        levelParent {
+            description
+            code
+        }
     }
 
     flexiFieldsItem {
@@ -91,6 +95,8 @@ COLUMN_DATA_TYPES = [
     'string',           # projectManager.description
     'string',           # projectGroup.description
     'Int64',            # projectGroup.code
+    'string',           # projectGroup.levelParent.description
+    'Int64',            # projectGroup.levelParent.code
     'string',           # flexiFieldsItem.code2.description
     'Int64'             # flexiFieldsItem.code2.code
 ]
