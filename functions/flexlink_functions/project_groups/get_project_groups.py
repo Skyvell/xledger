@@ -43,5 +43,5 @@ def report(myTimer: func.TimerRequest) -> None:
     flex_link_reader = FlexLinkReader()
     
     # Read data from flexlink and write to blob storage.
-    data = flex_link_reader.read_xlsx_flex_link(config.employee_groups_flex_link, COLUMN_DTYPES)
+    data = flex_link_reader.read_xlsx_flex_link(config.project_groups_flex_link, COLUMN_DTYPES)
     data_lake_writer.write_data(f"{NAME}.parquet", data)
