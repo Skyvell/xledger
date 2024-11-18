@@ -72,6 +72,7 @@ NODE_FIELDS = """
     exchangeRate
     invoiceAmount
     invoiceRemaining
+    bankkAccount
 """
 
 # Datatypes of the columns in the resulting pandas dataframe.
@@ -110,6 +111,7 @@ COLUMN_DATA_TYPES = [
     'float64',          # exchangeRate
     'float64',          # invoiceAmount
     'float64',          # invoiceRemaining
+    'string'            # bankAccount
 ]
 
 
