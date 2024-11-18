@@ -18,6 +18,7 @@ from functions.flexlink_functions.price_list.get_price_list import bp as price_l
 from functions.flexlink_functions.cost_centers.get_cost_centers import bp as cost_centers_bp
 from functions.flexlink_functions.employee_groups.get_employee_groups import bp as employee_groups_bp
 from functions.flexlink_functions.employment_types.get_employment_types import bp as employment_types_bp
+from functions.flexlink_functions.project_groups.get_project_groups import bp as project_groups_bp
 
 
 # Create the function app.
@@ -50,3 +51,4 @@ app.register_blueprint(reset_state_and_wipe_storage_bp)
 # app.register_blueprint(price_list_bp)
 app.register_blueprint(employee_groups_bp)
 app.register_blueprint(employment_types_bp)
+app.register_blueprint(project_groups_bp)
