@@ -58,6 +58,14 @@ NODE_FIELDS = """
         levelParent {
             description
             code
+            levelParent {
+                description
+                code
+                levelParent {
+                    description
+                    code
+                }
+            }
         }
     }
 
@@ -97,6 +105,10 @@ COLUMN_DATA_TYPES = [
     'Int64',            # projectGroup.code
     'string',           # projectGroup.levelParent.description
     'Int64',            # projectGroup.levelParent.code
+    'string',           # projectGroup.levelParent.levelParent.description
+    'Int64',            # projectGroup.levelParent.levelParent.code
+    'string',           # projectGroup.levelParent.levelParent.levelParent.description
+    'Int64',            # projectGroup.levelParent.levelParent.levelParent.code
     'string',           # flexiFieldsItem.code2.description
     'Int64'             # flexiFieldsItem.code2.code
 ]
