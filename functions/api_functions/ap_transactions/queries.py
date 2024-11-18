@@ -72,7 +72,7 @@ NODE_FIELDS = """
     exchangeRate
     invoiceAmount
     invoiceRemaining
-    bankkAccount
+    bankAccount
 """
 
 # Datatypes of the columns in the resulting pandas dataframe.
