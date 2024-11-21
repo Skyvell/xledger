@@ -56,11 +56,11 @@ NODE_FIELDS = """
       code
     }
     taxAmount
-    trProcessLevel {
-      name
-    }
     header {
       postedDate
+      trProcessLevel {
+        name
+      }
     }
     period {
       description
