@@ -56,6 +56,18 @@ NODE_FIELDS = """
       code
     }
     taxAmount
+    trProcessLevel {
+      name
+    }
+    header {
+      postedDate
+    }
+    period {
+      description
+      fromDate
+      toDate  
+      monthNumber
+    }
 """
 
 
@@ -82,6 +94,12 @@ COLUMN_DATA_TYPES = [
     'string',           # taxRule.description
     'string',           # taxRule.code
     'float64'           # taxAmount
+    'string',           # trProcessLevel.name
+    'string',           # header.postedDate
+    'string',           # period.description
+    'string',           # period.fromDate
+    'string',           # period.toDate
+    'Int64',            # period.monthNumber
 ]
 
 
