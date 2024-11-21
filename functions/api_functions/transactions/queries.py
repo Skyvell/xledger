@@ -99,7 +99,7 @@ COLUMN_DATA_TYPES = [
     'string',           # period.description
     'string',           # period.fromDate
     'string',           # period.toDate
-    'Int64',            # period.monthNumber
+    'Int64'             # period.monthNumber
 ]
 
 
