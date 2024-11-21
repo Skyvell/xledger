@@ -70,7 +70,6 @@ NODE_FIELDS = """
     }
 """
 
-
 # Datatypes of the columns in the resulting pandas dataframe.
 COLUMN_DATA_TYPES = [
     'Int64',            # dbId
@@ -93,8 +92,8 @@ COLUMN_DATA_TYPES = [
     'float64',          # invoiceAmount
     'string',           # taxRule.description
     'string',           # taxRule.code
-    'float64'           # taxAmount
-    'string',           # trProcessLevel.name
+    'float64',          # taxAmount
+    'string',           # header.trProcessLevel.name
     'string',           # header.postedDate
     'string',           # period.description
     'string',           # period.fromDate
