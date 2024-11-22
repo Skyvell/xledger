@@ -61,6 +61,10 @@ NODE_FIELDS = """
       trProcessLevel {
         name
       }
+      transactionSource {
+        description
+        code
+      }
     }
     period {
       description
@@ -95,6 +99,8 @@ COLUMN_DATA_TYPES = [
     'float64',          # taxAmount
     'string',           # header.trProcessLevel.name
     'string',           # header.postedDate
+    'string',           # header.transactionSource.description
+    'string',           # header.transactionSource.code
     'string',           # period.description
     'string',           # period.fromDate
     'string',           # period.toDate
