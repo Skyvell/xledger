@@ -22,6 +22,7 @@ NODE_FIELDS = """
         description
         codeTranslated
       }
+      description
       descriptionTranslated
       code
     }
@@ -82,6 +83,7 @@ COLUMN_DATA_TYPES = [
     'string',           # account.accountGroup.codeTranslated
     'string',           # account.sysAccount.description
     'string',           # account.sysAccount.codeTranslated
+    'string',           # account.description
     'string',           # account.descriptionTranslated
     'string',           # account.code
     'string',           # company.description
