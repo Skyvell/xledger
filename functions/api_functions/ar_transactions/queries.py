@@ -58,7 +58,6 @@ NODE_FIELDS = """
     ledgerType {
       name
     }
-    invoiceNumber
     transactionHeader {
       postedDate
       trProcessLevel {
@@ -116,7 +115,6 @@ COLUMN_DATA_TYPES = [
     'string',           # glDimension.glObject2.code
     'string',           # glDimension.glObject2.objectKind.name
     'string',           # ledgerType.name
-    'string',           # invoiceNumber
     'string',           # transactionHeader.postedDate
     'string',           # transactionHeader.trProcessLevel.name
     'string',           # transactionHeader.transactionSource.description
