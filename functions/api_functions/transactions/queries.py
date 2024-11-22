@@ -67,6 +67,8 @@ NODE_FIELDS = """
         description
         code
       }
+      trRegNumber
+      transactionNumber
     }
     period {
       description
@@ -101,15 +103,18 @@ COLUMN_DATA_TYPES = [
     'string',           # taxRule.description
     'string',           # taxRule.code
     'float64',          # taxAmount
-    'string',           # header.trProcessLevel.name
     'string',           # header.postedDate
+    'string',           # header.trProcessLevel.name
     'string',           # header.transactionSource.description
     'string',           # header.transactionSource.code
+    'Int64',            # header.trRegNumber
+    'Int64',            # header.transactionNumber
     'string',           # period.description
     'string',           # period.fromDate
     'string',           # period.toDate
     'Int64'             # period.monthNumber
 ]
+
 
 
 # This is the final list of columns that we want in the pandas dataframe,

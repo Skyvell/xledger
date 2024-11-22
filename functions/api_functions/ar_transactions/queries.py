@@ -59,9 +59,24 @@ NODE_FIELDS = """
       name
     }
     invoiceNumber
+    transactionHeader {
+      postedDate
+      trProcessLevel {
+        name
+      }
+      transactionSource {
+        description
+        code
+      }
+      trRegNumber
+      transactionNumber
+    }
     period {
       description
       fiscalYear
+      fromDate
+      toDate
+      monthNumber
     }
     invoiceDate
     dueDate
@@ -72,9 +87,10 @@ NODE_FIELDS = """
     exchangeRate
     invoiceAmount
     invoiceRemaining
+    bankAccount
 """
 
-# Datatypes of the columns in the resulting pandas dataframe.
+# Updated datatypes of the columns in the resulting pandas dataframe.
 COLUMN_DATA_TYPES = [
     'Int64',            # dbId
     'string',           # owner.description
@@ -101,8 +117,17 @@ COLUMN_DATA_TYPES = [
     'string',           # glDimension.glObject2.objectKind.name
     'string',           # ledgerType.name
     'string',           # invoiceNumber
+    'string',           # transactionHeader.postedDate
+    'string',           # transactionHeader.trProcessLevel.name
+    'string',           # transactionHeader.transactionSource.description
+    'string',           # transactionHeader.transactionSource.code
+    'Int64',            # transactionHeader.trRegNumber
+    'string',           # transactionHeader.transactionNumber
     'string',           # period.description
     'Int64',            # period.fiscalYear
+    'string',           # period.fromDate
+    'string',           # period.toDate
+    'Int64',            # period.monthNumber
     'string',           # invoiceDate
     'string',           # dueDate
     'string',           # paymentDate
@@ -110,6 +135,7 @@ COLUMN_DATA_TYPES = [
     'float64',          # exchangeRate
     'float64',          # invoiceAmount
     'float64',          # invoiceRemaining
+    'string'            # bankAccount
 ]
 
 
