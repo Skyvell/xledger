@@ -10,6 +10,7 @@ DELTAS_QUERY_NAME = "transaction_deltas"
 # This way we only need to add/remove fields in one place.
 NODE_FIELDS = """
     dbId
+    text
     owner {
       description
     }
@@ -78,6 +79,7 @@ NODE_FIELDS = """
 # Datatypes of the columns in the resulting pandas dataframe.
 COLUMN_DATA_TYPES = [
     'Int64',            # dbId
+    'string',           # text
     'string',           # owner.description
     'string',           # account.accountGroup.description
     'string',           # account.accountGroup.codeTranslated
