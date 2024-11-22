@@ -58,7 +58,9 @@ NODE_FIELDS = """
     ledgerType {
       name
     }
-    invoiceNumber
+    transactionHeader {
+      trRegNumber
+    }
     period {
       description
       fiscalYear
@@ -101,7 +103,7 @@ COLUMN_DATA_TYPES = [
     'string',           # glDimension.glObject2.code
     'string',           # glDimension.glObject2.objectKind.name
     'string',           # ledgerType.name
-    'string',           # invoiceNumber
+    'Int64',            # transactionHeader.trRegNumber
     'string',           # period.description
     'Int64',            # period.fiscalYear
     'string',           # invoiceDate
