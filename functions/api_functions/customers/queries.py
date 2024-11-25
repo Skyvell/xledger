@@ -44,6 +44,12 @@ NODE_FIELDS = """
         dbId
         description
     }
+    accountsPayableAccount {
+        accountGroup {
+            description
+            code
+        }
+    }
 """
 
 # Datatypes of the columns in the resulting pandas dataframe.
@@ -71,8 +77,11 @@ COLUMN_DATA_TYPES = [
     'string',           # company.email
     'string',           # company.phone
     'Int64',            # subledgerGroup.dbId
-    'string'            # subledgerGroup.description
+    'string',           # subledgerGroup.description
+    'string',           # accountsPayableAccount.accountGroup.description
+    'string'            # accountsPayableAccount.accountGroup.code
 ]
+
 
 # This is the final list of columns that we want in the pandas dataframe,
 # and the resulting parquet file.
