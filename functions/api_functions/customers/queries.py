@@ -45,6 +45,8 @@ NODE_FIELDS = """
         description
     }
     accountsPayableAccount {
+        description
+        code
         accountGroup {
             description
             code
@@ -78,8 +80,10 @@ COLUMN_DATA_TYPES = [
     'string',           # company.phone
     'Int64',            # subledgerGroup.dbId
     'string',           # subledgerGroup.description
+    'string',           # accountsPayableAccount.description
+    'Int64',            # accountsPayableAccount.code
     'string',           # accountsPayableAccount.accountGroup.description
-    'string'            # accountsPayableAccount.accountGroup.code
+    'Int64'             # accountsPayableAccount.accountGroup.code
 ]
 
 
