@@ -84,6 +84,7 @@ NODE_FIELDS = """
       code
     }
     exchangeRate
+    amount
     invoiceAmount
     invoiceRemaining
     bankAccount
@@ -131,6 +132,7 @@ COLUMN_DATA_TYPES = [
     'string',           # paymentDate
     'string',           # currency.code
     'float64',          # exchangeRate
+    'float64',          # amount
     'float64',          # invoiceAmount
     'float64',          # invoiceRemaining
     'string'            # bankAccount

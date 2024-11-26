@@ -52,6 +52,7 @@ NODE_FIELDS = """
     currency {
       code
     }
+    amount
     invoiceAmount
     taxRule {
       description
@@ -99,6 +100,7 @@ COLUMN_DATA_TYPES = [
     'string',           # glDimension.glObject2.code
     'string',           # glDimension.glObject2.objectKind.name
     'string',           # currency.code
+    'float64',          # amount
     'float64',          # invoiceAmount
     'string',           # taxRule.description
     'string',           # taxRule.code
