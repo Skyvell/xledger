@@ -35,11 +35,11 @@ app.register_blueprint(suppliers_bp)
 app.register_blueprint(ap_transactions_bp)
 app.register_blueprint(ar_transactions_bp)
 app.register_blueprint(transactions_bp)
-#
+
 ## Cleanup functions.
-#app.register_blueprint(reset_state_bp)
-#app.register_blueprint(wipe_storage_bp)
-#app.register_blueprint(reset_state_and_wipe_storage_bp)
+app.register_blueprint(reset_state_bp)
+app.register_blueprint(wipe_storage_bp)
+app.register_blueprint(reset_state_and_wipe_storage_bp)
 #
 ## Flexlink functions.
 ## Uncommented functions currently not in use.
@@ -49,6 +49,6 @@ app.register_blueprint(transactions_bp)
 ## app.register_blueprint(cost_element_per_time_type_bp)
 ## app.register_blueprint(project_managers_bp)
 ## app.register_blueprint(price_list_bp)
-#app.register_blueprint(employee_groups_bp)
-#app.register_blueprint(employment_types_bp)
-#app.register_blueprint(project_groups_bp)
+app.register_blueprint(employee_groups_bp)
+app.register_blueprint(employment_types_bp)
+app.register_blueprint(project_groups_bp)
