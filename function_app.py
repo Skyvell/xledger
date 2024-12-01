@@ -32,7 +32,7 @@ app = func.FunctionApp()
 #app.register_blueprint(employees_bp)
 #app.register_blueprint(projects_bp)
 #app.register_blueprint(suppliers_bp)
-#app.register_blueprint(ap_transactions_bp)
+app.register_blueprint(ap_transactions_bp)
 #app.register_blueprint(ar_transactions_bp)
 #app.register_blueprint(transactions_bp)
 #
