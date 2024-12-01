@@ -117,10 +117,6 @@ GET_ITEMS_FROM_DBIDS = gql(f"""
     }}
 """)
 
-
-def generate_gql_query(query_name: str, node_fields: str, arguments: dict) -> gql:
-    pass
-
 GET_ITEMS_AFTER_CURSOR = gql(f"""
     query get_{ITEMS_QUERY_NAME}($first: Int, $after: String) {{
         {ITEMS_QUERY_NAME}(

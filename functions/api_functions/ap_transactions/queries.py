@@ -148,7 +148,7 @@ COLUMN_DTYPES = dict(zip(COLUMNS, COLUMN_DATA_TYPES))
 
 
 GET_ITEMS_FROM_DBIDS = gql(f"""
-    query get_{ITEMS_QUERY_NAME}($first: Int, $after: String, ownerSet: OwnerSet, $dbIdList: [Int!]) {{
+    query get_{ITEMS_QUERY_NAME}($first: Int, $after: String, $ownerSet: OwnerSet, $dbIdList: [Int!]) {{
         {ITEMS_QUERY_NAME}(
             first: $first,
             after: $after,
@@ -172,7 +172,7 @@ GET_ITEMS_FROM_DBIDS = gql(f"""
 
 
 GET_ITEMS_AFTER_CURSOR = gql(f"""
-    query get_{ITEMS_QUERY_NAME}($first: Int, $after: String, ownerSet: OwnerSet) {{
+    query get_{ITEMS_QUERY_NAME}($first: Int, $after: String, $ownerSet: OwnerSet) {{
         {ITEMS_QUERY_NAME}(
             first: $first,
             after: $after,
@@ -193,7 +193,7 @@ GET_ITEMS_AFTER_CURSOR = gql(f"""
 
 
 GET_DELTAS = gql(f"""
-    query get_{DELTAS_QUERY_NAME}($first: Int, $last: Int, $after: String, ownerSet: OwnerSet) {{
+    query get_{DELTAS_QUERY_NAME}($first: Int, $last: Int, $after: String, $ownerSet: OwnerSet) {{
         {DELTAS_QUERY_NAME}(
             first: $first,
             last: $last, 
