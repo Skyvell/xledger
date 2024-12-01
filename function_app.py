@@ -27,14 +27,14 @@ app = func.FunctionApp()
 # Register all the functions below here for the app.
 
 ## API Syncronization functions.
-#app.register_blueprint(timesheets_bp)
-#app.register_blueprint(customers_bp)
-#app.register_blueprint(employees_bp)
-#app.register_blueprint(projects_bp)
-#app.register_blueprint(suppliers_bp)
+app.register_blueprint(timesheets_bp)
+app.register_blueprint(customers_bp)
+app.register_blueprint(employees_bp)
+app.register_blueprint(projects_bp)
+app.register_blueprint(suppliers_bp)
 app.register_blueprint(ap_transactions_bp)
-#app.register_blueprint(ar_transactions_bp)
-#app.register_blueprint(transactions_bp)
+app.register_blueprint(ar_transactions_bp)
+app.register_blueprint(transactions_bp)
 #
 ## Cleanup functions.
 #app.register_blueprint(reset_state_bp)
