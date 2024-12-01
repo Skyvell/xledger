@@ -115,7 +115,7 @@ class ItemFetcher:
         Returns:
         ItemsResult: The result of the fetched items.
         """
-        variables = {"first": first, "after": after, ownerSet: ownerSet}
+        variables = {"first": first, "after": after, "ownerSet": ownerSet}
         query_result = self._execute_paginated_query(self.query_by_cursor, variables)
         return ItemsResult(query_result.get_nodes(), query_result.get_last_cursor())
 
