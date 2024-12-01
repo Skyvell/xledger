@@ -85,7 +85,7 @@ class ItemFetcher:
         self.query_by_dbids = query_by_dbids
         self.query_by_cursor = query_by_cursor
 
-    def fetch_items_by_ids(self, db_ids: List[str], first: int = 10000) -> ItemsResult:
+    def fetch_items_by_ids(self, db_ids: List[str], first: int = 10000, ownerSet: str = "MINE") -> ItemsResult:
         """
         Fetch items by their dbIds.
 
@@ -99,12 +99,12 @@ class ItemFetcher:
         if not db_ids:
             return ItemsResult([], None)
         
-        variables = {"first": first, "dbIdList": db_ids}
+        variables = {"first": first, "dbIdList": db_ids, "ownerSet": ownerSet}
         query_result = self._execute_paginated_query(self.query_by_dbids, variables)
 
         return ItemsResult(query_result.get_nodes(), query_result.get_last_cursor())
 
-    def fetch_all_items_after_cursor(self, after: str = None, first: int = 10000) -> ItemsResult:
+    def fetch_all_items_after_cursor(self, after: str = None, first: int = 10000, ownerSet: str = "MINE") -> ItemsResult:
         """
         Fetch all items after a given cursor.
 
@@ -115,7 +115,7 @@ class ItemFetcher:
         Returns:
         ItemsResult: The result of the fetched items.
         """
-        variables = {"first": first, "after": after}
+        variables = {"first": first, "after": after, ownerSet: ownerSet}
         query_result = self._execute_paginated_query(self.query_by_cursor, variables)
         return ItemsResult(query_result.get_nodes(), query_result.get_last_cursor())
 

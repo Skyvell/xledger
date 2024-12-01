@@ -87,7 +87,7 @@ class DataSynchronizer:
         # Get the last delta.
         deltas = None
         if self.delta_fetcher:
-            deltas = self.delta_fetcher.fetch_deltas({"last": 1})
+            deltas = self.delta_fetcher.fetch_deltas({"last": 1, "ownerSet": "MINE"})
         
         # Fetch all items.
         items = self.item_fetcher.fetch_all_items_after_cursor(first=10000)
@@ -116,7 +116,7 @@ class DataSynchronizer:
         Synchronize only the changes (additions, updates, deletions) since the last synchronization.
         """
         # Get all deltas since last sync.
-        deltas = self.delta_fetcher.fetch_deltas({"first": 10000, "after": self.state_manager.deltas_cursor})
+        deltas = self.delta_fetcher.fetch_deltas({"first": 10000, "after": self.state_manager.deltas_cursor, "ownerSet": "MINE"})
 
         # No new changes found -> return.
         if not deltas.has_changes():
