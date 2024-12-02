@@ -15,6 +15,10 @@ NODE_FIELDS = """
     email
     code
     number
+    owner {
+        description
+        ownerCode
+    }
     company {
         dbId
         description
@@ -61,6 +65,8 @@ COLUMN_DATA_TYPES = [
     'string',           # email
     'string',           # code
     'Int64',            # number
+    'string',           # owner.description
+    'Int64',            # owner.ownerCode
     'Int64',            # company.dbId
     'string',           # company.description
     'string',           # company.companyNumber

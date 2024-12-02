@@ -19,6 +19,11 @@ NODE_FIELDS = """
     shortInternalInfo
     yourReference
 
+    owner {
+        description
+        ownerCode
+    }
+
     customer {
         dbId
         description
@@ -86,6 +91,8 @@ COLUMN_DATA_TYPES = [
     'string',           # shortInfo
     'string',           # shortInternalInfo
     'string',           # yourReference
+    'string',           # owner.description
+    'Int64',            # owner.ownerCode
     'Int64',            # customer.dbId
     'string',           # customer.description
     'string',           # customer.email

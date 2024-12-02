@@ -13,6 +13,7 @@ NODE_FIELDS = """
     dbId
     owner {
       description
+      ownerCode
     }
     company {
       description
@@ -94,6 +95,7 @@ NODE_FIELDS = """
 COLUMN_DATA_TYPES = [
     'Int64',            # dbId
     'string',           # owner.description
+    'Int64',            # owner.ownerCode
     'string',           # company.description
     'string',           # company.phone
     'string',           # company.email

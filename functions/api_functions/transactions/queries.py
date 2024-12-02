@@ -13,6 +13,7 @@ NODE_FIELDS = """
     text
     owner {
       description
+      ownerCode
     }
     account {
       accountGroup {
@@ -84,6 +85,7 @@ COLUMN_DATA_TYPES = [
     'Int64',            # dbId
     'string',           # text
     'string',           # owner.description
+    'Int64',            # owner.ownerCode
     'string',           # account.accountGroup.description
     'string',           # account.accountGroup.codeTranslated
     'string',           # account.sysAccount.description

@@ -18,6 +18,10 @@ NODE_FIELDS = """
     modifiedAt
     employmentFrom
     employmentTo
+    owner {
+        description
+        ownerCode
+    }
     positionValue {
         dbId
         description
@@ -79,6 +83,8 @@ COLUMN_DATA_TYPES = [
     'string',           # modifiedAt
     'string',           # employmentFrom
     'string',           # employmentTo
+    'string',           # owner.description
+    'Int64',            # owner.ownerCode
     'Int64',            # positionValue.dbId
     'string',           # positionValue.description
     'string',           # positionValue.code
