@@ -8,7 +8,7 @@ app_service_plan_name             = "xledeger-syncronizer-asp-prod"
 function_app_storage_account_name = "syncronizerstorageprod"
 app_config_name                   = "xledger-syncronizer-statemanager-prod"
 data_storage_account_name         = "ddbistorage"
-data_storage_container_name       = "xledger-prod"
+data_storage_container_name       = "xledger-dev"
 app_configuration_name            = "xledger-syncronizer-state-prod"
 app_insights_name                 = "xledger-syncronizer-ai-prod"
 
