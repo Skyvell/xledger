@@ -101,32 +101,6 @@ GET_ITEMS_FROM_DBIDS = gql(f"""
     }}
 """)
 
-def generate_gql_query(query_name: str, variables: dict, node_fields: str, column_data_types: list):
-    gql_query = gql(f"""
-        query get_{query_name}($first: Int, $last: Int, $after: String, $ownerSet: OwnerSet) {{
-            {query_name}(
-                first: $first,
-                last: $last,
-                after: $after,
-                ownerSet: $ownerSet
-            ) {{
-                edges {{
-                    node {{
-                        {node_fields}
-                    }}
-                    cursor
-                }}
-                pageInfo {{
-                    hasNextPage
-                }}
-            }}
-        }}
-    """)
-
-    return gql_query
-    
-
-
 
 GET_ITEMS_AFTER_CURSOR = gql(f"""
     query get_{ITEMS_QUERY_NAME}($first: Int, $after: String, $ownerSet: OwnerSet) {{
