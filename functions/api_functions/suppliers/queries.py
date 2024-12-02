@@ -17,6 +17,10 @@ NODE_FIELDS = """
     phone
     bankAccount
     notes
+    owner {
+        description
+        ownerCode
+    }
     company {
         dbId
         companyNumber
@@ -47,6 +51,8 @@ COLUMN_DATA_TYPES = [
     'string',           # phone
     'string',           # bankAccount
     'string',           # notes
+    'string',           # owner.description
+    'Int64',            # owner.ownerCode
     'Int64',            # company.dbId
     'string',           # company.companyNumber
     'Int64',            # subledgerGroup.dbId
