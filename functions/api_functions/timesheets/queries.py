@@ -83,7 +83,8 @@ GET_ITEMS_FROM_DBIDS = gql(f"""
     query get_{ITEMS_QUERY_NAME}($first: Int, $after: String, $ownerSet: OwnerSet, $dbIdList: [Int64String!]) {{
         {ITEMS_QUERY_NAME}(
             first: $first,
-            after: $after, 
+            after: $after,
+            ownerSet: $ownerSet
             filter: {{ 
                 dbId_in: $dbIdList
             }}
