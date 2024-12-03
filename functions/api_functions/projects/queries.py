@@ -74,6 +74,11 @@ NODE_FIELDS = """
         }
     }
 
+    projectOwner {
+        description
+        ownerCode
+    }
+
     flexiFieldsItem {
         code2 {
             description
@@ -116,6 +121,8 @@ COLUMN_DATA_TYPES = [
     'Int64',            # projectGroup.levelParent.levelParent.code
     'string',           # projectGroup.levelParent.levelParent.levelParent.description
     'Int64',            # projectGroup.levelParent.levelParent.levelParent.code
+    'string',           # projectOwner.description
+    'Int64',            # projectOwner.ownerCode
     'string',           # flexiFieldsItem.code2.description
     'Int64'             # flexiFieldsItem.code2.code
 ]
