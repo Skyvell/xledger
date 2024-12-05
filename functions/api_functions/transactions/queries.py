@@ -43,6 +43,7 @@ NODE_FIELDS = """
         }
       }
       glObject2 {
+        dbId
         description
         code
         objectKind {
@@ -98,6 +99,7 @@ COLUMN_DATA_TYPES = [
     'string',           # glDimension.glObject1.description
     'string',           # glDimension.glObject1.code
     'string',           # glDimension.glObject1.objectKind.name
+    'Int64',            # glDimension.glObject2.dbId
     'string',           # glDimension.glObject2.description
     'string',           # glDimension.glObject2.code
     'string',           # glDimension.glObject2.objectKind.name
