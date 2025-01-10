@@ -74,6 +74,12 @@ NODE_FIELDS = """
     superior {
         description
     }
+    flexiFieldsItem {
+        code1 {
+            description
+            code
+        }
+    }
 """
 
 # Datatypes of the columns in the resulting pandas dataframe.
@@ -115,7 +121,9 @@ COLUMN_DATA_TYPES = [
     'string',           # glObject1.description
     'string',           # glObject1.code
     'string',           # glObject1.id
-    'string'            # superior.description
+    'string',            # superior.description
+    'string',           # flexiFieldsItem.code1.description
+    'string',           # flexiFieldsItem.code1.code
 ]
 
 
