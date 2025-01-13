@@ -121,7 +121,7 @@ COLUMN_DATA_TYPES = [
     'string',           # glObject1.description
     'string',           # glObject1.code
     'string',           # glObject1.id
-    'string',            # superior.description
+    'string',           # superior.description
     'string',           # flexiFieldsItem.code1.description
     'string',           # flexiFieldsItem.code1.code
 ]
