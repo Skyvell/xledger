@@ -85,6 +85,12 @@ variable "project_groups_flex_link" {
   sensitive   = true
 }
 
+variable "generator_report_flex_link" {
+  description = "Xledger flexlink to get generator report from."
+  type        = string
+  sensitive   = true
+}
+
 # Backend settings.
 variable "backend_storage_account_name" {
   description = "The name of the Storage Account for the backend."

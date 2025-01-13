@@ -73,7 +73,8 @@ resource "azurerm_linux_function_app" "function_app" {
     "COST_CATEGORIES_FLEX_LINK"   = var.cost_categories_flex_link,
     "EMPLOYEE_GROUPS_FLEX_LINK"   = var.employee_groups_flex_link,
     "EMPLOYMENT_TYPES_FLEX_LINK"  = var.employment_types_flex_link,
-    "PROJECT_GROUPS_FLEX_LINK"    = var.project_groups_flex_link
+    "PROJECT_GROUPS_FLEX_LINK"    = var.project_groups_flex_link,
+    "GENERATOR_REPORT_FLEX_LINK"  = var.generator_report_flex_link
   }
 }
 

@@ -31,6 +31,7 @@ class EnvironmentConfig:
         self.employee_groups_flex_link = self.get_env_variable("EMPLOYEE_GROUPS_FLEX_LINK")
         self.emploment_types_flex_link = self.get_env_variable("EMPLOYMENT_TYPES_FLEX_LINK")
         self.project_groups_flex_link = self.get_env_variable("PROJECT_GROUPS_FLEX_LINK")
+        self.generator_report_flex_link = self.get_env_variable("GENERATOR_REPORT_FLEX_LINK")
 
     @staticmethod
     def get_env_variable(var_name: str) -> str:
