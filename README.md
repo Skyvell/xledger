@@ -70,6 +70,7 @@ If your data has endpoints that support deltas (e.g., timesheet_deltas, employee
 7. Update `./shared/environment_config` to load the variable from the environment.
 8. Update `./templates/deploy_infrastructure.yml` to deploy the app with the new variable.
 9. Write the function using existing library code. See `./function/employee_groups` as template. You can copy most of the function code with a few modifications, but have to write the `settings.py` file.
+10. Register the function in `function_app.py`.
 
 ## Xledger authentication
 API keys for the dev and prod environments are generated in an Xledger account. Administrator access is required. The demo API keys expire after 2 weeks, so the prod API key is used for both xledger-dev and xledger-prod. The API keys from Prod are copied over to demo every 2 weeks along with all other Xledger data. API keys are stored within variable groups in the Azure DevOps pipeline and are deployed as environment variable of the function app in the pipeline. Upon expiry, these keys will need to be updated to keep the app running.
