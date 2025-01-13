@@ -7,7 +7,7 @@ from shared.environment_config import EnvironmentConfig
 from shared.utils.time import get_current_time_for_filename
 from shared.flex_link_reader import FlexLinkReader
 
-from functions.flexlink_functions.employee_groups.settings import (
+from functions.flexlink_functions.generator_report.settings import (
     COLUMN_DTYPES
 )
 
