@@ -43,5 +43,11 @@ def report(myTimer: func.TimerRequest) -> None:
     flex_link_reader = FlexLinkReader()
     
     # Read data from flexlink and write to blob storage.
-    data = flex_link_reader.read_xlsx_flex_link(config.generator_report_flex_link, COLUMN_DTYPES)
+    query_params = {
+        "r_period-er": 6171,
+
+        # Will exclude accounts that are balance accounts.
+        "rv_account_group-nbt": "4558532,4559413"
+    }
+    data = flex_link_reader.read_xlsx_flex_link(config.generator_report_flex_link, COLUMN_DTYPES, query_params)
     data_lake_writer.write_data(f"{NAME}.parquet", data)
