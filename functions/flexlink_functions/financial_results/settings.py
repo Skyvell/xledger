@@ -2,7 +2,7 @@
 COLUMNS = [
     "Owner",
     "Account",
-    "Cost Center Combined",
+    "Cost Center",
     "Period",
     "Amount"
 ]
