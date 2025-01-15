@@ -19,7 +19,7 @@ from functions.flexlink_functions.cost_centers.get_cost_centers import bp as cos
 from functions.flexlink_functions.employee_groups.get_employee_groups import bp as employee_groups_bp
 from functions.flexlink_functions.employment_types.get_employment_types import bp as employment_types_bp
 from functions.flexlink_functions.project_groups.get_project_groups import bp as project_groups_bp
-from functions.flexlink_functions.generator_report.get_generator_report import bp as generator_report_bp
+from functions.flexlink_functions.financial_results.get_financial_results import bp as financial_results_bp
 
 
 # Create the function app.
@@ -53,4 +53,4 @@ app.register_blueprint(reset_state_and_wipe_storage_bp)
 app.register_blueprint(employee_groups_bp)
 app.register_blueprint(employment_types_bp)
 app.register_blueprint(project_groups_bp)
-app.register_blueprint(generator_report_bp)
+app.register_blueprint(financial_results_bp)

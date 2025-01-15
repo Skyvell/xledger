@@ -7,12 +7,12 @@ from shared.environment_config import EnvironmentConfig
 from shared.utils.time import get_current_time_for_filename
 from shared.flex_link_reader import FlexLinkReader
 
-from functions.flexlink_functions.generator_report.settings import (
+from functions.flexlink_functions.financial_results.settings import (
     COLUMN_DTYPES
 )
 
-NAME = "generator_report"
-OUTPUT_DIR = "generator_reports"
+NAME = "financial_results"
+OUTPUT_DIR = "financial_results"
 
 logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
