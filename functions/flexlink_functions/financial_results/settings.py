@@ -14,9 +14,9 @@ COLUMNS = [
 COLUMN_DATA_TYPES = [
     "string",
     "string",
-    "int64",
+    "Int64",
     "string",
-    "int64",
+    "Int64",
     "string",
     "float64",
     "float64"
