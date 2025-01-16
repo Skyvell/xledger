@@ -4,7 +4,10 @@ from azure.identity import DefaultAzureCredential
 
 from shared.data_lake_writer import DataLakeWriter
 from shared.environment_config import EnvironmentConfig
-from shared.utils.time import get_current_time_for_filename
+from shared.utils.time import (
+    get_current_time_for_filename,
+    get_previous_month_yy_mm
+)
 from shared.flex_link_reader import FlexLinkReader
 
 from functions.flexlink_functions.financial_results.settings import (
@@ -42,6 +45,9 @@ def report(myTimer: func.TimerRequest) -> None:
     # Initialize FlexLinkReader.
     flex_link_reader = FlexLinkReader()
     
+    # Function should get data from the previous month.
+    month_year = get_previous_month_yy_mm()
+
     # Read data from flexlink and write to blob storage.
     query_params = {
         "r_period-er": 6171,
@@ -50,4 +56,4 @@ def report(myTimer: func.TimerRequest) -> None:
         "rv_account_group-nbt": "4558532,4559413"
     }
     data = flex_link_reader.read_xlsx_flex_link(config.generator_report_flex_link, COLUMN_DTYPES, query_params)
-    data_lake_writer.write_data(f"{NAME}.parquet", data)
+    data_lake_writer.write_data(f"{month_year}-{NAME}.parquet", data)
