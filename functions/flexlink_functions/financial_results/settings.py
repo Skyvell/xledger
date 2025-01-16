@@ -27,7 +27,7 @@ COLUMN_DTYPES = dict(zip(COLUMNS, COLUMN_DATA_TYPES))
 
 # Maps the year and month (yymm) to the key used to get financial data for that period.
 # Extracted from xledger Period table. 
-YEAR_MONTH_TO_KEY = {
+YYMM_TO_PK = {
     2300: 5904,
     2301: 5905,
     2302: 5906,

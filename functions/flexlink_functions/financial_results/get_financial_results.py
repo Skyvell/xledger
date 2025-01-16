@@ -10,7 +10,8 @@ from shared.utils.time import (
 from shared.flex_link_reader import FlexLinkReader
 
 from functions.flexlink_functions.financial_results.settings import (
-    COLUMN_DTYPES
+    COLUMN_DTYPES,
+    YYMM_TO_PK
 )
 
 NAME = "financial_results"
@@ -49,7 +50,7 @@ def report(myTimer: func.TimerRequest) -> None:
 
     # Read data from flexlink and write to blob storage.
     query_params = {
-        "r_period-er": year_month,
+        "r_period-er": YYMM_TO_PK[year_month],
 
         # Will exclude accounts that are balance accounts.
         "rv_account_group-nbt": "4558532,4559413"
