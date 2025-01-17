@@ -25,7 +25,7 @@ def scheduled_report(myTimer: func.TimerRequest) -> None:
     process_financial_results(year_month)
 
 @bp.function_name(f"manual_trigger_get_{NAME}")
-@bp.route(route=f"trigger-{NAME}", methods=["POST"])
+@bp.route(route=f"trigger-{NAME}", methods=["POST"], auth_level=func.AuthLevel.ADMIN)
 def manual_trigger(req: func.HttpRequest) -> func.HttpResponse:
     """
     Manual HTTP trigger to process financial results for a specific month.
