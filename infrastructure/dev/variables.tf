@@ -85,8 +85,8 @@ variable "project_groups_flex_link" {
   sensitive   = true
 }
 
-variable "generator_report_flex_link" {
-  description = "Xledger flexlink to get generator report from."
+variable "financial_results_flex_link" {
+  description = "Xledger flexlink to get financial results from."
   type        = string
   sensitive   = true
 }

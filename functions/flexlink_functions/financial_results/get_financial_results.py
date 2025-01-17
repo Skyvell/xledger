@@ -4,9 +4,7 @@ from azure.identity import DefaultAzureCredential
 
 from shared.data_lake_writer import DataLakeWriter
 from shared.environment_config import EnvironmentConfig
-from shared.utils.time import (
-    get_previous_month_yy_mm
-)
+from shared.utils.time import get_previous_month_yy_mm
 from shared.flex_link_reader import FlexLinkReader
 
 from functions.flexlink_functions.financial_results.settings import (
@@ -55,5 +53,5 @@ def report(myTimer: func.TimerRequest) -> None:
         # Will exclude accounts that are balance accounts.
         "rv_account_group-nbt": "4558532,4559413"
     }
-    data = flex_link_reader.read_xlsx_flex_link(config.generator_report_flex_link, COLUMN_DTYPES, query_params)
+    data = flex_link_reader.read_xlsx_flex_link(config.financial_results_flex_link, COLUMN_DTYPES, query_params)
     data_lake_writer.write_data(f"{year_month}-{NAME}.parquet", data)
