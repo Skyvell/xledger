@@ -9,6 +9,8 @@ from functions.flexlink_functions.financial_results.settings import (
     COLUMN_DTYPES,
     YYMM_TO_PK,
 )
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 NAME = "financial_results"
 OUTPUT_DIR = "financial_results"
@@ -29,7 +31,7 @@ def scheduled_financial_results_midnight(myTimer: func.TimerRequest) -> None:
 @bp.schedule(schedule="0 30 12 * * *", arg_name="myTimer", run_on_startup=False, use_monitor=False)
 def scheduled_financial_results_noon(myTimer: func.TimerRequest) -> None:
     """Scheduled execution for retrieving financial results at 12:30 PM."""
-    if not is_between_days(myTimer.past_due, 7, 15, exclude_weekend_days=True):
+    if not is_between_days(datetime.now(ZoneInfo("Europe/Stockholm")), 7, 15, exclude_weekend_days=True):
         logging.info("Skipping scheduled run as it is not a weekday.")
         return
 
