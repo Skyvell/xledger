@@ -19,7 +19,7 @@ logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
 
 @bp.function_name(f"get_{NAME}_midnight")
-@bp.schedule(schedule="0 0 0 * * *", arg_name="myTimer", run_on_startup=False, use_monitor=False)
+@bp.schedule(schedule="0 0 0 * * *", timezone="Europe/Stockholm", arg_name="myTimer", run_on_startup=False, use_monitor=False)
 def scheduled_financial_results_midnight(myTimer: func.TimerRequest) -> None:
     """Scheduled execution for retrieving financial results."""
     year_month = int(get_previous_month_yy_mm())
@@ -28,7 +28,7 @@ def scheduled_financial_results_midnight(myTimer: func.TimerRequest) -> None:
 
 
 @bp.function_name(f"get_{NAME}_noon")
-@bp.schedule(schedule="0 30 12 * * *", arg_name="myTimer", run_on_startup=False, use_monitor=False)
+@bp.schedule(schedule="0 30 12 * * *", timezone="Europe/Stockholm", arg_name="myTimer", run_on_startup=False, use_monitor=False)
 def scheduled_financial_results_noon(myTimer: func.TimerRequest) -> None:
     """Scheduled execution for retrieving financial results at 12:30 PM."""
     if not is_between_days(datetime.now(ZoneInfo("Europe/Stockholm")), 7, 15, exclude_weekend_days=True):
