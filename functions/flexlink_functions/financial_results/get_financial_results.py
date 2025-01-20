@@ -18,7 +18,7 @@ bp = func.Blueprint()
 
 @bp.function_name(f"get_{NAME}_midnight")
 @bp.schedule(schedule="0 0 0 * * *", arg_name="myTimer", run_on_startup=False, use_monitor=False)
-def scheduled_report(myTimer: func.TimerRequest) -> None:
+def scheduled_financial_results_midnight(myTimer: func.TimerRequest) -> None:
     """Scheduled execution for retrieving financial results."""
     year_month = int(get_previous_month_yy_mm())
     logging.info(f"Scheduled run for month: {year_month}")
@@ -27,7 +27,7 @@ def scheduled_report(myTimer: func.TimerRequest) -> None:
 
 @bp.function_name(f"get_{NAME}_noon")
 @bp.schedule(schedule="0 30 12 * * *", arg_name="myTimer", run_on_startup=False, use_monitor=False)
-def scheduled_report(myTimer: func.TimerRequest) -> None:
+def scheduled_financial_results_noon(myTimer: func.TimerRequest) -> None:
     """Scheduled execution for retrieving financial results at 12:30 PM."""
     if not is_between_days(myTimer.past_due, 7, 15, exclude_weekend_days=True):
         logging.info("Skipping scheduled run as it is not a weekday.")
