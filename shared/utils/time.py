@@ -65,3 +65,36 @@ def get_previous_month_yy_mm():
 
     # Format year and month as YYMM.
     return f"{previous_month_date.year % 100:02}{previous_month_date.month:02}"
+
+
+def is_between_days(
+    date: datetime,
+    start_day: int,
+    end_day: int,
+    exclude_weekend_days: bool = False
+) -> bool:
+    """
+    Check if the given date is within the start and end days (inclusive) in a month,
+    optionally excluding weekends.
+
+    Args:
+        date (datetime): The date to check.
+        start_day (int): The starting day of the range.
+        end_day (int): The ending day of the range.
+        exclude_weekend_days (bool): Whether to exclude weekends in the range.
+
+    Returns:
+        bool: True if the date meets the criteria; False otherwise.
+    """
+    # Check if the date falls within the day range.
+    is_in_range = start_day <= date.day <= end_day
+
+    # Check if it's a weekend. 5 = Saturday, 6 = Sunday.
+    is_weekend = date.weekday() >= 5  
+
+    # Logic to determine if the date is valid.
+    if exclude_weekend_days:
+        return is_in_range and not is_weekend
+    else:
+        return is_in_range
+

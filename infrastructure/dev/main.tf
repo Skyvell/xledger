@@ -74,7 +74,8 @@ resource "azurerm_linux_function_app" "function_app" {
     "EMPLOYEE_GROUPS_FLEX_LINK"   = var.employee_groups_flex_link,
     "EMPLOYMENT_TYPES_FLEX_LINK"  = var.employment_types_flex_link,
     "PROJECT_GROUPS_FLEX_LINK"    = var.project_groups_flex_link,
-    "FINANCIAL_RESULTS_FLEX_LINK" = var.financial_results_flex_link
+    "FINANCIAL_RESULTS_FLEX_LINK" = var.financial_results_flex_link,
+    "WEBSITE_TIME_ZONE"           = "Central European Standard Time"
   }
 }
 

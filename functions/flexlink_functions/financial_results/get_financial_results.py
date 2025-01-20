@@ -3,7 +3,7 @@ import azure.functions as func
 from azure.identity import DefaultAzureCredential
 from shared.data_lake_writer import DataLakeWriter
 from shared.environment_config import EnvironmentConfig
-from shared.utils.time import get_previous_month_yy_mm
+from shared.utils.time import get_previous_month_yy_mm, is_between_days
 from shared.flex_link_reader import FlexLinkReader
 from functions.flexlink_functions.financial_results.settings import (
     COLUMN_DTYPES,
@@ -16,13 +16,27 @@ OUTPUT_DIR = "financial_results"
 logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
 
-@bp.function_name(f"get_{NAME}")
+@bp.function_name(f"get_{NAME}_midnight")
 @bp.schedule(schedule="0 0 0 * * *", arg_name="myTimer", run_on_startup=False, use_monitor=False)
 def scheduled_report(myTimer: func.TimerRequest) -> None:
     """Scheduled execution for retrieving financial results."""
     year_month = int(get_previous_month_yy_mm())
     logging.info(f"Scheduled run for month: {year_month}")
     process_financial_results(year_month)
+
+
+@bp.function_name(f"get_{NAME}_noon")
+@bp.schedule(schedule="0 30 12 * * *", arg_name="myTimer", run_on_startup=False, use_monitor=False)
+def scheduled_report(myTimer: func.TimerRequest) -> None:
+    """Scheduled execution for retrieving financial results at 12:30 PM."""
+    if not is_between_days(myTimer.past_due, 7, 15, exclude_weekend_days=True):
+        logging.info("Skipping scheduled run as it is not a weekday.")
+        return
+
+    year_month = int(get_previous_month_yy_mm())
+    logging.info(f"Scheduled run for month: {year_month}")
+    process_financial_results(year_month)
+
 
 @bp.function_name(f"manual_trigger_get_{NAME}")
 @bp.route(route=f"trigger-{NAME}", methods=["POST"], auth_level=func.AuthLevel.ADMIN)
@@ -72,6 +86,7 @@ def manual_trigger(req: func.HttpRequest) -> func.HttpResponse:
             "An internal server error occurred. Please contact support.",
             status_code=500
         )
+
 
 def process_financial_results(year_month: int) -> None:
     """Core logic for processing financial results."""
