@@ -32,7 +32,7 @@ resource "azurerm_service_plan" "service_plan" {
   location            = var.location
   resource_group_name = data.azurerm_resource_group.existing.name
   os_type             = "Linux"
-  sku_name            = "B1"
+  sku_name            = "B2"
 }
 
 resource "azurerm_application_insights" "application_insights" {
