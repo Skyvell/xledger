@@ -61,12 +61,6 @@ variable "api_key" {
   sensitive   = true
 }
 
-variable "cost_categories_flex_link" {
-  description = "Xledger flexlink to get cost categories from."
-  type        = string
-  sensitive   = true
-}
-
 variable "employee_groups_flex_link" {
   description = "Xledger flexlink to get employee groups from."
   type        = string

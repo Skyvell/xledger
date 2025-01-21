@@ -70,7 +70,6 @@ resource "azurerm_linux_function_app" "function_app" {
     "DATA_STORAGE_ACCOUNT_NAME"   = var.data_storage_account_name,
     "DATA_STORAGE_CONTAINER_NAME" = var.data_storage_container_name,
     "APP_CONFIG_ENDPOINT"         = azurerm_app_configuration.app_configuration.endpoint,
-    "COST_CATEGORIES_FLEX_LINK"   = var.cost_categories_flex_link,
     "EMPLOYEE_GROUPS_FLEX_LINK"   = var.employee_groups_flex_link,
     "EMPLOYMENT_TYPES_FLEX_LINK"  = var.employment_types_flex_link,
     "PROJECT_GROUPS_FLEX_LINK"    = var.project_groups_flex_link,

@@ -27,7 +27,6 @@ class EnvironmentConfig:
         self.data_storage_account = self.get_env_variable("DATA_STORAGE_ACCOUNT_NAME")
         self.data_storage_container = self.get_env_variable("DATA_STORAGE_CONTAINER_NAME")
         self.app_config_endpoint = self.get_env_variable("APP_CONFIG_ENDPOINT")
-        self.cost_categories_flex_link = self.get_env_variable("COST_CATEGORIES_FLEX_LINK")
         self.employee_groups_flex_link = self.get_env_variable("EMPLOYEE_GROUPS_FLEX_LINK")
         self.emploment_types_flex_link = self.get_env_variable("EMPLOYMENT_TYPES_FLEX_LINK")
         self.project_groups_flex_link = self.get_env_variable("PROJECT_GROUPS_FLEX_LINK")

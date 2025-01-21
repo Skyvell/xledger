@@ -26,7 +26,6 @@ stages:
           -var-file ${{ parameters.tfvarsFile }} \
           -out=$(Build.ArtifactStagingDirectory)/tfplan.binary \
           -var "api_key=$(api_key)" \
-          -var "cost_categories_flex_link=$(cost_categories_flex_link)" \
           -var "employee_groups_flex_link=$(employee_groups_flex_link)" \
           -var "employment_types_flex_link=$(employment_types_flex_link)" \
           -var "project_groups_flex_link=$(project_groups_flex_link)" \
