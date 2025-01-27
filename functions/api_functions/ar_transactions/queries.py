@@ -9,6 +9,7 @@ DELTAS_QUERY_NAME = "arTransaction_deltas"
 
 # Define all the fields that we want to fetch from the xledger API here. 
 # This way we only need to add/remove fields in one place.
+# amount3 = SEK, amount4 = USD.
 NODE_FIELDS = """
     dbId
     owner {
@@ -85,7 +86,8 @@ NODE_FIELDS = """
       code
     }
     exchangeRate
-    amount
+    amount3
+    amount4
     invoiceAmount
     invoiceRemaining
     bankAccount
@@ -134,7 +136,8 @@ COLUMN_DATA_TYPES = [
     'string',           # paymentDate
     'string',           # currency.code
     'float64',          # exchangeRate
-    'float64',          # amount
+    'float64',          # amount3
+    'float64',          # amount4
     'float64',          # invoiceAmount
     'float64',          # invoiceRemaining
     'string'            # bankAccount
