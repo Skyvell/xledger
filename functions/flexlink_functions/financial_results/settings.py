@@ -9,7 +9,7 @@ COLUMNS = [
     "Period",
     "Year",
     "Month",
-    "Posted"
+    "Posted",
     "Amount in USD",
     "Amount in SEK"
 ]
