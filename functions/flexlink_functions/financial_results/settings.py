@@ -1,21 +1,29 @@
 # Only include these columns in the Parquet file.
 COLUMNS = [
+    "PK",
     "Owner",
     "Account Name",
     "Account #",
     "Cost Center Name",
     "Cost Center #",
     "Period",
+    "Year",
+    "Month",
+    "Posted"
     "Amount in USD",
     "Amount in SEK"
 ]
 
 # Define the pandas data types for each column.
 COLUMN_DATA_TYPES = [
+    "Int64",
     "string",
     "string",
     "Int64",
     "string",
+    "Int64",
+    "string",
+    "Int64",
     "Int64",
     "string",
     "float64",
