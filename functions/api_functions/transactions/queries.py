@@ -8,6 +8,7 @@ DELTAS_QUERY_NAME = "transaction_deltas"
 
 # Define all the fields that we want to fetch from the xledger API here. 
 # This way we only need to add/remove fields in one place.
+# amount3 = SEK, amount4 = USD.
 NODE_FIELDS = """
     dbId
     text
@@ -54,7 +55,8 @@ NODE_FIELDS = """
     currency {
       code
     }
-    amount
+    amount3
+    amount4
     invoiceAmount
     taxRule {
       description
@@ -104,7 +106,8 @@ COLUMN_DATA_TYPES = [
     'string',           # glDimension.glObject2.code
     'string',           # glDimension.glObject2.objectKind.name
     'string',           # currency.code
-    'float64',          # amount
+    'float64',          # amount3
+    'float64',          # amount4
     'float64',          # invoiceAmount
     'string',           # taxRule.description
     'string',           # taxRule.code
