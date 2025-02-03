@@ -1,16 +1,4 @@
-data "azurerm_resource_group" "existing" {
-  name = var.resource_group_name
-}
-#
-data "azurerm_storage_account" "existing" {
-  name                = var.data_storage_account_name
-  resource_group_name = data.azurerm_resource_group.existing.name
-}
-
-data "azurerm_storage_container" "existing_container" {
-  name                 = var.data_storage_container_name
-  storage_account_name = data.azurerm_storage_account.existing.name
-}
+# Creates the xledger-syncronizer-dev function app infrastructure.
 
 resource "azurerm_app_configuration" "app_configuration" {
   name                = var.app_configuration_name
@@ -30,8 +18,8 @@ resource "azurerm_service_plan" "service_plan" {
   name                = var.app_service_plan_name
   location            = var.location
   resource_group_name = data.azurerm_resource_group.existing.name
-  os_type             = "Linux"
-  sku_name            = "B2"
+  os_type             = var.app_service_plan_os_type
+  sku_name            = var.app_service_plan_sku
 }
 
 resource "azurerm_application_insights" "application_insights" {
