@@ -4,9 +4,20 @@ variable "location" {
   type        = string
 }
 
-variable "resource_group_name" {
-  description = "The name of the resource group."
-  type        = string
+# These should be existing resources.
+variable "app_resource_group" {
+  description = "Resource group object. Should supply an existing resource group."
+  type        = any
+}
+
+variable "app_data_storage_account" {
+  description = "Data lake storage account for storing the files."
+  type        = any
+}
+
+variable "app_data_storage_container" {
+  description = "Container for storing files in the Data Lake Storage Account."
+  type        = any
 }
 
 # Function App.
@@ -32,23 +43,13 @@ variable "app_service_plan_sku" {
   default     = "B2"  # Default value
 }
 
-variable "function_app_storage_account_name" {
+variable "app_storage_account_name" {
   description = "The name of the Storage Account for the Function App."
   type        = string
 }
 
 variable "app_config_name" {
   description = "The name of the App Configuration."
-  type        = string
-}
-
-variable "data_storage_account_name" {
-  description = "The name of the Data Lake Storage Account."
-  type        = string
-}
-
-variable "data_storage_container_name" {
-  description = "The name of the container for storing files in the Data Lake Storage Account."
   type        = string
 }
 
