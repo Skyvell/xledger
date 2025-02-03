@@ -10,7 +10,7 @@ module "shared_data" {
 module "function_app" {
   source                              = "../../modules/function-app"
   app_configuration_name              = "xledger-syncronizer-state-dev"
-  function_app_storage_account_name   = "syncronizerstoragedev"
+  app_storage_account_name            = "syncronizerstoragedev"
   location                            = "westeurope"
   app_service_plan_name               = "xledeger-syncronizer-asp-dev"
   app_insights_name                   = "xledger-syncronizer-ai-dev"
@@ -26,7 +26,7 @@ module "function_app" {
   financial_results_flex_link         = var.financial_results_flex_link
 
   # Existing resources.
-  data_storage_account_name           = module.shared_data.data_storage_account_name
-  data_storage_container_name         = module.shared_data.data_storage_container_name
-  resource_group_name                 = module.shared_data.app_resource_group
+  app_data_storage_account            = module.shared_data.app_storage_account
+  app_data_storage_container          = module.shared_data.app_storage_container
+  app_resource_group                  = module.shared_data.app_resource_group
 }
