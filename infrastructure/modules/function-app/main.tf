@@ -7,7 +7,7 @@ resource "azurerm_app_configuration" "app_configuration" {
 }
 
 resource "azurerm_storage_account" "app_storage_account" {
-  name                     = var.app_storage_account.name
+  name                     = var.app_storage_account_name
   resource_group_name      = var.app_resource_group.name
   location                 = var.location
   account_tier             = "Standard"
