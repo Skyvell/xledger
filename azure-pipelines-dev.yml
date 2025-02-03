@@ -18,8 +18,6 @@ variables:
     value: 'ubuntu-latest'
   - name: infrastructureRootFolder
     value: 'infrastructure/environments/dev'
-  - name: tfvarsFile
-    value: 'terraform.tfvars'
   - name: deploymentEnvironment
     value: 'env01'
 
