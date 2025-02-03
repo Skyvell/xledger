@@ -10,6 +10,6 @@ data "azurerm_storage_account" "app_storage_account" {
 }
 
 data "azurerm_storage_container" "app_storage_container" {
-  name                 = var.app_storage_account_name
-  storage_account_name = var.app_storage_account_name
+  name                 = var.app_storage_container_name
+  storage_account_name = data.azurerm_storage_account.app_storage_account.name
 }
