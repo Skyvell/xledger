@@ -93,9 +93,9 @@ Below is an example of the file format and structure:
 A service connection called "xledger" has been configured in Azure DevOps, pointing to an app registration inside Azure Portal. It was configured using the automated approach in Azure DevOps. Service principal properties are stored in a variable group within the pipeline and are loaded into the pipeline for authentication.
 
 ### Infrastructure
-The infrastructure is defined in Terraform. An Azure storage account is used as the backend for the state. All deployment variables, backend settings, provider settings, and components can be found in:
+The infrastructure is defined in Terraform. An Azure storage account is used as the backend for the state. The function app is deployed as a module, with different values for dev and prod. There is also a shared-data module that contains all existing resources used by the function app. These are resoures that Atollo already has deployed and are not managed by this terraform code. All deployment variables, backend settings, provider settings, modules etc. can be found in:
 
-`infrastructure/dev` or `infrastructure/prod`.
+`infrastructure/`.
 
 ### Function App
 The function app is also deployed as part of the Azure DevOps pipeline.
