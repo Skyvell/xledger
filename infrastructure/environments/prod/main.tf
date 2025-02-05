@@ -1,21 +1,26 @@
-# Fetch existing resources to use in the function app.
+# Define the environment as a local variable.
+locals {
+  environment = "prod"
+}
+
+# Fetch existing shared resources for the function app.
 module "shared_data" {
   source                              = "../../modules/shared-data"
   app_resource_group_name             = "DDBI-ResourceGroup"        
   app_storage_account_name            = "ddbistorage"
-  app_storage_container_name          = "xledger-prod"
+  app_storage_container_name          = "xledger-${local.environment}"
 }
 
 # The function app module is used to create the function app.
 module "function_app" {
   source                              = "../../modules/function-app"
-  app_configuration_name              = "xledger-syncronizer-state-prod"
-  app_storage_account_name            = "syncronizerstorageprod"
+  app_configuration_name              = "xledger-syncronizer-state-${local.environment}"
+  app_storage_account_name            = "syncronizerstorage${local.environment}"
   location                            = "westeurope"
-  app_service_plan_name               = "xledeger-syncronizer-asp-prod"
-  app_insights_name                   = "xledger-syncronizer-ai-prod"
-  function_app_name                   = "xledger-syncronizer-prod"
-  app_config_name                     = "xledger-syncronizer-statemanager-prod"
+  app_service_plan_name               = "xledeger-syncronizer-asp-${local.environment}"
+  app_insights_name                   = "xledger-syncronizer-ai-${local.environment}"
+  function_app_name                   = "xledger-syncronizer-${local.environment}"
+  app_config_name                     = "xledger-syncronizer-statemanager-${local.environment}"
   api_endpoint                        = "https://www.xledger.net/graphql"
   api_key                             = var.api_key
 
