@@ -65,12 +65,13 @@ If your data has endpoints that support deltas (e.g., timesheet_deltas, employee
 2. Click "Create Export Link".
 3. Choose to export the link in Excel format. Parameter refinement is not currently used.
 4. Copy the Flexlink and securely store it in the azure pipeline variable group. There is one variable group for dev and one for prod.
-5. Add the variable to `./infrastructure/[dev|prod]/variables.tf`.
-6. Update `./infrastructure/[dev|prod]/main.tf` to include the variable in app_settings.
-7. Update `./shared/environment_config` to load the variable from the environment.
-8. Update `./templates/deploy_infrastructure.yml` to deploy the app with the new variable.
-9. Write the function using existing library code. See `./function/employee_groups` as template. You can copy most of the function code with a few modifications, but have to write the `settings.py` file.
-10. Register the function in `function_app.py`.
+5. Add the variable to `./infrastructure/environments/[dev|prod]/variables.tf`.
+6. Update `./infrastructure/environments/modules/function-app/variables.tf` to include the variable to pass the flexlink as a variable to the function-app moule.
+7. Update `./infrastructure/environments/modules/function-app/main.tf` to include the variable in app_settings.
+8. Update `./shared/environment_config` to load the variable from the environment.
+9. Update `./templates/deploy_infrastructure.yml` to deploy the app with the new variable.
+10. Write the function using existing library code. See `./function/employee_groups` as template. You can copy most of the function code with a few modifications, but have to write the `settings.py` file.
+11. Register the function in `function_app.py`.
 
 ## Xledger authentication
 API keys for the dev and prod environments are generated in an Xledger account. Administrator access is required. The demo API keys expire after 2 weeks, so the prod API key is used for both xledger-dev and xledger-prod. The API keys from Prod are copied over to demo every 2 weeks along with all other Xledger data. API keys are stored within variable groups in the Azure DevOps pipeline and are deployed as environment variable of the function app in the pipeline. Upon expiry, these keys will need to be updated to keep the app running.
