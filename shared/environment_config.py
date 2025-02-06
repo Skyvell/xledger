@@ -8,13 +8,6 @@ class EnvironmentConfig:
     This class fetches and validates required environment variables used 
     throughout the application. It raises a ValueError if any of the required 
     environment variables are missing.
-
-    Attributes:
-        api_endpoint (str): The API endpoint for the GraphQL client.
-        api_key (str): The API key for the GraphQL client.
-        data_storage_account (str): The name of the data storage account.
-        data_storage_container (str): The name of the data storage container.
-        app_config_endpoint (str): The endpoint for the app configuration.
     """
     
     def __init__(self):
