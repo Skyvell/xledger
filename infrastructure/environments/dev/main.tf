@@ -21,7 +21,7 @@ module "function_app" {
   app_insights_name                   = "xledger-syncronizer-ai-${local.environment}"
   function_app_name                   = "xledger-syncronizer-${local.environment}"
   app_config_name                     = "xledger-syncronizer-statemanager-${local.environment}"
-  api_endpoint                        = "https://demo.xledger.net/graphql"
+  api_endpoint                        = "https://www.xledger.net/graphql"
   api_key                             = var.api_key
 
   # Flexlinks.
