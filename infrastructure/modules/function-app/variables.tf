@@ -4,9 +4,20 @@ variable "location" {
   type        = string
 }
 
-variable "resource_group_name" {
-  description = "The name of the resource group."
-  type        = string
+# These should be existing resources.
+variable "app_resource_group" {
+  description = "Resource group object. Should supply an existing resource group."
+  type        = any
+}
+
+variable "app_data_storage_account" {
+  description = "Data lake storage account for storing the files."
+  type        = any
+}
+
+variable "app_data_storage_container" {
+  description = "Container for storing files in the Data Lake Storage Account."
+  type        = any
 }
 
 # Function App.
@@ -20,23 +31,25 @@ variable "app_service_plan_name" {
   type        = string
 }
 
-variable "function_app_storage_account_name" {
+variable "app_service_plan_os_type" {
+  type        = string
+  description = "The OS type for the service plan (Linux/Windows)."
+  default     = "Linux"  # Default value
+}
+
+variable "app_service_plan_sku" {
+  type        = string
+  description = "The SKU tier for the service plan."
+  default     = "B2"  # Default value
+}
+
+variable "app_storage_account_name" {
   description = "The name of the Storage Account for the Function App."
   type        = string
 }
 
 variable "app_config_name" {
   description = "The name of the App Configuration."
-  type        = string
-}
-
-variable "data_storage_account_name" {
-  description = "The name of the Data Lake Storage Account."
-  type        = string
-}
-
-variable "data_storage_container_name" {
-  description = "The name of the container for storing files in the Data Lake Storage Account."
   type        = string
 }
 
@@ -83,27 +96,4 @@ variable "financial_results_flex_link" {
   description = "Xledger flexlink to get financial results from."
   type        = string
   sensitive   = true
-}
-
-# Backend settings.
-variable "backend_storage_account_name" {
-  description = "The name of the Storage Account for the backend."
-  type        = string
-}
-
-variable "backend_container_name" {
-  description = "The name of the container for the backend."
-  type        = string
-}
-
-variable "backend_key_name" {
-  description = "The name of the key for the backend state file."
-  type        = string
-}
-
-
-# Others.
-variable "tags" {
-  description = "A map of tags to assign to the resources"
-  type        = map(string)
 }

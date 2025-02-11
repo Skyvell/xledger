@@ -17,9 +17,7 @@ variables:
   - name: vmImageName
     value: 'ubuntu-latest'
   - name: infrastructureRootFolder
-    value: 'infrastructure/dev'
-  - name: tfvarsFile
-    value: 'terraform.tfvars'
+    value: 'infrastructure/environments/dev'
   - name: deploymentEnvironment
     value: 'env01'
 
@@ -28,7 +26,6 @@ stages:
 - template: templates/deploy_infrastructure.yml
   parameters:
     infrastructureRootFolder: '$(infrastructureRootFolder)'
-    tfvarsFile: '$(tfvarsFile)'
     deploymentEnvironment: '$(deploymentEnvironment)'
     vmImageName: '$(vmImageName)'
 

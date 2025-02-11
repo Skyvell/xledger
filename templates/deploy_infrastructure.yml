@@ -1,8 +1,6 @@
 parameters:
 - name: infrastructureRootFolder
   type: string
-- name: tfvarsFile
-  type: string
 - name: deploymentEnvironment
   type: string
 - name: vmImageName
@@ -23,7 +21,6 @@ stages:
         terraform init
         echo "Running Terraform plan..."
         terraform plan \
-          -var-file ${{ parameters.tfvarsFile }} \
           -out=$(Build.ArtifactStagingDirectory)/tfplan.binary \
           -var "api_key=$(api_key)" \
           -var "employee_groups_flex_link=$(employee_groups_flex_link)" \
