@@ -39,16 +39,15 @@ def scheduled_financial_results_noon(myTimer: func.TimerRequest) -> None:
     logging.info(f"Scheduled run for month: {year_month}")
     process_financial_results(year_month)
 
-
 @bp.function_name(f"manual_trigger_get_{NAME}")
 @bp.route(route=f"trigger-{NAME}", methods=["POST"], auth_level=func.AuthLevel.FUNCTION)
 def manual_trigger(req: func.HttpRequest) -> func.HttpResponse:
     """
-    Manual HTTP trigger to process financial results for a specific month.
+    Manual HTTP trigger to process financial results for specific periods.
     
     Request Body:
     {
-        "month": int  # Month in YYMM format, e.g., 2409 for September 2024
+        "periods": int | list[int]  # Single or multiple months in YYMM format, e.g., 2409 or [2409, 2410]
     }
     
     Returns:
@@ -57,38 +56,35 @@ def manual_trigger(req: func.HttpRequest) -> func.HttpResponse:
         HTTP 500: Internal server error for unexpected issues.
     """
     try:
-        # Parse the JSON body and validate input.
         req_body = req.get_json()
-        year_month = req_body.get("month")
+        periods = req_body.get("periods")
 
-        if not isinstance(year_month, int) or not (2000 <= year_month <= 9999):
+        if not periods:
+            raise ValueError("The 'periods' parameter is required.")
+
+        # Ensure periods is a list
+        periods = [periods] if isinstance(periods, int) else periods
+
+        if not all(isinstance(p, int) and 2000 <= p <= 9999 for p in periods):
             raise ValueError(
-                "The 'month' parameter must be a valid integer in YYMM format (e.g., 2409 for September 2024)."
+                "The 'periods' parameter must be a single integer or a list of valid integers in YYMM format (e.g., 2409, 2410)."
             )
         
-        logging.info(f"Manual trigger received for month: {year_month}")
+        logging.info(f"Manual trigger received for periods: {periods}")
         
-        # Process the financial results for the given month.
-        process_financial_results(year_month)
+        for period in periods:
+            process_financial_results(period)
 
-        # Respond with success.
         return func.HttpResponse(
-            f"Successfully processed data for month: {year_month}", 
+            f"Successfully processed data for periods: {', '.join(map(str, periods))}", 
             status_code=200
         )
     except ValueError as e:
         logging.warning(f"Validation error in manual trigger: {e}")
-        return func.HttpResponse(
-            str(e), 
-            status_code=400
-        )
+        return func.HttpResponse(str(e), status_code=400)
     except Exception as e:
         logging.error(f"Unexpected error during manual trigger: {e}", exc_info=True)
-        return func.HttpResponse(
-            "An internal server error occurred. Please contact support.",
-            status_code=500
-        )
-
+        return func.HttpResponse("An internal server error occurred. Please contact support.", status_code=500)
 
 def process_financial_results(year_month: int) -> None:
     """Core logic for processing financial results."""
