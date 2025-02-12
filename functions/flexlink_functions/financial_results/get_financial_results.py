@@ -22,10 +22,9 @@ bp = func.Blueprint()
 @bp.schedule(schedule="0 0 0 * * *", arg_name="myTimer", run_on_startup=False, use_monitor=False)
 def scheduled_financial_results_midnight(myTimer: func.TimerRequest) -> None:
     """Scheduled execution for retrieving financial results."""
-    year_month = int(get_previous_month_yy_mm())
-    logging.info(f"Scheduled run for month: {year_month}")
-    process_financial_results(year_month)
-
+    period = int(get_previous_month_yy_mm())
+    logging.info(f"Scheduled run for period: {period}")
+    process_financial_results([period])
 
 @bp.function_name(f"get_{NAME}_noon")
 @bp.schedule(schedule="0 30 12 * * *", arg_name="myTimer", run_on_startup=False, use_monitor=False)
@@ -35,9 +34,9 @@ def scheduled_financial_results_noon(myTimer: func.TimerRequest) -> None:
         logging.info("Skipping scheduled run as it is not a weekday.")
         return
 
-    year_month = int(get_previous_month_yy_mm())
-    logging.info(f"Scheduled run for month: {year_month}")
-    process_financial_results(year_month)
+    period = int(get_previous_month_yy_mm())
+    logging.info(f"Scheduled run for period: {period}")
+    process_financial_results([period])
 
 @bp.function_name(f"manual_trigger_get_{NAME}")
 @bp.route(route=f"trigger-{NAME}", methods=["POST"], auth_level=func.AuthLevel.FUNCTION)
@@ -47,7 +46,7 @@ def manual_trigger(req: func.HttpRequest) -> func.HttpResponse:
     
     Request Body:
     {
-        "periods": int | list[int]  # Single or multiple months in YYMM format, e.g., 2409 or [2409, 2410]
+        "periods": int | list[int]  # Single or multiple periods in YYMM format, e.g., 2409 or [2409, 2410]
     }
     
     Returns:
@@ -62,7 +61,7 @@ def manual_trigger(req: func.HttpRequest) -> func.HttpResponse:
         if not periods:
             raise ValueError("The 'periods' parameter is required.")
 
-        # Ensure periods is a list
+        # Ensure periods is a list.
         periods = [periods] if isinstance(periods, int) else periods
 
         if not all(isinstance(p, int) and 2000 <= p <= 9999 for p in periods):
@@ -72,8 +71,7 @@ def manual_trigger(req: func.HttpRequest) -> func.HttpResponse:
         
         logging.info(f"Manual trigger received for periods: {periods}")
         
-        for period in periods:
-            process_financial_results(period)
+        process_financial_results(periods)
 
         return func.HttpResponse(
             f"Successfully processed data for periods: {', '.join(map(str, periods))}", 
@@ -86,8 +84,37 @@ def manual_trigger(req: func.HttpRequest) -> func.HttpResponse:
         logging.error(f"Unexpected error during manual trigger: {e}", exc_info=True)
         return func.HttpResponse("An internal server error occurred. Please contact support.", status_code=500)
 
-def process_financial_results(year_month: int) -> None:
-    """Core logic for processing financial results."""
+def process_financial_results(periods: list[int]) -> None:
+    """
+    Processes financial results for multiple periods and writes the data to Azure Data Lake.
+
+    This function retrieves financial results for the specified periods by querying 
+    the FlexLink data source, applying necessary filters, and storing the results 
+    as Parquet files in Azure Data Lake.
+
+    Args:
+        periods (list[int]): A list of financial periods in YYMM format (e.g., [2409, 2410]).
+
+    Workflow:
+        1. Initializes Azure authentication credentials.
+        2. Loads environment configuration settings.
+        3. Instantiates a DataLakeWriter for writing processed data.
+        4. Uses FlexLinkReader to fetch financial results for each period.
+        5. Applies necessary query filters to exclude balance accounts.
+        6. Writes the processed data as Parquet files, named in the format `{YYMM}-financial_results.parquet`.
+        7. Logs processing steps and completion status.
+
+    Logs:
+        - Logs the start and end of processing for each period.
+        - Logs overall processing completion.
+
+    Raises:
+        KeyError: If a period is not found in the `YYMM_TO_PK` mapping.
+        Exception: If an error occurs during data retrieval or storage.
+
+    Returns:
+        None
+    """
     # Get credentials.
     credential = DefaultAzureCredential()
 
@@ -105,14 +132,21 @@ def process_financial_results(year_month: int) -> None:
     # Initialize FlexLinkReader.
     flex_link_reader = FlexLinkReader()
 
-    # Read data from flexlink and write to blob storage.
-    query_params = {
-        "r_period-er": YYMM_TO_PK[year_month],
-        "rv_account_group-nbt": "4558532,4559413",  # Exclude balance accounts.
-    }
-    data = flex_link_reader.read_xlsx_flex_link(
-        config.financial_results_flex_link, 
-        COLUMN_DTYPES, 
-        query_params
-    )
-    data_lake_writer.write_data(f"{year_month}-{NAME}.parquet", data)
+    for period in periods:
+        logging.info(f"Processing financial results for period: {period}")
+
+        # Read data from FlexLink and write to blob storage.
+        query_params = {
+            "r_period-er": YYMM_TO_PK[period],
+
+            # Exclude balance accounts.
+            "rv_account_group-nbt": "4558532,4559413",
+        }
+        data = flex_link_reader.read_xlsx_flex_link(
+            config.financial_results_flex_link, 
+            COLUMN_DTYPES, 
+            query_params
+        )
+        data_lake_writer.write_data(f"{period}-{NAME}.parquet", data)
+
+    logging.info(f"Finished processing financial results for periods: {periods}")
