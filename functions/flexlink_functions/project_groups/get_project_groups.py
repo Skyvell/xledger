@@ -24,13 +24,29 @@ bp = func.Blueprint()
     run_on_startup=False,
     use_monitor=False
 )
-def report(myTimer: func.TimerRequest) -> None:
+def get_project_groups_timer(myTimer: func.TimerRequest) -> None:
     # Get credentials.
     credential = DefaultAzureCredential()
 
     # Get environment variables.
     config = EnvironmentConfig()
 
+    # Initialize writer.
+    data_lake_writer = DataLakeWriter(
+        config.data_storage_account, 
+        credential,
+        config.data_storage_container, 
+        OUTPUT_DIR, 
+    )
+
+    # Initialize FlexLinkReader.
+    flex_link_reader = FlexLinkReader()
+    
+    # Read data from flexlink and write to blob storage.
+    data = flex_link_reader.read_xlsx_flex_link(config.project_groups_flex_link, COLUMN_DTYPES)
+    data_lake_writer.write_data(f"{NAME}.parquet", data)
+
+def get_project_groups(credential: DefaultAzureCredential, config: EnvironmentConfig) -> None:
     # Initialize writer.
     data_lake_writer = DataLakeWriter(
         config.data_storage_account, 

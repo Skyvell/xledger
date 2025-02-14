@@ -22,27 +22,33 @@ bp = func.Blueprint()
 @bp.schedule(schedule="0 0 0 * * *", arg_name="myTimer", run_on_startup=False, use_monitor=False)
 def scheduled_financial_results_midnight(myTimer: func.TimerRequest) -> None:
     """Scheduled execution for retrieving financial results."""
+    credential = DefaultAzureCredential()
+    config = EnvironmentConfig()
+    
     period = int(get_previous_month_yy_mm())
     logging.info(f"Scheduled run for period: {period}")
-    process_financial_results([period])
+    get_financial_results(credential, config, [period])
 
 @bp.function_name(f"get_{NAME}_noon")
 @bp.schedule(schedule="0 30 12 * * *", arg_name="myTimer", run_on_startup=False, use_monitor=False)
 def scheduled_financial_results_noon(myTimer: func.TimerRequest) -> None:
     """Scheduled execution for retrieving financial results at 12:30 PM."""
+    credential = DefaultAzureCredential()
+    config = EnvironmentConfig()
+    
     if not is_between_days(datetime.now(ZoneInfo("Europe/Stockholm")), 7, 15, exclude_weekend_days=True):
         logging.info("Skipping scheduled run as it is not a weekday.")
         return
 
     period = int(get_previous_month_yy_mm())
     logging.info(f"Scheduled run for period: {period}")
-    process_financial_results([period])
+    get_financial_results(credential, config, [period])
 
 @bp.function_name(f"manual_trigger_get_{NAME}")
 @bp.route(route=f"trigger-{NAME}", methods=["POST"], auth_level=func.AuthLevel.FUNCTION)
 def manual_trigger(req: func.HttpRequest) -> func.HttpResponse:
     """
-    Manual HTTP trigger to process financial results for specific periods.
+    Manual HTTP trigger to get financial results for specific periods.
     
     Request Body:
     {
@@ -50,10 +56,13 @@ def manual_trigger(req: func.HttpRequest) -> func.HttpResponse:
     }
     
     Returns:
-        HTTP 200: Success message if processing is successful.
+        HTTP 200: Success message if retrieving the financial results is successful.
         HTTP 400: Validation error if the input is invalid.
         HTTP 500: Internal server error for unexpected issues.
     """
+    credential = DefaultAzureCredential()
+    config = EnvironmentConfig()
+    
     try:
         req_body = req.get_json()
         periods = req_body.get("periods")
@@ -61,7 +70,6 @@ def manual_trigger(req: func.HttpRequest) -> func.HttpResponse:
         if not periods:
             raise ValueError("The 'periods' parameter is required.")
 
-        # Ensure periods is a list.
         periods = [periods] if isinstance(periods, int) else periods
 
         if not all(isinstance(p, int) and 2000 <= p <= 9999 for p in periods):
@@ -71,7 +79,7 @@ def manual_trigger(req: func.HttpRequest) -> func.HttpResponse:
         
         logging.info(f"Manual trigger received for periods: {periods}")
         
-        process_financial_results(periods)
+        get_financial_results(credential, config, periods)
 
         return func.HttpResponse(
             f"Successfully processed data for periods: {', '.join(map(str, periods))}", 
@@ -84,44 +92,22 @@ def manual_trigger(req: func.HttpRequest) -> func.HttpResponse:
         logging.error(f"Unexpected error during manual trigger: {e}", exc_info=True)
         return func.HttpResponse("An internal server error occurred. Please contact support.", status_code=500)
 
-def process_financial_results(periods: list[int]) -> None:
+def get_financial_results(credential: DefaultAzureCredential, config: EnvironmentConfig, periods: list[int]) -> None:
     """
-    Processes financial results for multiple periods and writes the data to Azure Data Lake.
-
-    This function retrieves financial results for the specified periods by querying 
-    the FlexLink data source, applying necessary filters, and storing the results 
-    as Parquet files in Azure Data Lake.
-
+    Retrieves financial results for multiple periods and writes the data to Azure Data Lake.
+    
     Args:
+        credential (DefaultAzureCredential): Azure authentication credential.
+        config (EnvironmentConfig): Configuration settings.
         periods (list[int]): A list of financial periods in YYMM format (e.g., [2409, 2410]).
-
-    Workflow:
-        1. Initializes Azure authentication credentials.
-        2. Loads environment configuration settings.
-        3. Instantiates a DataLakeWriter for writing processed data.
-        4. Uses FlexLinkReader to fetch financial results for each period.
-        5. Applies necessary query filters to exclude balance accounts.
-        6. Writes the processed data as Parquet files, named in the format `{YYMM}-financial_results.parquet`.
-        7. Logs processing steps and completion status.
-
-    Logs:
-        - Logs the start and end of processing for each period.
-        - Logs overall processing completion.
-
+    
     Raises:
         KeyError: If a period is not found in the `YYMM_TO_PK` mapping.
         Exception: If an error occurs during data retrieval or storage.
-
+    
     Returns:
         None
     """
-    # Get credentials.
-    credential = DefaultAzureCredential()
-
-    # Get environment variables.
-    config = EnvironmentConfig()
-
-    # Initialize writer.
     data_lake_writer = DataLakeWriter(
         config.data_storage_account,
         credential,
@@ -129,17 +115,13 @@ def process_financial_results(periods: list[int]) -> None:
         OUTPUT_DIR,
     )
 
-    # Initialize FlexLinkReader.
     flex_link_reader = FlexLinkReader()
 
     for period in periods:
-        logging.info(f"Processing financial results for period: {period}")
+        logging.info(f"Retrieving financial results for period: {period}")
 
-        # Read data from FlexLink and write to blob storage.
         query_params = {
             "r_period-er": YYMM_TO_PK[period],
-
-            # Exclude balance accounts.
             "rv_account_group-nbt": "4558532,4559413",
         }
         data = flex_link_reader.read_xlsx_flex_link(
@@ -149,4 +131,4 @@ def process_financial_results(periods: list[int]) -> None:
         )
         data_lake_writer.write_data(f"{period}-{NAME}.parquet", data)
 
-    logging.info(f"Finished processing financial results for periods: {periods}")
+    logging.info(f"Finished retrieving financial results for periods: {periods}")

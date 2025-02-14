@@ -24,7 +24,7 @@ bp = func.Blueprint()
     run_on_startup=False,
     use_monitor=False
 )
-def sync_employee_groups(myTimer: func.TimerRequest) -> None:
+def get_employee_groups_timer(myTimer: func.TimerRequest) -> None:
     # Get credentials.
     credential = DefaultAzureCredential()
 
