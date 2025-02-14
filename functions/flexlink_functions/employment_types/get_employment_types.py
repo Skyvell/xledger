@@ -24,13 +24,17 @@ bp = func.Blueprint()
     run_on_startup=False,
     use_monitor=False
 )
-def report(myTimer: func.TimerRequest) -> None:
+def get_employment_types(myTimer: func.TimerRequest) -> None:
     # Get credentials.
     credential = DefaultAzureCredential()
 
     # Get environment variables.
     config = EnvironmentConfig()
 
+    # Get and write employment types to Azure.
+    write_employment_types(credential, config)
+
+def write_employment_types(credential: DefaultAzureCredential, config: EnvironmentConfig) -> None:
     # Initialize writer.
     data_lake_writer = DataLakeWriter(
         config.data_storage_account, 

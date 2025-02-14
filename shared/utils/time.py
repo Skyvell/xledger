@@ -97,4 +97,51 @@ def is_between_days(
         return is_in_range and not is_weekend
     else:
         return is_in_range
+    
+def generate_periods(start_period: int, end_period: int):
+    """
+    Generate a list of financial periods in YYMM format from start_period to end_period.
 
+    Ensures valid month values (01-12) and that the start period is not after the end period.
+
+    Args:
+        start_period (int): The starting period in YYMM format.
+        end_period (int): The ending period in YYMM format.
+
+    Returns:
+        list[int]: A list of consecutive periods in YYMM format.
+
+    Raises:
+        ValueError: If months are out of range or start_period > end_period.
+    """
+    periods = []
+    start_year = start_period // 100
+    start_month = start_period % 100
+    end_month = end_period % 100
+
+    # Ensure valid months for both start and end.
+    if not (1 <= start_month <= 12):
+        raise ValueError(f"Start month {start_month} is invalid. Month must be between 01 - 12.")
+    if not (1 <= end_month <= 12):
+        raise ValueError(f"End month {end_month} is invalid. Month must be between 01 - 12.")
+
+    # Ensure valid period range.
+    if start_period > end_period:
+        raise ValueError("Start period must be before or equal to end period.")
+
+    year, month = start_year, start_month
+
+    while True:
+        period = (year * 100) + month
+        periods.append(period)
+
+        if period >= end_period:
+            break 
+
+        if month == 12:
+            month = 1
+            year += 1
+        else:
+            month += 1
+
+    return periods

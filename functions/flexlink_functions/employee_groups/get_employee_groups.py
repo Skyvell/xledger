@@ -24,13 +24,17 @@ bp = func.Blueprint()
     run_on_startup=False,
     use_monitor=False
 )
-def report(myTimer: func.TimerRequest) -> None:
+def sync_employee_groups(myTimer: func.TimerRequest) -> None:
     # Get credentials.
     credential = DefaultAzureCredential()
 
     # Get environment variables.
     config = EnvironmentConfig()
 
+    # Get employee groups.
+    get_employee_groups(credential, config)
+
+def get_employee_groups(credential: DefaultAzureCredential, config: EnvironmentConfig):
     # Initialize writer.
     data_lake_writer = DataLakeWriter(
         config.data_storage_account, 
