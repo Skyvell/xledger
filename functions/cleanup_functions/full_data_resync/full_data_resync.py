@@ -5,15 +5,19 @@ import logging
 from shared.data_lake_writer import DataLakeWriter
 from shared.configuration_manager import SynchronizerStateManager
 from shared.environment_config import EnvironmentConfig
-from shared.utils.time import get_previous_month_yy_mm, generate_periods
+
 from functions.flexlink_functions.financial_results.get_financial_results import get_financial_results
 from functions.flexlink_functions.employee_groups.get_employee_groups import get_employee_groups
 from functions.flexlink_functions.employment_types.get_employment_types import get_employment_types
 from functions.flexlink_functions.employee_groups.get_employee_groups import get_employee_groups
 
+from functions.cleanup_functions.full_data_resync.settings import (
+    FINANCIAL_RESULTS_PERIODS
+)
+
+
 NAME = "full_data_resync"
-FINANCIAL_RESULTS_START_PERIOD = 2401
-FINANCIAL_RESULTS_END_PERIOD = get_previous_month_yy_mm()
+
 
 logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
@@ -36,6 +40,6 @@ def full_data_resync(req: func.HttpRequest) -> func.HttpResponse:
     get_employee_groups(credential, config)
     get_employment_types(credential, config)
     get_employee_groups(credential, config)
-    get_financial_results(credential, config, generate_periods(FINANCIAL_RESULTS_START_PERIOD, FINANCIAL_RESULTS_END_PERIOD))
+    get_financial_results(credential, config, FINANCIAL_RESULTS_PERIODS)
 
     return func.HttpResponse("State reset, data deleted and flex links data retrieved.", status_code=200)
