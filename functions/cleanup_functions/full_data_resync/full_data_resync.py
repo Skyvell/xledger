@@ -11,9 +11,7 @@ from functions.flexlink_functions.employee_groups.get_employee_groups import get
 from functions.flexlink_functions.employment_types.get_employment_types import get_employment_types
 from functions.flexlink_functions.project_groups.get_project_groups import get_project_groups
 
-from functions.cleanup_functions.full_data_resync.settings import (
-    FINANCIAL_RESULTS_PERIODS
-)
+from functions.cleanup_functions.full_data_resync.settings import FINANCIAL_RESULTS_PERIODS
 
 
 NAME = "full_data_resync"
