@@ -91,7 +91,7 @@ COLUMN_DATA_TYPES = [
     'Int64',            # dbId
     'string',           # email
     'string',           # description
-    'Int64',            # code
+    'string',           # code
     'string',           # createdAt
     'string',           # modifiedAt
     'string',           # employmentFrom
@@ -100,13 +100,13 @@ COLUMN_DATA_TYPES = [
     'Int64',            # owner.ownerCode
     'Int64',            # positionValue.dbId
     'string',           # positionValue.description
-    'Int64',            # positionValue.code
+    'string',           # positionValue.code
     'Int64',            # positionCategory.dbId
     'string',           # positionCategory.description
-    'Int64 ',           # positionCategory.code
+    'string',           # positionCategory.code
     'Int64',            # compensationType.dbId
     'string',           # compensationType.description
-    'Int64',            # compensationType.code
+    'string',           # compensationType.code
     'string',           # employmentType.description
     'Int64',            # employmentType.code
     'string',           # employmentType.owner.description
@@ -127,9 +127,9 @@ COLUMN_DATA_TYPES = [
     'string',           # glObject1.id
     'string',           # superior.description
     'string',           # flexiFieldsItem.code1.description
-    'Int64',            # flexiFieldsItem.code1.code
+    'string',           # flexiFieldsItem.code1.code
     'string',           # flexiFieldsItem.code2.description
-    'Int64',            # flexiFieldsItem.code2.code
+    'string'            # flexiFieldsItem.code2.code
 ]
 
 
