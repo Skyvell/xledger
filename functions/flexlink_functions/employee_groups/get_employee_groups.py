@@ -25,17 +25,11 @@ bp = func.Blueprint()
     use_monitor=False
 )
 def get_employee_groups_timer(myTimer: func.TimerRequest) -> None:
-    # Get credentials.
     credential = DefaultAzureCredential()
-
-    # Get environment variables.
     config = EnvironmentConfig()
-
-    # Get employee groups.
     get_employee_groups(credential, config)
 
 def get_employee_groups(credential: DefaultAzureCredential, config: EnvironmentConfig):
-    # Initialize writer.
     data_lake_writer = DataLakeWriter(
         config.data_storage_account, 
         credential,
@@ -43,7 +37,6 @@ def get_employee_groups(credential: DefaultAzureCredential, config: EnvironmentC
         OUTPUT_DIR, 
     )
 
-    # Initialize FlexLinkReader.
     flex_link_reader = FlexLinkReader()
     
     # Read data from flexlink and write to blob storage.

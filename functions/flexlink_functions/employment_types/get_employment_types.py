@@ -25,17 +25,11 @@ bp = func.Blueprint()
     use_monitor=False
 )
 def get_employment_types_timer(myTimer: func.TimerRequest) -> None:
-    # Get credentials.
     credential = DefaultAzureCredential()
-
-    # Get environment variables.
     config = EnvironmentConfig()
-
-    # Get and write employment types to Azure.
     get_employment_types(credential, config)
 
 def get_employment_types(credential: DefaultAzureCredential, config: EnvironmentConfig) -> None:
-    # Initialize writer.
     data_lake_writer = DataLakeWriter(
         config.data_storage_account, 
         credential,
@@ -43,7 +37,6 @@ def get_employment_types(credential: DefaultAzureCredential, config: Environment
         OUTPUT_DIR, 
     )
 
-    # Initialize FlexLinkReader.
     flex_link_reader = FlexLinkReader()
     
     # Read data from flexlink and write to blob storage.

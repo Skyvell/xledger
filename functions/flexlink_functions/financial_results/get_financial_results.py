@@ -114,7 +114,6 @@ def get_financial_results(credential: DefaultAzureCredential, config: Environmen
         config.data_storage_container,
         OUTPUT_DIR,
     )
-
     flex_link_reader = FlexLinkReader()
 
     for period in periods:
