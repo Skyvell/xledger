@@ -79,6 +79,10 @@ NODE_FIELDS = """
             description
             code
         }
+        code2 {
+            description
+            code
+        }
     }
 """
 
@@ -87,7 +91,7 @@ COLUMN_DATA_TYPES = [
     'Int64',            # dbId
     'string',           # email
     'string',           # description
-    'string',           # code
+    'Int64',            # code
     'string',           # createdAt
     'string',           # modifiedAt
     'string',           # employmentFrom
@@ -96,13 +100,13 @@ COLUMN_DATA_TYPES = [
     'Int64',            # owner.ownerCode
     'Int64',            # positionValue.dbId
     'string',           # positionValue.description
-    'string',           # positionValue.code
+    'Int64',            # positionValue.code
     'Int64',            # positionCategory.dbId
     'string',           # positionCategory.description
-    'string',           # positionCategory.code
+    'Int64 ',           # positionCategory.code
     'Int64',            # compensationType.dbId
     'string',           # compensationType.description
-    'string',           # compensationType.code
+    'Int64',            # compensationType.code
     'string',           # employmentType.description
     'Int64',            # employmentType.code
     'string',           # employmentType.owner.description
@@ -123,7 +127,9 @@ COLUMN_DATA_TYPES = [
     'string',           # glObject1.id
     'string',           # superior.description
     'string',           # flexiFieldsItem.code1.description
-    'string',           # flexiFieldsItem.code1.code
+    'Int64',            # flexiFieldsItem.code1.code
+    'string',           # flexiFieldsItem.code2.description
+    'Int64',            # flexiFieldsItem.code2.code
 ]
 
 
