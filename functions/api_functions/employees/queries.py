@@ -79,6 +79,10 @@ NODE_FIELDS = """
             description
             code
         }
+        code2 {
+            description
+            code
+        }
     }
 """
 
@@ -124,6 +128,8 @@ COLUMN_DATA_TYPES = [
     'string',           # superior.description
     'string',           # flexiFieldsItem.code1.description
     'string',           # flexiFieldsItem.code1.code
+    'string',           # flexiFieldsItem.code2.description
+    'string'            # flexiFieldsItem.code2.code
 ]
 
 
