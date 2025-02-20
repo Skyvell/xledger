@@ -26,7 +26,10 @@ stages:
           -var "employee_groups_flex_link=$(employee_groups_flex_link)" \
           -var "employment_types_flex_link=$(employment_types_flex_link)" \
           -var "project_groups_flex_link=$(project_groups_flex_link)" \
-          -var "financial_results_flex_link=$(financial_results_flex_link)"
+          -var "financial_results_flex_link=$(financial_results_flex_link)" \
+          -var "part_time_data_ductus_ab_flex_link=$(part_time_data_ductus_ab_flex_link)" \
+          -var "part_time_data_ductus_luelå_ab_flex_link=$(part_time_data_ductus_luleå_ab_flex_link)" \
+          -var "part_time_data_ductus_holding_ab_flex_link=$(part_time_data_ductus_holding_ab_flex_link)"
       displayName: 'Terraform Plan'
       workingDirectory: ${{ parameters.infrastructureRootFolder }}
       env:
