@@ -25,10 +25,15 @@ module "function_app" {
   api_key                             = var.api_key
 
   # Flexlinks.
-  employee_groups_flex_link           = var.employee_groups_flex_link
-  employment_types_flex_link          = var.employment_types_flex_link
-  project_groups_flex_link            = var.project_groups_flex_link
-  financial_results_flex_link         = var.financial_results_flex_link
+  employee_groups_flex_link                  = var.employee_groups_flex_link
+  employment_types_flex_link                 = var.employment_types_flex_link
+  project_groups_flex_link                   = var.project_groups_flex_link
+  financial_results_flex_link                = var.financial_results_flex_link
+  part_time_data_ductus_ab_flex_link         = var.part_time_data_ductus_ab_flex_link
+  part_time_data_ductus_holding_ab_flex_link = var.part_time_data_ductus_holding_ab_flex_link
+  part_time_data_ductus_luleå_ab_flex_link   = var.part_time_data_ductus_luleå_ab_flex_link
+  part_time_data_ductus_inc_flex_link        = var.part_time_data_ductus_inc_flex_link
+  part_time_tromb_ab_flex_link               = var.part_time_tromb_ab_flex_link 
 
   # Existing resources.
   app_data_storage_account            = module.shared_data.app_storage_account

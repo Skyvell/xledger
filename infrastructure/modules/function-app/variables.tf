@@ -120,10 +120,12 @@ variable "part_time_data_ductus_inc_flex_link" {
   description = "Xledger flexlink to get part time employee data from Data Ductus inc."
   type        = string
   sensitive   = true
+  default = ""
 }
 
 variable "part_time_tromb_ab_flex_link" {
   description = "Xledger flexlink to get part time employee data from Data Ductus Holding AB."
   type        = string
   sensitive   = true
+  default = ""
 }
