@@ -24,7 +24,7 @@ class FlexLinkReader:
         Raises:
             requests.exceptions.RequestException: Raised when the request to retrieve the Excel file fails.
         """
-        excel_bytes = self._read_excel_flex_link(flex_link, column_dtypes, parameter_filters)
+        excel_bytes = self._read_excel_flex_link(flex_link, parameter_filters)
         return convert_xlsx_to_parquet_pandas(excel_bytes, column_dtypes)
 
     def read_xlsx_flex_links(self, flex_links: list, column_dtypes: dict, parameter_filters: dict = None) -> io.BytesIO:
@@ -46,7 +46,7 @@ class FlexLinkReader:
         """
         dataframes = []
         for flex_link in flex_links:
-            excel_bytes = self._read_excel_flex_link(flex_link, column_dtypes, parameter_filters)
+            excel_bytes = self._read_excel_flex_link(flex_link, parameter_filters)
             df = pd.read_excel(excel_bytes)
             df = df[list(column_dtypes.keys())].astype(column_dtypes)
             dataframes.append(df)
