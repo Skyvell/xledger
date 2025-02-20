@@ -81,14 +81,14 @@ def convert_dicts_to_parquet_pandas(data: list[dict], column_dtypes: dict) -> io
 
 def convert_xlsx_to_parquet_pandas(data: io.BytesIO, column_dtypes: dict) -> io.BytesIO:
     """
-    Convert a list of dictionaries to a Parquet file stored in a BytesIO buffer.
+    Converts an Excel (.xlsx) file from a BytesIO stream into a Parquet file stored in a BytesIO buffer.
 
     Parameters:
-    data (list[dict]): A list of dictionaries containing the data.
-    column_dtypes (dict): A dictionary mapping column names to their data types.
+        data (io.BytesIO): A BytesIO stream containing the Excel file.
+        column_dtypes (dict): A dictionary mapping column names to their desired data types.
 
     Returns:
-    io.BytesIO: A BytesIO buffer containing the Parquet file.
+        io.BytesIO: A BytesIO buffer containing the Parquet file.
     """
 
     # Read the Excel file into a DataFrame, including only specified columns,

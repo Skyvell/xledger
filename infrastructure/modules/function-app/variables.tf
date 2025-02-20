@@ -97,3 +97,33 @@ variable "financial_results_flex_link" {
   type        = string
   sensitive   = true
 }
+
+variable "part_time_data_ductus_ab_flex_link" {
+  description = "Xledger flexlink to get part time employee data from Data Ductus AB."
+  type        = string
+  sensitive   = true
+}
+
+variable "part_time_data_ductus_holding_ab_flex_link" {
+  description = "Xledger flexlink to get part time employee data from Data Ductus Holding AB."
+  type        = string
+  sensitive   = true
+}
+
+variable "part_time_data_ductus_luleå_ab_flex_link" {
+  description = "Xledger flexlink to get part time employee data from Data Ductus Luleå AB."
+  type        = string
+  sensitive   = true
+}
+
+variable "part_time_data_ductus_inc_flex_link" {
+  description = "Xledger flexlink to get part time employee data from Data Ductus inc."
+  type        = string
+  sensitive   = true
+}
+
+variable "part_time_tromb_ab_flex_link" {
+  description = "Xledger flexlink to get part time employee data from Data Ductus Holding AB."
+  type        = string
+  sensitive   = true
+}

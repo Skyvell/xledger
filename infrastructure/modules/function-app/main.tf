@@ -54,16 +54,21 @@ resource "azurerm_linux_function_app" "function_app" {
   }
 
   app_settings = {
-    "API_ENDPOINT"                = var.api_endpoint,
-    "API_KEY"                     = var.api_key,
-    "DATA_STORAGE_ACCOUNT_NAME"   = var.app_data_storage_account.name,
-    "DATA_STORAGE_CONTAINER_NAME" = var.app_data_storage_container.name,
-    "APP_CONFIG_ENDPOINT"         = azurerm_app_configuration.app_configuration.endpoint,
-    "EMPLOYEE_GROUPS_FLEX_LINK"   = var.employee_groups_flex_link,
-    "EMPLOYMENT_TYPES_FLEX_LINK"  = var.employment_types_flex_link,
-    "PROJECT_GROUPS_FLEX_LINK"    = var.project_groups_flex_link,
-    "FINANCIAL_RESULTS_FLEX_LINK" = var.financial_results_flex_link,
-    "WEBSITE_TIME_ZONE"           = "Europe/Stockholm"
+    "API_ENDPOINT"                               = var.api_endpoint,
+    "API_KEY"                                    = var.api_key,
+    "DATA_STORAGE_ACCOUNT_NAME"                  = var.app_data_storage_account.name,
+    "DATA_STORAGE_CONTAINER_NAME"                = var.app_data_storage_container.name,
+    "APP_CONFIG_ENDPOINT"                        = azurerm_app_configuration.app_configuration.endpoint,
+    "EMPLOYEE_GROUPS_FLEX_LINK"                  = var.employee_groups_flex_link,
+    "EMPLOYMENT_TYPES_FLEX_LINK"                 = var.employment_types_flex_link,
+    "PROJECT_GROUPS_FLEX_LINK"                   = var.project_groups_flex_link,
+    "FINANCIAL_RESULTS_FLEX_LINK"                = var.financial_results_flex_link,
+    "PART_TIME_DATA_DUCTUS_AB_FLEX_LINK"         = var.part_time_data_ductus_ab_flex_link,
+    "PART_TIME_DATA_DUCTUS_HOLDING_AB_FLEX_LINK" = var.part_time_data_ductus_holding_ab_flex_link,
+    "PART_TIME_DATA_DUCTUS_LULEÅ_AB_FLEX_LINK"   = var.part_time_data_ductus_luleå_ab_flex_link,
+    "PART_TIME_DATA_DUCTUS_INC_FLEX_LINK"        = var.part_time_data_ductus_inc_flex_link,
+    "PART_TIME_TROMB_FLEX_LINK"                  = var.part_time_tromb_ab_flex_link,
+    "WEBSITE_TIME_ZONE"                          = "Europe/Stockholm"
   }
 }
 
