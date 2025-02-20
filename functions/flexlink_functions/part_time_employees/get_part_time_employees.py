@@ -49,5 +49,5 @@ def get_part_time_employees(credential: DefaultAzureCredential, config: Environm
     # flex_links.append(config.part_time_tromb_ab_flex_link)
 
     # Read data from flexlinks and write to blob storage.
-    data = flex_link_reader.read_xlsx_flex_links(config.emploment_types_flex_link, COLUMN_DTYPES)
+    data = flex_link_reader.read_xlsx_flex_links(flex_links, COLUMN_DTYPES)
     data_lake_writer.write_data(f"{NAME}.parquet", data)
