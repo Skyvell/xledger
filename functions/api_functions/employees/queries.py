@@ -83,6 +83,14 @@ NODE_FIELDS = """
             description
             code
         }
+        code3 {
+            description
+            code
+        }
+        code4 {
+            description
+            code
+        }
     }
 """
 
@@ -129,7 +137,11 @@ COLUMN_DATA_TYPES = [
     'string',           # flexiFieldsItem.code1.description
     'string',           # flexiFieldsItem.code1.code
     'string',           # flexiFieldsItem.code2.description
-    'string'            # flexiFieldsItem.code2.code
+    'string',           # flexiFieldsItem.code2.code
+    'string',           # flexiFieldsItem.code3.description
+    'string',           # flexiFieldsItem.code3.code
+    'string',           # flexiFieldsItem.code4.description
+    'string',           # flexiFieldsItem.code4.code
 ]
 
 
