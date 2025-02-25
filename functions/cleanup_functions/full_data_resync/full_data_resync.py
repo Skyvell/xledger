@@ -10,6 +10,7 @@ from functions.flexlink_functions.financial_results.get_financial_results import
 from functions.flexlink_functions.employee_groups.get_employee_groups import get_employee_groups
 from functions.flexlink_functions.employment_types.get_employment_types import get_employment_types
 from functions.flexlink_functions.project_groups.get_project_groups import get_project_groups
+from functions.flexlink_functions.part_time_employees.get_part_time_employees import get_part_time_employees
 
 from functions.cleanup_functions.full_data_resync.settings import FINANCIAL_RESULTS_PERIODS
 
@@ -39,5 +40,6 @@ def full_data_resync(req: func.HttpRequest) -> func.HttpResponse:
     get_employment_types(credential, config)
     get_project_groups(credential, config)
     get_financial_results(credential, config, FINANCIAL_RESULTS_PERIODS)
+    get_part_time_employees(credential, config)
 
     return func.HttpResponse("State reset, data deleted and flex links data retrieved.", status_code=200)
