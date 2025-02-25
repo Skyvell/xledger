@@ -54,6 +54,9 @@ Fetches a table of project cost setup data from Xledger using a Flexlink and wri
 #### Cost Element Per Time Type
 Fetches a table of cost element data per time type using a Flexlink and writes it to the Data Lake.
 
+#### Part Time Employees
+Fetches all part time employees using flex links. A seperate flex link is used for every subsidery (data ductus luleå ab, tromb ab etc).  
+
 ## Adding Support for More Data in Xledger
 
 ### Xledger API Data
