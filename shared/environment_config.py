@@ -27,8 +27,8 @@ class EnvironmentConfig:
         self.part_time_data_ductus_ab_flex_link = self.get_env_variable("PART_TIME_DATA_DUCTUS_AB_FLEX_LINK")
         self.part_time_data_ductus_holding_ab_flex_link = self.get_env_variable("PART_TIME_DATA_DUCTUS_HOLDING_AB_FLEX_LINK")
         self.part_time_data_ductus_luleå_ab_flex_link = self.get_env_variable("PART_TIME_DATA_DUCTUS_LULEÅ_AB_FLEX_LINK")
-        # self.part_time_data_ductus_inc_flex_link = self.get_env_variable("PART_TIME_DATA_DUCTUS_INC_FLEX_LINK")
-        # self.part_time_tromb_ab_flex_link = self.get_env_variable("PART_TIME_TROMB_AB_FLEX_LINK")
+        self.part_time_data_ductus_inc_flex_link = self.get_env_variable("PART_TIME_DATA_DUCTUS_INC_FLEX_LINK")
+        self.part_time_tromb_ab_flex_link = self.get_env_variable("PART_TIME_TROMB_AB_FLEX_LINK")
 
     @staticmethod
     def get_env_variable(var_name: str) -> str:

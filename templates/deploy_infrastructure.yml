@@ -29,7 +29,9 @@ stages:
           -var "financial_results_flex_link=$(financial_results_flex_link)" \
           -var "part_time_data_ductus_ab_flex_link=$(part_time_data_ductus_ab_flex_link)" \
           -var "part_time_data_ductus_luleå_ab_flex_link=$(part_time_data_ductus_luleå_ab_flex_link)" \
-          -var "part_time_data_ductus_holding_ab_flex_link=$(part_time_data_ductus_holding_ab_flex_link)"
+          -var "part_time_data_ductus_holding_ab_flex_link=$(part_time_data_ductus_holding_ab_flex_link)" \
+          -var "part_time_data_ductus_inc_flex_link=$(part_time_data_ductus_inc_flex_link)" \
+          -var "part_time_tromb_ab_flex_link=$(part_time_tromb_ab_flex_link)"
       displayName: 'Terraform Plan'
       workingDirectory: ${{ parameters.infrastructureRootFolder }}
       env:

@@ -44,10 +44,13 @@ def get_part_time_employees(credential: DefaultAzureCredential, config: Environm
     flex_links.append(config.part_time_data_ductus_holding_ab_flex_link)
     flex_links.append(config.part_time_data_ductus_luleå_ab_flex_link)
 
-    # No part time employees for these yet, so cant add a flex link.
-    # flex_links.append(config.part_time_data_ductus_inc_flex_link)
-    # flex_links.append(config.part_time_tromb_ab_flex_link)
+    # These have a dummy part time employee to be able to generate a flex link.
+    # It is filtered out.
+    flex_links.append(config.part_time_data_ductus_inc_flex_link)
+    flex_links.append(config.part_time_tromb_ab_flex_link)
 
     # Read data from flexlinks and write to blob storage.
-    data = flex_link_reader.read_xlsx_flex_links(flex_links, COLUMN_DTYPES)
+    # Filter out employees with start data 1999-12-31 (dummy).
+    query_params = {"d_date_from-ne": "1999-12-31"}
+    data = flex_link_reader.read_xlsx_flex_links(flex_links, COLUMN_DTYPES, query_params)
     data_lake_writer.write_data(f"{NAME}.parquet", data)
