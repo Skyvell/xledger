@@ -84,6 +84,8 @@ NODE_FIELDS = """
             code
         }
     }
+    flexiFieldDate1
+    flexiFieldNumber1
 """
 
 # Datatypes of the columns in the resulting pandas dataframe.
@@ -126,10 +128,12 @@ COLUMN_DATA_TYPES = [
     'string',           # glObject1.code
     'string',           # glObject1.id
     'string',           # superior.description
-    'string',           # flexiFieldsItem.code1.description
+    'string',           # flexiFieldsItem.code1.description (site)
     'string',           # flexiFieldsItem.code1.code
-    'string',           # flexiFieldsItem.code2.description
-    'string'            # flexiFieldsItem.code2.code
+    'string',           # flexiFieldsItem.code2.description (consultant category)
+    'string',           # flexiFieldsItem.code2.code
+    'string',           # flexiFieldDate1 (acquisition date) 
+    'Int64'             # flexiFieldNumber1 (unique person identifier)
 ]
 
 
