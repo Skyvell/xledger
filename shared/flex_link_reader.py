@@ -5,7 +5,7 @@ from shared.utils.files import convert_xlsx_to_parquet_pandas
 
 class FlexLinkReader:
     """
-    A utility class for fetching Excel (.xlsx) files from URLs, converting them to Parquet format,
+    A utility class for fetching Excel (.xlsx) files from URLs from Xledger, converting them to Parquet format,
     and handling multiple files by merging them into a single dataset.
     """
 
@@ -16,13 +16,10 @@ class FlexLinkReader:
         Args:
             flex_link (str): The URL of the Excel file to be fetched.
             column_dtypes (dict): A dictionary specifying the expected data types of the columns.
-            parameter_filters (dict, optional): A dictionary of query parameters to append to the URL. If None, no filters are applied.
+            parameter_filters (dict | None, optional): A dictionary of query parameters to append to the URL. Defaults to None.
 
         Returns:
             io.BytesIO: An in-memory byte stream containing the Parquet data.
-
-        Raises:
-            requests.exceptions.RequestException: Raised when the request to retrieve the Excel file fails.
         """
         excel_bytes = self._read_excel_flex_link(flex_link, parameter_filters)
         return convert_xlsx_to_parquet_pandas(excel_bytes, column_dtypes)
@@ -33,16 +30,12 @@ class FlexLinkReader:
         and returns the result as an in-memory byte stream.
 
         Args:
-            flex_links (list): A list of URLs pointing to the Excel files.
+            flex_links (list[str]): A list of URLs pointing to the Excel files.
             column_dtypes (dict): A dictionary specifying the expected data types of the columns.
-            parameter_filters (dict, optional): A dictionary of query parameters to append to the URLs. If None, no filters are applied.
+            parameter_filters (dict | None, optional): A dictionary of query parameters to append to the URLs. Defaults to None.
 
         Returns:
             io.BytesIO: An in-memory byte stream containing the merged Parquet data from all fetched Excel files.
-
-        Raises:
-            requests.exceptions.RequestException: Propagates if any request to retrieve an Excel file fails.
-            ValueError: Raised if no valid data is retrieved from the provided links.
         """
         dataframes = []
         for flex_link in flex_links:
@@ -54,10 +47,8 @@ class FlexLinkReader:
         if not dataframes:
             raise ValueError("No valid data retrieved from the provided links.")
 
-        # Merge all DataFrames.
+        # Merge all DataFrames and convert back to Parquet BytesIO.
         merged_df = pd.concat(dataframes, ignore_index=True)
-
-        # Convert merged DataFrame back to Parquet BytesIO.
         output_buffer = io.BytesIO()
         merged_df.to_parquet(output_buffer, engine='pyarrow', index=False)
 
@@ -72,13 +63,10 @@ class FlexLinkReader:
 
         Args:
             flex_link (str): The URL of the Excel file.
-            parameter_filters (dict, optional): Query parameters to append to the request.
+            parameter_filters (dict | None, optional): Query parameters to append to the request. Defaults to None.
 
         Returns:
             io.BytesIO: An in-memory byte stream containing the raw Excel file content.
-
-        Raises:
-            requests.exceptions.RequestException: Raised when the request fails.
         """
         response = requests.get(flex_link, params=parameter_filters)
         response.raise_for_status()
