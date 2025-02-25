@@ -67,7 +67,7 @@ resource "azurerm_linux_function_app" "function_app" {
     "PART_TIME_DATA_DUCTUS_HOLDING_AB_FLEX_LINK" = var.part_time_data_ductus_holding_ab_flex_link,
     "PART_TIME_DATA_DUCTUS_LULEÅ_AB_FLEX_LINK"   = var.part_time_data_ductus_luleå_ab_flex_link,
     "PART_TIME_DATA_DUCTUS_INC_FLEX_LINK"        = var.part_time_data_ductus_inc_flex_link,
-    "PART_TIME_TROMB_FLEX_LINK"                  = var.part_time_tromb_ab_flex_link,
+    "PART_TIME_TROMB_AB_FLEX_LINK"               = var.part_time_tromb_ab_flex_link,
     "WEBSITE_TIME_ZONE"                          = "Europe/Stockholm"
   }
 }
