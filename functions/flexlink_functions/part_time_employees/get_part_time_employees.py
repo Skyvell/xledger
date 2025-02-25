@@ -39,13 +39,12 @@ def get_part_time_employees(credential: DefaultAzureCredential, config: Environm
     flex_link_reader = FlexLinkReader()
     
     # Flexlinks to get part time data from.
+    # Some of the "bolag" have dummy data in order to generate the flex link.
+    # Dummy data is excluded with the query params below.
     flex_links = []
     flex_links.append(config.part_time_data_ductus_ab_flex_link)
     flex_links.append(config.part_time_data_ductus_holding_ab_flex_link)
     flex_links.append(config.part_time_data_ductus_luleå_ab_flex_link)
-
-    # These have a dummy part time employee to be able to generate a flex link.
-    # It is filtered out.
     flex_links.append(config.part_time_data_ductus_inc_flex_link)
     flex_links.append(config.part_time_tromb_ab_flex_link)
 

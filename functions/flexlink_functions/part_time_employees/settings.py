@@ -22,5 +22,3 @@ COLUMN_DATA_TYPES = [
 
 # Create a dictionary mapping columns to their data types.
 COLUMN_DTYPES = dict(zip(COLUMNS, COLUMN_DATA_TYPES))
-
-# &d_date_from-ne=1999-12-31
