@@ -85,6 +85,7 @@ NODE_FIELDS = """
             code
         }
     }
+    flexiFieldNumber1
 """
 
 # Datatypes of the columns in the resulting pandas dataframe.
@@ -124,7 +125,8 @@ COLUMN_DATA_TYPES = [
     'string',           # projectOwner.description
     'Int64',            # projectOwner.ownerCode
     'string',           # flexiFieldsItem.code2.description
-    'Int64'             # flexiFieldsItem.code2.code
+    'Int64',            # flexiFieldsItem.code2.code
+    'Int64'             # flexiFieldNumber1 (internal debt margin)
 ]
 
 
