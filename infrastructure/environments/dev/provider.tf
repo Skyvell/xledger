@@ -1,5 +1,10 @@
 provider "azurerm" {
-  features {}
+  features {
+    app_configuration {
+      purge_soft_delete_on_destroy = true
+      recover_soft_deleted = false
+    }
+  }
 
   # This tells Terraform to use the credentials from the Azure CLI login.
   # Uncomment when run from command line.
