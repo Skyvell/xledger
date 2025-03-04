@@ -7,7 +7,7 @@ trigger: none
 variables:
   # This group has variables needed for the service principal to authenticate with Azure.
   - group: azure-devops-service-principal
-  - group: xledger-syncronizer-dev
+  - group: xledger-syncronizer-prod
   - name: azureSubscription
     value: 'xledger'
   - name: functionAppName
@@ -17,9 +17,7 @@ variables:
   - name: vmImageName
     value: 'ubuntu-latest'
   - name: infrastructureRootFolder
-    value: 'infrastructure/dev'
-  - name: tfvarsFile
-    value: 'terraform.tfvars'
+    value: 'infrastructure/environments/dev'
   - name: deploymentEnvironment
     value: 'env01'
 
@@ -28,7 +26,6 @@ stages:
 - template: templates/deploy_infrastructure.yml
   parameters:
     infrastructureRootFolder: '$(infrastructureRootFolder)'
-    tfvarsFile: '$(tfvarsFile)'
     deploymentEnvironment: '$(deploymentEnvironment)'
     vmImageName: '$(vmImageName)'
 

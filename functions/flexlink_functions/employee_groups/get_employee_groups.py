@@ -24,14 +24,12 @@ bp = func.Blueprint()
     run_on_startup=False,
     use_monitor=False
 )
-def report(myTimer: func.TimerRequest) -> None:
-    # Get credentials.
+def get_employee_groups_timer(myTimer: func.TimerRequest) -> None:
     credential = DefaultAzureCredential()
-
-    # Get environment variables.
     config = EnvironmentConfig()
+    get_employee_groups(credential, config)
 
-    # Initialize writer.
+def get_employee_groups(credential: DefaultAzureCredential, config: EnvironmentConfig):
     data_lake_writer = DataLakeWriter(
         config.data_storage_account, 
         credential,
@@ -39,7 +37,6 @@ def report(myTimer: func.TimerRequest) -> None:
         OUTPUT_DIR, 
     )
 
-    # Initialize FlexLinkReader.
     flex_link_reader = FlexLinkReader()
     
     # Read data from flexlink and write to blob storage.

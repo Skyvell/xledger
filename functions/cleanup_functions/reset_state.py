@@ -14,7 +14,10 @@ bp = func.Blueprint()
 @bp.route(route=NAME, methods=["POST"], auth_level=func.AuthLevel.ADMIN)
 def reset_state(req: func.HttpRequest) -> func.HttpResponse:
     logging.info("Running reset state.")
-    
+    remove_function_app_state()
+    return func.HttpResponse("State reset successfully.", status_code=200)
+
+def remove_function_app_state():
     # Get credentials.
     credential = DefaultAzureCredential()
 
@@ -24,5 +27,3 @@ def reset_state(req: func.HttpRequest) -> func.HttpResponse:
     # Reset the syncronizer state.
     state_manager = SynchronizerStateManager(config.app_config_endpoint, credential)
     state_manager.reset_state()
-
-    return func.HttpResponse("State reset successfully.", status_code=200)
