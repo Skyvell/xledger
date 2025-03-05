@@ -20,6 +20,11 @@ variable "app_data_storage_container" {
   type        = any
 }
 
+variable "app_configuration_sku" {
+  description = "Container for storing files in the Data Lake Storage Account."
+  type        = string
+}
+
 # Function App.
 variable "function_app_name" {
   description = "The name of the Function App."

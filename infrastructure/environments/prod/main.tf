@@ -23,6 +23,7 @@ module "function_app" {
   app_config_name                            = "xledger-syncronizer-statemanager-${local.environment}"
   api_endpoint                               = "https://www.xledger.net/graphql"
   api_key                                    = var.api_key
+  app_configuration_sku                      = "standard"
 
   # Flexlinks.
   employee_groups_flex_link                  = var.employee_groups_flex_link

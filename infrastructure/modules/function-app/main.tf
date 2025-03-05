@@ -4,6 +4,7 @@ resource "azurerm_app_configuration" "app_configuration" {
   name                = var.app_configuration_name
   resource_group_name = var.app_resource_group.name
   location            = var.location
+  sku                 = var.app_configuration_sku
 }
 
 resource "azurerm_storage_account" "app_storage_account" {
