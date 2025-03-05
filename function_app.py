@@ -42,16 +42,6 @@ app.register_blueprint(reset_state_and_wipe_storage_bp)
 app.register_blueprint(full_data_resync_bp)
 
 # Flexlink functions.
-<<<<<<< HEAD
-# Uncommented functions currently not in use.
-#app.register_blueprint(cost_categories_bp)
-#app.register_blueprint(cost_centers_bp)
-#app.register_blueprint(project_cost_setups_bp)
-#app.register_blueprint(cost_element_per_time_type_bp)
-#app.register_blueprint(project_managers_bp)
-#app.register_blueprint(price_list_bp)
-=======
->>>>>>> dev
 app.register_blueprint(employee_groups_bp)
 app.register_blueprint(employment_types_bp)
 app.register_blueprint(project_groups_bp)
