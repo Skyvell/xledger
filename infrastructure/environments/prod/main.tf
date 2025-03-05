@@ -17,7 +17,7 @@ module "function_app" {
   app_configuration_name                     = "xledger-syncronizer-state-${local.environment}"
   app_storage_account_name                   = "syncronizerstorage${local.environment}"
   location                                   = "westeurope"
-  app_service_plan_name                      = "xledeger-syncronizer-asp-${local.environment}"
+  app_service_plan_name                      = "xledger-syncronizer-asp-${local.environment}"
   app_insights_name                          = "xledger-syncronizer-ai-${local.environment}"
   function_app_name                          = "xledger-syncronizer-${local.environment}"
   app_config_name                            = "xledger-syncronizer-statemanager-${local.environment}"
