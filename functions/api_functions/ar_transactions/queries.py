@@ -79,6 +79,7 @@ NODE_FIELDS = """
       toDate
       monthNumber
     }
+    invoiceNumber
     invoiceDate
     dueDate
     paymentDate
@@ -88,7 +89,6 @@ NODE_FIELDS = """
     exchangeRate
     amount3
     amount4
-    invoiceAmount
     invoiceRemaining
     bankAccount
 """
@@ -131,6 +131,7 @@ COLUMN_DATA_TYPES = [
     'string',           # period.fromDate
     'string',           # period.toDate
     'Int64',            # period.monthNumber
+    'Int64',            # invoiceNumber
     'string',           # invoiceDate
     'string',           # dueDate
     'string',           # paymentDate
@@ -138,7 +139,6 @@ COLUMN_DATA_TYPES = [
     'float64',          # exchangeRate
     'float64',          # amount3
     'float64',          # amount4
-    'float64',          # invoiceAmount
     'float64',          # invoiceRemaining
     'string'            # bankAccount
 ]
