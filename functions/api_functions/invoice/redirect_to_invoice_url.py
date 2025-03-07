@@ -23,8 +23,8 @@ def manual_trigger(req: func.HttpRequest) -> func.HttpResponse:
     """
     config = EnvironmentConfig()
     
+    # Input validation.
     invoice_number = req.params.get("invoice_number")
-
     if not invoice_number:
         return func.HttpResponse("The 'invoice_number' parameter is required.", status_code=400)
 
@@ -33,8 +33,8 @@ def manual_trigger(req: func.HttpRequest) -> func.HttpResponse:
     except ValueError:
         return func.HttpResponse("Invalid 'invoice_number' format. Must be an integer.", status_code=400)
 
-    invoice_link = get_invoice_link_pdf(config, invoice_number)
-    
+    # Get link and return response.
+    invoice_link = get_invoice_link_pdf(config, invoice_number)    
     return func.HttpResponse(
         "",
         status_code=302,  # Redirect
@@ -44,9 +44,9 @@ def manual_trigger(req: func.HttpRequest) -> func.HttpResponse:
 def get_invoice_link_pdf(config: EnvironmentConfig, invoice_number: int) -> str:
     graphql_client = GraphQLClient(config.api_endpoint, config.api_key)
     variables = {"invoiceNumber": str(invoice_number)}
-    response = graphql_client.execute_graphql_query(GET_INVOICE_PDF, variables)
+    result = graphql_client.execute_graphql_query(GET_INVOICE_PDF, variables)
     
-    edges = response.get("data", {}).get("arTransactions", {}).get("edges", [])
+    edges = result['arTransactions']['edges']
     if not edges:
         raise ValueError(f"No invoice found for invoice number {invoice_number}")
 
