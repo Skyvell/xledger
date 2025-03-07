@@ -16,7 +16,7 @@ bp = func.Blueprint()
 
 
 @bp.function_name(f"get_{NAME}_link_pdf")
-@bp.route(route=f"trigger-{NAME}", methods=["POST"], auth_level=func.AuthLevel.FUNCTION)
+@bp.route(route=f"trigger-{NAME}", methods=["GET"], auth_level=func.AuthLevel.FUNCTION)
 def manual_trigger(req: func.HttpRequest) -> func.HttpResponse:
     """
     Manual HTTP trigger to get financial results for specific periods.
@@ -29,8 +29,8 @@ def manual_trigger(req: func.HttpRequest) -> func.HttpResponse:
     credential = DefaultAzureCredential()
     config = EnvironmentConfig()
     
-    req_body = req.get_json()
-    invoice_number = req_body.get("invoice_number")
+    req = req.get_json()
+    invoice_number = req.params.get("invoice_number")
     
     if not invoice_number:
         return func.HttpResponse("The 'invoice_number' parameter is required.", status_code=400)
@@ -45,7 +45,7 @@ def manual_trigger(req: func.HttpRequest) -> func.HttpResponse:
     
 def get_invoice_link_pdf(config: EnvironmentConfig, invoice_number: int) -> str:
     graphql_client = GraphQLClient(config.api_endpoint, config.api_key)
-    variables = {"invoiceNumber": invoice_number}
+    variables = {"invoiceNumber": str(invoice_number)}
     response = graphql_client.execute_graphql_query(GET_INVOICE_PDF, variables)
     return response["data"]["arTransactions"]["edges"][0]["node"]["invoiceFile"]["url"]
 

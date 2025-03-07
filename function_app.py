@@ -26,7 +26,6 @@ from functions.flexlink_functions.part_time_employees.get_part_time_employees im
 app = func.FunctionApp()
 
 # Register all the functions below here for the app.
-app.register_blueprint(invoice_bp)
 
 # API Syncronization functions.
 app.register_blueprint(timesheets_bp)
@@ -39,7 +38,7 @@ app.register_blueprint(ar_transactions_bp)
 app.register_blueprint(transactions_bp)
 
 # Utility
-app
+app.register_blueprint(invoice_bp)
 
 ## Cleanup functions.
 app.register_blueprint(reset_state_bp)
