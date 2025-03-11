@@ -131,7 +131,7 @@ COLUMN_DATA_TYPES = [
     'string',           # period.fromDate
     'string',           # period.toDate
     'Int64',            # period.monthNumber
-    'Int64',            # invoiceNumber
+    'string',           # invoiceNumber
     'string',           # invoiceDate
     'string',           # dueDate
     'string',           # paymentDate
