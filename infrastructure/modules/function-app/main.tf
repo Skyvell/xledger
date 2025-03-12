@@ -54,7 +54,9 @@ resource "azurerm_linux_function_app" "function_app" {
     type = "SystemAssigned"
   }
 
-  app_settings = {
+  app_settings = merge(
+    {
+    "ENVIRONMENT"                                = var.environment,
     "API_ENDPOINT"                               = var.api_endpoint,
     "API_KEY"                                    = var.api_key,
     "DATA_STORAGE_ACCOUNT_NAME"                  = var.app_data_storage_account.name,
@@ -70,7 +72,9 @@ resource "azurerm_linux_function_app" "function_app" {
     "PART_TIME_DATA_DUCTUS_INC_FLEX_LINK"        = var.part_time_data_ductus_inc_flex_link,
     "PART_TIME_TROMB_AB_FLEX_LINK"               = var.part_time_tromb_ab_flex_link,
     "WEBSITE_TIME_ZONE"                          = "Europe/Stockholm"
-  }
+  },
+  var.function_schedules
+  )
 }
 
 resource "azurerm_role_assignment" "storage_container_access" {

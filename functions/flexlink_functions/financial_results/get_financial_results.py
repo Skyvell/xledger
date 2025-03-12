@@ -11,15 +11,20 @@ from functions.flexlink_functions.financial_results.settings import (
 )
 from datetime import datetime
 from zoneinfo import ZoneInfo
+import os
 
 NAME = "financial_results"
 OUTPUT_DIR = "financial_results"
+
+# Get function schedules.
+SCHEDULE_NOON = os.getenv("FINANCIAL_RESULTS_NOON_SCHEDULE")
+SCHEDULE_MIDNIGHT = os.getenv("FINANCIAL_RESULTS_MIDNIGHT_SCHEDULE")
 
 logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
 
 @bp.function_name(f"get_{NAME}_midnight")
-@bp.schedule(schedule="0 0 0 * * *", arg_name="myTimer", run_on_startup=False, use_monitor=False)
+@bp.schedule(schedule=SCHEDULE_MIDNIGHT, arg_name="myTimer", run_on_startup=False, use_monitor=False)
 def scheduled_financial_results_midnight(myTimer: func.TimerRequest) -> None:
     """Scheduled execution for retrieving financial results."""
     credential = DefaultAzureCredential()
@@ -30,9 +35,9 @@ def scheduled_financial_results_midnight(myTimer: func.TimerRequest) -> None:
     get_financial_results(credential, config, [period])
 
 @bp.function_name(f"get_{NAME}_noon")
-@bp.schedule(schedule="0 50 11 * * *", arg_name="myTimer", run_on_startup=False, use_monitor=False)
+@bp.schedule(schedule=SCHEDULE_NOON, arg_name="myTimer", run_on_startup=False, use_monitor=False)
 def scheduled_financial_results_noon(myTimer: func.TimerRequest) -> None:
-    """Scheduled execution for retrieving financial results at 11:50 PM."""
+    """Scheduled execution for retrieving financial results."""
     credential = DefaultAzureCredential()
     config = EnvironmentConfig()
     

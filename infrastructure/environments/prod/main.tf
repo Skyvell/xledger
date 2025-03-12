@@ -13,6 +13,7 @@ module "shared_data" {
 
 # The function app module is used to create the function app.
 module "function_app" {
+  environment                                = local.environment
   source                                     = "../../modules/function-app"
   app_configuration_name                     = "xledger-syncronizer-state-${local.environment}"
   app_storage_account_name                   = "syncronizerstorage${local.environment}"
@@ -40,4 +41,10 @@ module "function_app" {
   app_data_storage_account                   = module.shared_data.app_storage_account
   app_data_storage_container                 = module.shared_data.app_storage_container
   app_resource_group                         = module.shared_data.app_resource_group
+
+  # Schedules for azure functions as env variables.
+  function_schedules = {
+    FINANCIAL_RESULTS_NOON_SCHEDULE          = "0 50 11 * * *"
+    FINANCIAL_RESULTS_MIDNIGHT_SCHEDULE      = "0 50 00 * * *"
+  }
 }
