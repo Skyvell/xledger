@@ -30,9 +30,9 @@ def scheduled_financial_results_midnight(myTimer: func.TimerRequest) -> None:
     get_financial_results(credential, config, [period])
 
 @bp.function_name(f"get_{NAME}_noon")
-@bp.schedule(schedule="0 30 12 * * *", arg_name="myTimer", run_on_startup=False, use_monitor=False)
+@bp.schedule(schedule="0 50 11 * * *", arg_name="myTimer", run_on_startup=False, use_monitor=False)
 def scheduled_financial_results_noon(myTimer: func.TimerRequest) -> None:
-    """Scheduled execution for retrieving financial results at 12:30 PM."""
+    """Scheduled execution for retrieving financial results at 11:50 PM."""
     credential = DefaultAzureCredential()
     config = EnvironmentConfig()
     
