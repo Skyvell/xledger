@@ -138,10 +138,12 @@ variable "part_time_tromb_ab_flex_link" {
 variable "environment" {
   description = "Deployment environment (dev or prod)"
   type        = string
+  default     = "dev"
 }
 
 variable "function_schedules" {
   description = "Function schedules for different environments"
   type        = map(string)
+  default = {}
 }
 

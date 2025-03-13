@@ -42,6 +42,7 @@ module "function_app" {
   app_data_storage_container                 = module.shared_data.app_storage_container
   app_resource_group                         = module.shared_data.app_resource_group
 
+  # Functions schedules as environment variables.
   function_schedules = {
     FINANCIAL_RESULTS_NOON_SCHEDULE          = "0 50 10 * * *"
     FINANCIAL_RESULTS_MIDNIGHT_SCHEDULE      = "0 50 22 * * *"

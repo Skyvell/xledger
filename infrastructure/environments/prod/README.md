@@ -1,1 +1,0 @@
-Before deploying new infra. Destroy old infra with terraform destroy command.
