@@ -17,7 +17,7 @@ variables:
   - name: vmImageName
     value: 'ubuntu-latest'
   - name: infrastructureRootFolder
-    value: 'infrastructure/environments/prod'
+    value: 'terraform/environments/prod'
   - name: deploymentEnvironment
     value: 'env01'
 
