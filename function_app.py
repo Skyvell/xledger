@@ -9,6 +9,8 @@ from functions.api_functions.ap_transactions.syncronize import bp as ap_transact
 from functions.api_functions.ar_transactions.syncronize import bp as ar_transactions_bp
 from functions.api_functions.transactions.syncronize import bp as transactions_bp
 
+from functions.api_functions.invoice.redirect_to_invoice_url import bp as invoice_bp
+
 from functions.cleanup_functions.reset_state import bp as reset_state_bp
 from functions.cleanup_functions.wipe_storage import bp as wipe_storage_bp
 from functions.cleanup_functions.reset_state_and_wipe_storage import bp as reset_state_and_wipe_storage_bp
@@ -34,6 +36,9 @@ app.register_blueprint(suppliers_bp)
 app.register_blueprint(ap_transactions_bp)
 app.register_blueprint(ar_transactions_bp)
 app.register_blueprint(transactions_bp)
+
+# Utility
+app.register_blueprint(invoice_bp)
 
 ## Cleanup functions.
 app.register_blueprint(reset_state_bp)
