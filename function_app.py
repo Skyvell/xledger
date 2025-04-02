@@ -8,6 +8,7 @@ from functions.api_functions.suppliers.syncronize import bp as suppliers_bp
 from functions.api_functions.ap_transactions.syncronize import bp as ap_transactions_bp
 from functions.api_functions.ar_transactions.syncronize import bp as ar_transactions_bp
 from functions.api_functions.transactions.syncronize import bp as transactions_bp
+from functions.api_functions.budget_details.get_budget_details import bp as budget_details_bp
 
 from functions.api_functions.invoice.redirect_to_invoice_url import bp as invoice_bp
 
@@ -36,6 +37,7 @@ app.register_blueprint(suppliers_bp)
 app.register_blueprint(ap_transactions_bp)
 app.register_blueprint(ar_transactions_bp)
 app.register_blueprint(transactions_bp)
+app.register_blueprint(budget_details_bp)
 
 # Utility
 app.register_blueprint(invoice_bp)
