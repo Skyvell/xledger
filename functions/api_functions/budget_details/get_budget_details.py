@@ -30,7 +30,7 @@ def get_budget_details(myTimer: func.TimerRequest) -> None:
     config = EnvironmentConfig()
 
     # Initialize classes needed for syncronizing data.
-    grapql_client = GraphQLClient(config.api_endpoint, config.api_key)
+    grapql_client = GraphQLClient("https://demo.xledger.net/graphql", config.api_key)
     data_lake_writer = DataLakeWriter(config.data_storage_account, credential, config.data_storage_container, NAME)
     item_fetcher = ItemFetcher(grapql_client, query_by_cursor = GET_ITEMS_AFTER_CURSOR)
 
