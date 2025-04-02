@@ -68,19 +68,25 @@ class ItemFetcher:
 
     Attributes:
     graphql_client (GraphQLClient): The GraphQL client used to execute queries.
-    query_by_dbids (str): The GraphQL query to execute by database IDs.
-    query_by_cursor (str): The GraphQL query to execute by cursor.
+    query_by_dbids (Optional[str]): The GraphQL query to execute by database IDs.
+    query_by_cursor (Optional[str]): The GraphQL query to execute by cursor.
     """
 
-    def __init__(self, client: GraphQLClient, query_by_dbids: str, query_by_cursor: str) -> None:
+    def __init__(self, client: GraphQLClient, query_by_dbids: str | None = None, query_by_cursor: str | None = None) -> None:
         """
         Initialize a new instance of ItemFetcher.
 
         Args:
         client (GraphQLClient): The GraphQL client used to execute queries.
-        query_by_dbids (str): The GraphQL query to execute by database IDs.
-        query_by_cursor (str): The GraphQL query to execute by cursor.
+        query_by_dbids (Optional[str]): The GraphQL query to execute by database IDs.
+        query_by_cursor (Optional[str]): The GraphQL query to execute by cursor.
+
+        Raises:
+        ValueError: If neither query_by_dbids nor query_by_cursor is provided.
         """
+        if not query_by_dbids and not query_by_cursor:
+            raise ValueError("At least one of 'query_by_dbids' or 'query_by_cursor' must be provided.")
+
         self.graphql_client = client
         self.query_by_dbids = query_by_dbids
         self.query_by_cursor = query_by_cursor
