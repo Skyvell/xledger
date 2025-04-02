@@ -32,23 +32,21 @@ NODE_FIELDS = """
         fiscalPeriod
     }
 
-    glDimension {
-        glObject1 {
-            description
-            code
-            objectKind {
-                name
-            }
+    glObject1 {
+        description
+        code
+        objectKind {
+            name
         }
-
-        glObject2 {
-            description
-            code
-            objectKind {
-                name
-            }
-        } 
     }
+
+    glObject2 {
+        description
+        code
+        objectKind {
+            name
+        }
+    } 
 """
 
 # Updated datatypes of the columns in the resulting pandas dataframe.
