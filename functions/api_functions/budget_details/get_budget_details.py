@@ -36,5 +36,8 @@ def get_budget_details(myTimer: func.TimerRequest) -> None:
 
     # Fetch all budget data and write to storage account.
     items = item_fetcher.fetch_all_items_after_cursor()
+    if not items.has_items():
+        return
+    
     items_transformed = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(items.get_items()), COLUMN_DTYPES)
     data_lake_writer.write_data(f"{NAME}.parquet", items_transformed)

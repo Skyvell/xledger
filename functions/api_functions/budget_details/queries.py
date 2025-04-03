@@ -10,7 +10,8 @@ ITEMS_QUERY_NAME = "budgetDetails"
 # This way we only need to add/remove fields in one place.
 NODE_FIELDS = """
     dbId
-    amount
+    amount3
+    amount4
 
     owner {
         description
