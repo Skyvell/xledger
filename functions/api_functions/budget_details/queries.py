@@ -53,7 +53,8 @@ NODE_FIELDS = """
 # Updated datatypes of the columns in the resulting pandas dataframe.
 COLUMN_DATA_TYPES = [
     'Int64',            # dbId
-    'float64',          # amount
+    'float64',          # amount3
+    'float64',          # amount4
 
     'string',           # owner.description
     'Int64',            # owner.ownerCode
