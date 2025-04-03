@@ -35,6 +35,6 @@ def get_budget_details(myTimer: func.TimerRequest) -> None:
     item_fetcher = ItemFetcher(grapql_client, query_by_cursor = GET_ITEMS_AFTER_CURSOR)
 
     # Fetch all budget data and write to storage account.
-    items = item_fetcher.fetch_all_items_after_cursor()
+    items = item_fetcher.fetch_all_items_after_cursor(first=100)
     items_transformed = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(items.get_items()), COLUMN_DTYPES)
     data_lake_writer.write_data(f"{NAME}.parquet", items_transformed)
