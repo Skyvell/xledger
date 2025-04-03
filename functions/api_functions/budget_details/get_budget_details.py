@@ -20,7 +20,7 @@ logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
 
 @bp.function_name(f"get_{NAME}")
-@bp.schedule(schedule="15 * * * *", arg_name="myTimer", run_on_startup=False,
+@bp.schedule(schedule="0 0 * * *", arg_name="myTimer", run_on_startup=False,
               use_monitor=False) 
 def get_budget_details(myTimer: func.TimerRequest) -> None:
     # Get credentials.
@@ -30,11 +30,11 @@ def get_budget_details(myTimer: func.TimerRequest) -> None:
     config = EnvironmentConfig()
 
     # Initialize classes needed for syncronizing data.
-    grapql_client = GraphQLClient("https://demo.xledger.net/graphql", config.api_key)
+    grapql_client = GraphQLClient(config.api_endpoint, config.api_key)
     data_lake_writer = DataLakeWriter(config.data_storage_account, credential, config.data_storage_container, NAME)
     item_fetcher = ItemFetcher(grapql_client, query_by_cursor = GET_ITEMS_AFTER_CURSOR)
 
     # Fetch all budget data and write to storage account.
-    items = item_fetcher.fetch_all_items_after_cursor(first=100)
+    items = item_fetcher.fetch_all_items_after_cursor()
     items_transformed = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(items.get_items()), COLUMN_DTYPES)
     data_lake_writer.write_data(f"{NAME}.parquet", items_transformed)
