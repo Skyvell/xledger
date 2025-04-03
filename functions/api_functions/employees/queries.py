@@ -86,6 +86,8 @@ NODE_FIELDS = """
     }
     flexiFieldDate1
     flexiFieldNumber1
+    overtime
+    flextime
 """
 
 # Datatypes of the columns in the resulting pandas dataframe.
@@ -133,8 +135,11 @@ COLUMN_DATA_TYPES = [
     'string',           # flexiFieldsItem.code2.description (consultant category)
     'string',           # flexiFieldsItem.code2.code
     'string',           # flexiFieldDate1 (acquisition date) 
-    'Int64'             # flexiFieldNumber1 (unique person identifier)
+    'Int64',            # flexiFieldNumber1 (unique person identifier)
+    'boolean',          # overtime
+    'boolean'           # flextime
 ]
+
 
 
 # This is the final list of columns that we want in the pandas dataframe,
