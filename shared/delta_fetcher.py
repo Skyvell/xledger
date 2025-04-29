@@ -68,7 +68,7 @@ class DeltasResult:
         """
         return len(self.deletions) > 0
     
-    def get_additions(self, include_mutation_time = False) -> list:
+    def get_additions(self) -> list:
         """
         Get the list of additions.
 
@@ -77,7 +77,7 @@ class DeltasResult:
         """
         return list(self.additions)
     
-    def get_updates(self, include_mutation_time = False) -> list:
+    def get_updates(self) -> list:
         """
         Get the list of updates.
 
@@ -86,7 +86,7 @@ class DeltasResult:
         """
         return list(self.updates)
     
-    def get_deletions(self, include_mutation_time = False) -> list:
+    def get_deletions(self) -> list:
         """
         Get the list of deletions.
 
