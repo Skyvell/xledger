@@ -16,7 +16,7 @@ class DeltasResult:
     last_cursor (str): The cursor for the last processed item.
     """
 
-    def __init__(self, additions: set, updates: set, deletions: set, last_cursor: str) -> None:
+    def __init__(self, additions: set, updates: set, deletions: set, mutation_times: list, last_cursor: str) -> None:
         """
         Initialize a new instance of DeltasResult.
 
@@ -29,6 +29,7 @@ class DeltasResult:
         self.additions = additions
         self.updates = updates
         self.deletions = deletions
+        self.mutation_times = mutation_times
         self.last_cursor = last_cursor
 
     def has_changes(self) -> bool:
@@ -67,7 +68,7 @@ class DeltasResult:
         """
         return len(self.deletions) > 0
     
-    def get_additions(self) -> list:
+    def get_additions(self, include_mutation_time = False) -> list:
         """
         Get the list of additions.
 
@@ -76,7 +77,7 @@ class DeltasResult:
         """
         return list(self.additions)
     
-    def get_updates(self) -> list:
+    def get_updates(self, include_mutation_time = False) -> list:
         """
         Get the list of updates.
 
@@ -85,7 +86,7 @@ class DeltasResult:
         """
         return list(self.updates)
     
-    def get_deletions(self) -> list:
+    def get_deletions(self, include_mutation_time = False) -> list:
         """
         Get the list of deletions.
 
@@ -94,6 +95,15 @@ class DeltasResult:
         """
         return list(self.deletions)
     
+    def get_mutation_times(self) -> dict:
+        """
+        Get the dict of mutation times (value) associated with a dbIds (keys).
+
+        Returns:
+        dict: A dict of dbIds keys with mutation times as values.
+        """
+        return self.mutation_times
+
 
 class DeltaFetcher:
     """
@@ -162,6 +172,7 @@ class DeltaFetcher:
         additions = set()
         updates = set()
         deletions = set()
+        mutation_times = {}
 
         if not result.has_results():
             return DeltasResult(additions, updates, deletions, result.get_last_cursor())
@@ -178,8 +189,13 @@ class DeltaFetcher:
             elif mutation_type == "ADDED":
                 additions.add(db_id)
 
+            # Save mutation times.
+            mutated_at = node.get('mutatedAt')
+            if mutated_at:
+                mutation_times[db_id] = mutated_at
+
         # Ensure no updates or additions are in deletions.
         updates -= deletions
         additions -= deletions
 
-        return DeltasResult(additions, updates, deletions, result.get_last_cursor())
+        return DeltasResult(additions, updates, deletions, mutation_times, result.get_last_cursor())
