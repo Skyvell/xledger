@@ -8,15 +8,9 @@ class DeltasResult:
     A class to store the result of Xledger deltas queries. Deltas queries are used
     to get information about items that have been added, updated, or deleted. These 
     changes are available via the API for 3 days before they are removed.
-
-    Attributes:
-    additions (set): A set of dbIds corresponding to a GraphQL item that has been added.
-    updates (set): A set of dbIds corresponding to a GraphQL item that has been updated.
-    deletions (set): A set of dbIds corresponding to a GraphQL item that has been deleted.
-    last_cursor (str): The cursor for the last processed item.
     """
 
-    def __init__(self, additions: set, updates: set, deletions: set, mutation_times: list, last_cursor: str) -> None:
+    def __init__(self, additions: set, updates: set, deletions: set, mutation_times: dict, last_cursor: str) -> None:
         """
         Initialize a new instance of DeltasResult.
 
@@ -24,7 +18,8 @@ class DeltasResult:
         additions (set): A set of dbIds corresponding to a GraphQL item that has been added.
         updates (set): A set of dbIds corresponding to a GraphQL item that has been updated.
         deletions (set): A set of dbIds corresponding to a GraphQL item that has been deleted.
-        last_cursor (str): The cursor of the last delta processed.
+        mutation_types (dict): dbId --> mutatedAt.
+        last_cursor (str): The cursor for the last processed item.
         """
         self.additions = additions
         self.updates = updates
@@ -98,7 +93,6 @@ class DeltasResult:
     def get_mutation_times(self) -> dict:
         """
         Get the dict of mutation times (value) associated with a dbIds (keys).
-
         Returns:
         dict: A dict of dbIds keys with mutation times as values.
         """
@@ -175,7 +169,7 @@ class DeltaFetcher:
         mutation_times = {}
 
         if not result.has_results():
-            return DeltasResult(additions, updates, deletions, result.get_last_cursor())
+            return DeltasResult(additions, updates, deletions, mutation_times, result.get_last_cursor())
 
         for edge in result.edges:
             node = edge['node']
