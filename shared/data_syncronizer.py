@@ -97,6 +97,7 @@ class DataSynchronizer:
         
         # Transform items.
         items.add_key_value_to_items("mutationType", "ADDED")
+        items.add_key_value_to_items("mutatedAt", None)
         items_transformed = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(items.get_items()), self.column_dtypes)
 
         # Write items to data lake.
@@ -117,6 +118,7 @@ class DataSynchronizer:
         """
         # Get all deltas since last sync.
         deltas = self.delta_fetcher.fetch_deltas({"first": 10000, "after": self.state_manager.deltas_cursor, "ownerSet": "MINE"})
+        mutation_times = deltas.get_mutation_times()
 
         # No new changes found -> return.
         if not deltas.has_changes():
@@ -138,6 +140,13 @@ class DataSynchronizer:
         if deltas.has_deletions():
             deletions = [{"dbId": dbId, "mutationType": "DELETED"} for dbId in deltas.get_deletions()]
             all_changed_items.extend(deletions)
+        
+        # Add mutationTimes to all changed items.
+        for item in all_changed_items:
+            db_id = item.get("dbId")
+            mutated_at = mutation_times.get(db_id)
+            if mutated_at:
+                item['mutatedAt'] = mutation_times[db_id]
 
         # Transform items.
         parquet = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(all_changed_items), self.column_dtypes)

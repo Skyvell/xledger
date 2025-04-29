@@ -61,7 +61,6 @@ class ItemsResult:
         """
         add_key_value_to_dicts(self.items, key, value)
 
-
 class ItemFetcher:
     """
     A class to fetch items using a GraphQL client.
