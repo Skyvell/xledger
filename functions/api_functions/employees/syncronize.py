@@ -23,7 +23,7 @@ logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
 
 @bp.function_name(f"syncronize_{NAME}")
-@bp.schedule(schedule="15 * * * *", arg_name="myTimer", run_on_startup=False,
+@bp.schedule(schedule="10 * * * *", arg_name="myTimer", run_on_startup=False,
               use_monitor=False) 
 def syncronize(myTimer: func.TimerRequest) -> None:
     # Get credentials.
