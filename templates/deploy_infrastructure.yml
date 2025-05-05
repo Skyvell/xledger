@@ -16,6 +16,11 @@ stages:
       vmImage: ${{ parameters.vmImageName }}
 
     steps:
+    - task: TerraformInstaller@1
+      displayName: 'Install Terraform'
+      inputs:
+        terraformVersion: '1.6.6'
+
     - script: |
         echo "Running Terraform init..."
         terraform init
@@ -60,6 +65,11 @@ stages:
           - download: current
             artifact: terraformPlanArtifact
             displayName: 'Download Terraform Plan'
+
+          - task: TerraformInstaller@1
+            displayName: 'Install Terraform'
+            inputs:
+              terraformVersion: '1.6.6'
 
           - script: |
               echo "Running Terraform init..."
