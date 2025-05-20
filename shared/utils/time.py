@@ -2,21 +2,35 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 
-def generate_iso_8601_timestamp(remove_microseconds: bool = True):
+def generate_iso_8601_timestamp(precision: str = "milliseconds") -> str:
     """
     Generates the current date and time in ISO 8601 format.
-    
+
     Args:
-        remove_microseconds (bool): If True, the microseconds part will be removed. Default is True.
-    
+        precision (str): Controls the level of time precision.
+                         Options:
+                            - "seconds": No fractional seconds (default)
+                            - "milliseconds": Includes 3-digit milliseconds
+                            - "microseconds": Full 6-digit microseconds
+
     Returns:
         str: The current date and time in ISO 8601 format.
     """
-    current_time = datetime.now()
-    if remove_microseconds:
-        current_time = current_time.replace(microsecond=0)
-    return current_time.isoformat()
+    now = datetime.now()
 
+    if precision == "seconds":
+        now = now.replace(microsecond=0)
+        return now.isoformat()
+
+    elif precision == "milliseconds":
+        # Format to milliseconds (3 digits)
+        return now.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
+
+    elif precision == "microseconds":
+        return now.isoformat()
+
+    else:
+        raise ValueError("Invalid precision value. Choose 'seconds', 'milliseconds', or 'microseconds'.")
 
 def get_current_time_for_filename():
     """
