@@ -61,6 +61,8 @@ class DataSynchronizer:
         self.state_manager = state_manager
         self.data_lake_writer = data_lake_writer
         self.column_dtypes = column_dtypes
+        self.add_mutation_type_to_columns = add_mutation_type_to_columns
+        self.add_mutated_at_to_columns = add_mutated_at_to_columns
 
         if add_mutation_type_to_columns:
             self.column_dtypes["mutationType"] = "string"
