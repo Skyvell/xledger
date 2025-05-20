@@ -15,7 +15,7 @@ variables:
   - name: functionAppRootDirectory
     value: '.'
   - name: vmImageName
-    value: 'ubuntu-latest'
+    value: 'ubuntu-20.04'
   - name: infrastructureRootFolder
     value: 'terraform/environments/dev'
   - name: deploymentEnvironment
