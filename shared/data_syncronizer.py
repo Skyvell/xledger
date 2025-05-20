@@ -96,12 +96,14 @@ class DataSynchronizer:
             return
         
         # Transform items.
+        # Current time is used as the mutatedAt timestamp when there is no mutation time.
+        current_time = get_current_time_for_filename()
         items.add_key_value_to_items("mutationType", "ADDED")
-        items.add_key_value_to_items("mutatedAt", None)
+        items.add_key_value_to_items("mutatedAt", current_time)
         items_transformed = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(items.get_items()), self.column_dtypes)
 
         # Write items to data lake.
-        self.data_lake_writer.write_data(f"full_sync-{get_current_time_for_filename()}-{self.name}.parquet", items_transformed)
+        self.data_lake_writer.write_data(f"full_sync-{current_time}-{self.name}.parquet", items_transformed)
 
         # Update state.
         self.state_manager.initial_sync_cursor = items.get_last_item_cursor()
