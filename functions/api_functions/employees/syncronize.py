@@ -47,6 +47,7 @@ def syncronize(myTimer: func.TimerRequest) -> None:
         data_lake_writer,
         state_manager,
         delta_fetcher,
+        add_mutated_at_to_columns = True,
     )
 
     # Syncronize the data.

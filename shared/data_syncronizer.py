@@ -42,7 +42,8 @@ class DataSynchronizer:
                  data_lake_writer: DataLakeWriter,
                  state_manager: SynchronizerStateManager,
                  delta_fetcher: Optional[DeltaFetcher] = None,
-                 add_mutation_type_to_columns: bool = True) -> None:
+                 add_mutation_type_to_columns: bool = True,
+                 add_mutated_at_to_columns: bool = False) -> None:
         """
         Initialize a new instance of DataSynchronizer.
 
@@ -63,6 +64,9 @@ class DataSynchronizer:
 
         if add_mutation_type_to_columns:
             self.column_dtypes["mutationType"] = "string"
+
+        if add_mutated_at_to_columns:
+            self.column_dtypes["mutatedAt"] = "string"
 
     def syncronize(self, sync_from_scratch: bool) -> None:
         """
@@ -98,8 +102,13 @@ class DataSynchronizer:
         # Transform items.
         # Current time is used as the mutatedAt timestamp when there is no mutation time.
         current_time = get_current_time_for_filename()
-        items.add_key_value_to_items("mutationType", "ADDED")
-        items.add_key_value_to_items("mutatedAt", current_time)
+
+        if self.add_mutation_type_to_columns:
+            items.add_key_value_to_items("mutationType", "ADDED")
+
+        if self.add_mutated_at_to_columns:
+            items.add_key_value_to_items("mutatedAt", current_time)
+        
         items_transformed = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(items.get_items()), self.column_dtypes)
 
         # Write items to data lake.
@@ -144,11 +153,12 @@ class DataSynchronizer:
             all_changed_items.extend(deletions)
         
         # Add mutationTimes to all changed items.
-        for item in all_changed_items:
-            db_id = item.get("dbId")
-            mutated_at = mutation_times.get(db_id)
-            if mutated_at:
-                item['mutatedAt'] = mutation_times[db_id]
+        if self.add_mutated_at_to_columns:
+            for item in all_changed_items:
+                db_id = item.get("dbId")
+                mutated_at = mutation_times.get(db_id)
+                if mutated_at:
+                    item['mutatedAt'] = mutation_times[db_id]
 
         # Transform items.
         parquet = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(all_changed_items), self.column_dtypes)
