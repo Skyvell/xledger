@@ -8,6 +8,7 @@ from shared.utils.data_transformation import flatten_list_of_dicts
 from shared.utils.time import get_current_time_for_filename
 from shared.utils.time import generate_iso_8601_timestamp
 from shared.utils.files import convert_dicts_to_parquet_pandas
+from datetime import datetime
 
 
 class DataSynchronizer:
@@ -104,18 +105,18 @@ class DataSynchronizer:
         
         # Transform items.
         # Current time is used as the mutatedAt timestamp when there is no mutation time.
-        current_time = generate_iso_8601_timestamp()
+        current_time = datetime.now()
 
         if self.add_mutation_type_to_columns:
             items.add_key_value_to_items("mutationType", "ADDED")
 
         if self.add_mutated_at_to_columns:
-            items.add_key_value_to_items("mutatedAt", current_time)
+            items.add_key_value_to_items("mutatedAt", generate_iso_8601_timestamp(current_time))
         
         items_transformed = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(items.get_items()), self.column_dtypes)
 
         # Write items to data lake.
-        self.data_lake_writer.write_data(f"full_sync-{get_current_time_for_filename()}-{self.name}.parquet", items_transformed)
+        self.data_lake_writer.write_data(f"full_sync-{get_current_time_for_filename(current_time)}-{self.name}.parquet", items_transformed)
 
         # Update state.
         self.state_manager.initial_sync_cursor = items.get_last_item_cursor()

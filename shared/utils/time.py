@@ -2,7 +2,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 
-def generate_iso_8601_timestamp(precision: str = "milliseconds") -> str:
+def generate_iso_8601_timestamp(current_time: datetime = None, precision: str = "milliseconds") -> str:
     """
     Generates the current date and time in ISO 8601 format.
 
@@ -16,23 +16,24 @@ def generate_iso_8601_timestamp(precision: str = "milliseconds") -> str:
     Returns:
         str: The current date and time in ISO 8601 format.
     """
-    now = datetime.now()
+    if not current_time:
+        current_time = datetime.now()
 
     if precision == "seconds":
-        now = now.replace(microsecond=0)
-        return now.isoformat()
+        current_time = current_time.replace(microsecond=0)
+        return current_time.isoformat()
 
     elif precision == "milliseconds":
         # Format to milliseconds (3 digits)
-        return now.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
+        return current_time.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
 
     elif precision == "microseconds":
-        return now.isoformat()
+        return current_time.isoformat()
 
     else:
         raise ValueError("Invalid precision value. Choose 'seconds', 'milliseconds', or 'microseconds'.")
 
-def get_current_time_for_filename():
+def get_current_time_for_filename(current_time: datetime = None) -> str:
     """
     Retrieves the current system time and formats it as a string suitable for file naming.
 
@@ -51,7 +52,8 @@ def get_current_time_for_filename():
     Returns:
         str: The current datetime formatted as 'YYYYMMDD_HH_MM_SS'.
     """
-    current_time = datetime.now()
+    if not current_time:
+        current_time = datetime.now()
     formatted_time = current_time.strftime('%Y%m%d_%H_%M_%S')
     return formatted_time
 
