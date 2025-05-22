@@ -56,6 +56,11 @@ NODE_FIELDS = """
         country {
             description
         }
+        address {
+            country {
+                description
+            }
+        }
         gender {
             name
         }
@@ -121,6 +126,7 @@ COLUMN_DATA_TYPES = [
     'string',           # contact.birthday
     'Int64',            # contact.age
     'string',           # contact.country.description
+    'string',           # contaxt.address.country.description
     'string',           # contact.gender.name
     'Int64',            # exitReason.dbId
     'string',           # exitReason.description
