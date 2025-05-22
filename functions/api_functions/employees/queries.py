@@ -126,7 +126,7 @@ COLUMN_DATA_TYPES = [
     'string',           # contact.birthday
     'Int64',            # contact.age
     'string',           # contact.country.description
-    'string',           # contaxt.address.country.description
+    'string',           # contact.address.country.description
     'string',           # contact.gender.name
     'Int64',            # exitReason.dbId
     'string',           # exitReason.description
