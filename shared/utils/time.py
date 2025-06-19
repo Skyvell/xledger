@@ -57,6 +57,8 @@ def get_current_time_for_filename(current_time: datetime = None) -> str:
     formatted_time = current_time.strftime('%Y%m%d_%H_%M_%S')
     return formatted_time
 
+def get_first_day_of_previous_month():
+    return (datetime.today() - relativedelta(months=1)).replace(day=1).strftime("%Y-%m-%d")
 
 def get_previous_month_yy_mm():
     """

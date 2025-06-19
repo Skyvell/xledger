@@ -109,7 +109,7 @@ class ItemFetcher:
 
         return ItemsResult(query_result.get_nodes(), query_result.get_last_cursor())
 
-    def fetch_all_items_after_cursor(self, after: str = None, first: int = 10000, ownerSet: str = "MINE") -> ItemsResult:
+    def fetch_all_items_after_cursor(self, after: str = None, first: int = 10000, ownerSet: str = "MINE", filter: dict = {}) -> ItemsResult:
         """
         Fetch all items after a given cursor.
 
@@ -120,7 +120,7 @@ class ItemFetcher:
         Returns:
         ItemsResult: The result of the fetched items.
         """
-        variables = {"first": first, "after": after, "ownerSet": ownerSet}
+        variables = {"first": first, "after": after, "ownerSet": ownerSet, "filter": filter}
         query_result = self._execute_paginated_query(self.query_by_cursor, variables)
         return ItemsResult(query_result.get_nodes(), query_result.get_last_cursor())
 

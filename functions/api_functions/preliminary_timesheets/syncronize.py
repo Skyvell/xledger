@@ -6,23 +6,24 @@ from shared.data_lake_writer import DataLakeWriter
 from shared.item_fetcher import ItemFetcher
 from shared.gql_client import GraphQLClient
 from shared.environment_config import EnvironmentConfig
-from shared.utils.data_transformation import flatten_list_of_dicts
+from shared.utils.time import get_first_day_of_previous_month
 from shared.utils.files import convert_dicts_to_parquet_pandas
+from shared.utils.data_transformation import flatten_list_of_dicts
 
-from functions.api_functions.budget_details.queries import (
+from functions.api_functions.preliminary_timesheets.queries import (
     COLUMN_DTYPES,
-    GET_ITEMS_AFTER_CURSOR
+    GET_ITEMS_AFTER_CURSOR,
 )
 
 
-NAME = "budget_details"
+NAME = "preliminary_timesheets"
 logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
 
 @bp.function_name(f"get_{NAME}")
-@bp.schedule(schedule="0 22 * * *", arg_name="myTimer", run_on_startup=False,
+@bp.schedule(schedule="30 * * * *", arg_name="myTimer", run_on_startup=False,
               use_monitor=False) 
-def get_budget_details(myTimer: func.TimerRequest) -> None:
+def syncronize(myTimer: func.TimerRequest) -> None:
     # Get credentials.
     credential = DefaultAzureCredential()
 
@@ -34,10 +35,11 @@ def get_budget_details(myTimer: func.TimerRequest) -> None:
     data_lake_writer = DataLakeWriter(config.data_storage_account, credential, config.data_storage_container, NAME)
     item_fetcher = ItemFetcher(grapql_client, query_by_cursor = GET_ITEMS_AFTER_CURSOR)
 
-    # Fetch all budget data and write to storage account.
-    items = item_fetcher.fetch_all_items_after_cursor()
-    if not items.has_items():
-        return
-    
+    # Initialize the data syncronizer.
+    items = item_fetcher.fetch_all_items_after_cursor(filter={"assignmentDate_gte": get_first_day_of_previous_month()})
     items_transformed = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(items.get_items()), COLUMN_DTYPES)
-    data_lake_writer.write_data(f"{NAME}.parquet", items_transformed)
+    
+    data_lake_writer.write_data(
+        f"{NAME}.parquet",
+        items_transformed
+    )
