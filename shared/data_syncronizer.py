@@ -72,7 +72,7 @@ class DataSynchronizer:
         if add_mutated_at_to_columns:
             self.column_dtypes["mutatedAt"] = "string"
 
-    def syncronize(self, sync_from_scratch: bool, filename: str = None) -> None:
+    def syncronize(self, sync_from_scratch: bool) -> None:
         """
         Perform a full data syncronization or syncronize only changes.
 
@@ -88,7 +88,7 @@ class DataSynchronizer:
         else:
             self._syncronize_changes()
 
-    def _full_syncronization(self, filename: str = None) -> None:
+    def _full_syncronization(self) -> None:
         """
         Perform a full synchronization of data.
         """
