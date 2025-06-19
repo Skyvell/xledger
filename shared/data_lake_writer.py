@@ -183,3 +183,33 @@ class DataLakeWriter:
         except HttpResponseError as e:
             logging.error(f"Failed to delete directories in file system '{file_system_name}': {e}")
             raise
+
+    def delete_all_files_in_directory(self, file_system_name: str = None, directory_name: str = None) -> None:
+        """
+        Delete all files in the specified directory in the specified file system (container).
+
+        :param file_system_name: Name of the file system (container), uses default if not specified
+        :param directory_name: Name of the directory, uses default if not specified
+        """
+        file_system_name = file_system_name or self.default_file_system
+        directory_name = directory_name or self.default_directory
+        
+        if not file_system_name or not directory_name:
+            raise ValueError("File system and directory must be specified either as parameters or defaults.")
+
+        file_system_client = self._get_file_system_client(file_system_name)
+
+        try:
+            # List all paths in the specified directory (non-recursive: only immediate files).
+            paths = file_system_client.get_paths(path=directory_name, recursive=False)
+
+            for path in paths:
+                if not path.is_directory:
+                    file_client = file_system_client.get_file_client(path.name)
+                    file_client.delete_file()
+                    logging.info(f"Deleted file: {path.name}")
+
+        except HttpResponseError as e:
+            logging.error(f"Failed to delete files in directory '{directory_name}' of file system '{file_system_name}': {e}")
+            raise
+

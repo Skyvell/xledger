@@ -42,4 +42,6 @@ def get_preliminary_timesheets(myTimer: func.TimerRequest) -> None:
     
     # Transform items to the required format adn write to storage account.
     items_transformed = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(items.get_items()), COLUMN_DTYPES)
+    data_lake_writer.delete_all_files_in_directory()
     data_lake_writer.write_data(f"{NAME}.parquet", items_transformed)
+    
