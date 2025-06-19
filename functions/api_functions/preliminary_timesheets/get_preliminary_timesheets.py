@@ -23,7 +23,7 @@ bp = func.Blueprint()
 @bp.function_name(f"get_{NAME}")
 @bp.schedule(schedule="30 * * * *", arg_name="myTimer", run_on_startup=False,
               use_monitor=False) 
-def syncronize(myTimer: func.TimerRequest) -> None:
+def get_preliminary_timesheets(myTimer: func.TimerRequest) -> None:
     # Get credentials.
     credential = DefaultAzureCredential()
 
@@ -31,15 +31,15 @@ def syncronize(myTimer: func.TimerRequest) -> None:
     config = EnvironmentConfig()
 
     # Initialize classes needed for syncronizing data.
-    grapql_client = GraphQLClient(config.api_endpoint, config.api_key)
+    graphql_client = GraphQLClient(config.api_endpoint, config.api_key)
     data_lake_writer = DataLakeWriter(config.data_storage_account, credential, config.data_storage_container, NAME)
-    item_fetcher = ItemFetcher(grapql_client, query_by_cursor = GET_ITEMS_AFTER_CURSOR)
+    item_fetcher = ItemFetcher(graphql_client, query_by_cursor = GET_ITEMS_AFTER_CURSOR)
 
-    # Initialize the data syncronizer.
+    # Fetch all preliminary timesheet data starting from the first day of the previous month.
     items = item_fetcher.fetch_all_items_after_cursor(filter={"assignmentDate_gte": get_first_day_of_previous_month()})
-    items_transformed = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(items.get_items()), COLUMN_DTYPES)
+    if not items.has_items():
+        return
     
-    data_lake_writer.write_data(
-        f"{NAME}.parquet",
-        items_transformed
-    )
+    # Transform items to the required format adn write to storage account.
+    items_transformed = convert_dicts_to_parquet_pandas(flatten_list_of_dicts(items.get_items()), COLUMN_DTYPES)
+    data_lake_writer.write_data(f"{NAME}.parquet", items_transformed)

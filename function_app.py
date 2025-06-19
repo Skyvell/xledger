@@ -1,6 +1,7 @@
 from azure import functions as func
 
 from functions.api_functions.timesheets.syncronize import bp as timesheets_bp
+from functions.api_functions.preliminary_timesheets.get_preliminary_timesheets import bp as preliminary_timesheets_bp
 from functions.api_functions.customers.syncronize import bp as customers_bp
 from functions.api_functions.employees.syncronize import bp as employees_bp
 from functions.api_functions.projects.syncronize import bp as projects_bp
@@ -38,6 +39,7 @@ app.register_blueprint(ap_transactions_bp)
 app.register_blueprint(ar_transactions_bp)
 app.register_blueprint(transactions_bp)
 app.register_blueprint(budget_details_bp)
+app.register_blueprint(preliminary_timesheets_bp)
 
 # Utility
 app.register_blueprint(invoice_bp)
