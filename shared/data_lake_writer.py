@@ -193,23 +193,42 @@ class DataLakeWriter:
         """
         file_system_name = file_system_name or self.default_file_system
         directory_name = directory_name or self.default_directory
-        
+
         if not file_system_name or not directory_name:
             raise ValueError("File system and directory must be specified either as parameters or defaults.")
 
         file_system_client = self._get_file_system_client(file_system_name)
 
-        try:
-            # List all paths in the specified directory (non-recursive: only immediate files).
-            paths = file_system_client.get_paths(path=directory_name, recursive=False)
+        # Check if the directory exists.
+        if not self._directory_exists(file_system_client, directory_name):
+            logging.warning(f"Directory '{directory_name}' does not exist in file system '{file_system_name}'. Skipping deletion.")
+            return
 
+        try:
+            paths = file_system_client.get_paths(path=directory_name, recursive=False)
             for path in paths:
                 if not path.is_directory:
                     file_client = file_system_client.get_file_client(path.name)
                     file_client.delete_file()
                     logging.info(f"Deleted file: {path.name}")
-
         except HttpResponseError as e:
             logging.error(f"Failed to delete files in directory '{directory_name}' of file system '{file_system_name}': {e}")
+            raise
+    
+    def _directory_exists(self, file_system_client, directory_name: str) -> bool:
+        """
+        Check if a directory exists in the given file system.
+
+        :param file_system_client: File system client
+        :param directory_name: Name of the directory
+        :return: True if the directory exists, False otherwise
+        """
+        directory_client = file_system_client.get_directory_client(directory_name)
+        try:
+            directory_client.get_directory_properties()
+            return True
+        except HttpResponseError as e:
+            if e.status_code == 404:
+                return False
             raise
 
