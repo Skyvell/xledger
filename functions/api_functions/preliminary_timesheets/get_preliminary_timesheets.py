@@ -1,6 +1,8 @@
 from azure import functions as func
 from azure.identity import DefaultAzureCredential
 import logging
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 from shared.data_lake_writer import DataLakeWriter
 from shared.item_fetcher import ItemFetcher
@@ -24,7 +26,7 @@ bp = func.Blueprint()
 @bp.schedule(schedule="25,55 * * * *", arg_name="myTimer", run_on_startup=False, use_monitor=False) 
 def get_preliminary_timesheets_first_of_month(myTimer: func.TimerRequest) -> None:
     # Only run this schedule if first of every month.
-    if not is_between_days(myTimer.current_time, 1, 1, exclude_weekend_days=True):
+    if not is_between_days(datetime.now(ZoneInfo("Europe/Stockholm")), 1, 1, exclude_weekend_days=True):
         logging.info("Skipping scheduled run as it is not the first of the month.")
         return
 
