@@ -10,7 +10,6 @@ from functions.api_functions.ap_transactions.syncronize import bp as ap_transact
 from functions.api_functions.ar_transactions.syncronize import bp as ar_transactions_bp
 from functions.api_functions.transactions.syncronize import bp as transactions_bp
 from functions.api_functions.budget_details.get_budget_details import bp as budget_details_bp
-
 from functions.api_functions.invoice.redirect_to_invoice_url import bp as invoice_bp
 
 from functions.cleanup_functions.reset_state import bp as reset_state_bp
