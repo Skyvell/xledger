@@ -1,6 +1,7 @@
 from azure import functions as func
 from azure.identity import DefaultAzureCredential
 import logging
+import os
 
 from shared.data_lake_writer import DataLakeWriter
 from shared.item_fetcher import ItemFetcher
@@ -14,14 +15,14 @@ from functions.api_functions.budget_details.queries import (
     GET_ITEMS_AFTER_CURSOR
 )
 
-
 NAME = "budget_details"
+SYNCRONIZE_SCHEDULE = os.getenv("BUDGET_DETAILS_SCHEDULE")
+
 logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
 
 @bp.function_name(f"get_{NAME}")
-@bp.schedule(schedule="0 22 * * *", arg_name="myTimer", run_on_startup=False,
-              use_monitor=False) 
+@bp.schedule(schedule=SYNCRONIZE_SCHEDULE, arg_name="myTimer", run_on_startup=False, use_monitor=False) 
 def get_budget_details(myTimer: func.TimerRequest) -> None:
     # Get credentials.
     credential = DefaultAzureCredential()

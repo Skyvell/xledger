@@ -44,7 +44,18 @@ module "function_app" {
 
   # Functions schedules as environment variables.
   function_schedules = {
-    FINANCIAL_RESULTS_NOON_SCHEDULE          = "0 50 10 * * *"
-    FINANCIAL_RESULTS_MIDNIGHT_SCHEDULE      = "0 50 22 * * *"
+    FINANCIAL_RESULTS_NOON_SCHEDULE                   = "0 50 10 * * *"
+    FINANCIAL_RESULTS_MIDNIGHT_SCHEDULE               = "0 50 22 * * *"
+    AP_TRANSACTIONS_SCHEDULE                          = "0 * * * *"
+    AR_TRANSACTIONS_SCHEDULE                          = "0 * * * *"
+    BUDGET_DETAILS_SCHEDULE                           = "0 22 * * *"
+    CUSTOMERS_SCHEDULE                                = "10 * * * *"
+    EMPLOYEES_SCHEDULE                                = "10 * * * *"
+    PRELIMINARY_TIMESHEETS_FIRST_OF_MONTH_SCHEDULE    = "25,55 * * * *"
+    PRELIMINARY_TIMESHEETS_DAILY_SCHEDULE             = "0 22 * * *"
+    PROJECTS_SCHEDULE                                 = "20 * * * *"
+    SUPPLIERS_SCHEDULE                                = "20 * * * *"
+    TIMESHEETS_SCHEDULE                               = "30 * * * *"
+    TRANSACTIONS_SCHEDULE                             = "30 * * * *"
   }
 }
