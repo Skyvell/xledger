@@ -57,5 +57,9 @@ module "function_app" {
     SUPPLIERS_SCHEDULE                                = "20 * * * *"
     TIMESHEETS_SCHEDULE                               = "30 * * * *"
     TRANSACTIONS_SCHEDULE                             = "30 * * * *"
+    EMPLOYEE_GROUPS_SCHEDULE                          = "0 0 0 * * *"
+    EMPLOYMENT_TYPES_SCHEDULE                         = "0 0 0 * * *"
+    PROJECT_GROUPS_SCHEDULE                           = "0 0 0 * * *"
+    PART_TIME_EMPLOYEES_SCHEDULE                      = "0 0 0 * * *"
   }
 }
