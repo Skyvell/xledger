@@ -10,7 +10,6 @@ from functions.api_functions.ap_transactions.syncronize import bp as ap_transact
 from functions.api_functions.ar_transactions.syncronize import bp as ar_transactions_bp
 from functions.api_functions.transactions.syncronize import bp as transactions_bp
 from functions.api_functions.budget_details.get_budget_details import bp as budget_details_bp
-
 from functions.api_functions.invoice.redirect_to_invoice_url import bp as invoice_bp
 
 from functions.cleanup_functions.reset_state import bp as reset_state_bp
@@ -22,7 +21,7 @@ from functions.flexlink_functions.employee_groups.get_employee_groups import bp 
 from functions.flexlink_functions.employment_types.get_employment_types import bp as employment_types_bp
 from functions.flexlink_functions.project_groups.get_project_groups import bp as project_groups_bp
 from functions.flexlink_functions.financial_results.get_financial_results import bp as financial_results_bp
-from functions.flexlink_functions.part_time_employees.get_part_time_employees import bp as part_time_employees
+from functions.flexlink_functions.part_time_employees.get_part_time_employees import bp as part_time_employees_bp
 
 
 app = func.FunctionApp()
@@ -55,4 +54,4 @@ app.register_blueprint(employee_groups_bp)
 app.register_blueprint(employment_types_bp)
 app.register_blueprint(project_groups_bp)
 app.register_blueprint(financial_results_bp)
-app.register_blueprint(part_time_employees)
+app.register_blueprint(part_time_employees_bp)

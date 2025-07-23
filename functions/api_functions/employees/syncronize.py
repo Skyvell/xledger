@@ -1,6 +1,7 @@
 from azure import functions as func
 from azure.identity import DefaultAzureCredential
 import logging
+import os
 
 from shared.data_lake_writer import DataLakeWriter
 from shared.configuration_manager import SynchronizerStateManager
@@ -17,14 +18,14 @@ from functions.api_functions.employees.queries import (
     GET_ITEMS_FROM_DBIDS
 )
 
-
 NAME = "employees"
+SYNCRONIZE_SCHEDULE = os.getenv("EMPLOYEES_SCHEDULE")
+
 logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
 
 @bp.function_name(f"syncronize_{NAME}")
-@bp.schedule(schedule="10 * * * *", arg_name="myTimer", run_on_startup=False,
-              use_monitor=False) 
+@bp.schedule(schedule=SYNCRONIZE_SCHEDULE, arg_name="myTimer", run_on_startup=False, use_monitor=False) 
 def syncronize(myTimer: func.TimerRequest) -> None:
     # Get credentials.
     credential = DefaultAzureCredential()

@@ -1,4 +1,5 @@
 import logging
+import os
 import azure.functions as func
 from azure.identity import DefaultAzureCredential
 
@@ -13,17 +14,13 @@ from functions.flexlink_functions.part_time_employees.settings import (
 
 NAME = "part_time_employees"
 OUTPUT_DIR = "part_time_employees"
+SCHEDULE = os.getenv("PART_TIME_EMPLOYEES_SCHEDULE")
 
 logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
 
 @bp.function_name(f"get_{NAME}")
-@bp.schedule(
-    schedule="0 0 0 * * *", 
-    arg_name="myTimer", 
-    run_on_startup=False,
-    use_monitor=False
-)
+@bp.schedule(schedule=SCHEDULE, arg_name="myTimer", run_on_startup=False, use_monitor=False)
 def get_part_time_employees_timer(myTimer: func.TimerRequest) -> None:
     credential = DefaultAzureCredential()
     config = EnvironmentConfig()

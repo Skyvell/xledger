@@ -1,6 +1,7 @@
 from azure import functions as func
 from azure.identity import DefaultAzureCredential
 import logging
+import os
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -17,13 +18,16 @@ from functions.api_functions.preliminary_timesheets.queries import (
     GET_ITEMS_AFTER_CURSOR,
 )
 
-
 NAME = "preliminary_timesheets"
+FIRST_OF_MONTH_SCHEDULE = os.getenv("PRELIMINARY_TIMESHEETS_FIRST_OF_MONTH_SCHEDULE")
+DAILY_SCHEDULE = os.getenv("PRELIMINARY_TIMESHEETS_DAILY_SCHEDULE")
+
 logging.basicConfig(level=logging.INFO)
+
 bp = func.Blueprint()
 
 @bp.function_name(f"get_{NAME}_first_of_month")
-@bp.schedule(schedule="25,55 * * * *", arg_name="myTimer", run_on_startup=False, use_monitor=False) 
+@bp.schedule(schedule=FIRST_OF_MONTH_SCHEDULE, arg_name="myTimer", run_on_startup=False, use_monitor=False) 
 def get_preliminary_timesheets_first_of_month(myTimer: func.TimerRequest) -> None:
     # Only run this schedule if first of every month.
     if not is_between_days(datetime.now(ZoneInfo("Europe/Stockholm")), 1, 1, exclude_weekend_days=True):
@@ -40,7 +44,7 @@ def get_preliminary_timesheets_first_of_month(myTimer: func.TimerRequest) -> Non
     get_preliminary_timesheets(credential, config)
 
 @bp.function_name(f"get_{NAME}_daily")
-@bp.schedule(schedule="0 22 * * *", arg_name="myTimer", run_on_startup=False, use_monitor=False) 
+@bp.schedule(schedule=DAILY_SCHEDULE, arg_name="myTimer", run_on_startup=False, use_monitor=False) 
 def get_preliminary_timesheets_daily(myTimer: func.TimerRequest) -> None:
     # Get credentials.
     credential = DefaultAzureCredential()
