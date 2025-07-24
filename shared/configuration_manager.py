@@ -79,6 +79,25 @@ class SynchronizerStateManager:
         self._save_state('deltas_cursor', cursor)
 
     @property
+    def delta_cursor_updated_at(self) -> str:
+        """
+        Get the timestamp of when the deltas cursor was last updated.
+
+        This returns a string (e.g., ISO 8601 format) indicating the most recent
+        update time.
+        """
+        return self._get_state('delta_cursor_updated_at')
+
+    @delta_cursor_updated_at.setter
+    def delta_cursor_updated_at(self, updated_at: str):
+        """
+        Set the timestamp of when the deltas cursor was last updated.
+
+        :param updated_at: The new timestamp for the deltas cursor update (e.g., ISO 8601 string).
+        """
+        self._save_state('delta_cursor_updated_at', updated_at)
+
+    @property
     def initial_sync_complete(self) -> bool:
         """
         Get the initial synchronization completion state.
