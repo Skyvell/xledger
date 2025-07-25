@@ -172,3 +172,4 @@ class DataSynchronizer:
 
         # Update state.
         self.state_manager.deltas_cursor = deltas.last_cursor
+        self.state_manager.delta_cursor_updated_at = datetime.now()
