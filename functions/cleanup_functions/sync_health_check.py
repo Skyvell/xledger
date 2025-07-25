@@ -24,7 +24,7 @@ bp = func.Blueprint()
 
 @bp.function_name(NAME)
 @bp.schedule(schedule=SCHEDULE, arg_name="myTimer", run_on_startup=False, use_monitor=False) 
-def sync_healthcheck(myTimer: func.TimerRequest) -> None:
+def sync_health_check(myTimer: func.TimerRequest) -> None:
     logging.info("Sync healthcheck function triggered.")
 
     credential = DefaultAzureCredential()
