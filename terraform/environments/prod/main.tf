@@ -61,5 +61,6 @@ module "function_app" {
     EMPLOYMENT_TYPES_SCHEDULE                         = "0 0 0 * * *"
     PROJECT_GROUPS_SCHEDULE                           = "0 0 0 * * *"
     PART_TIME_EMPLOYEES_SCHEDULE                      = "0 0 0 * * *"
+    SYNC_HEALTH_CHECK_SCHEDULE                        = "0 0 0 * * *"
   }
 }
