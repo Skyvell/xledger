@@ -7,7 +7,7 @@ from shared.configuration_manager import SynchronizerStateManager
 from shared.environment_config import EnvironmentConfig
 
 NAME = "sync_healthchech"
-SCHEDULE = os.getenv("SYNC_HEALTHCHECH_SCHEDULE")
+SCHEDULE = os.getenv("SYNC_HEALTHCHECK_SCHEDULE")
 SYNC_FUNCTIONS_WARNING_THRESHOLDS = {
     "ap_transactions": timedelta(days=3),
     "ar_transactions": timedelta(days=3),
