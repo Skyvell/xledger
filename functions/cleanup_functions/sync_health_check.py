@@ -3,6 +3,8 @@ from azure.identity import DefaultAzureCredential
 import logging
 import os
 from datetime import timedelta, datetime, timezone
+from dateutil.parser import isoparse
+
 from shared.configuration_manager import SynchronizerStateManager
 from shared.environment_config import EnvironmentConfig
 
@@ -23,7 +25,7 @@ logging.basicConfig(level=logging.INFO)
 bp = func.Blueprint()
 
 @bp.function_name(NAME)
-@bp.schedule(schedule=SCHEDULE, arg_name="myTimer", run_on_startup=False, use_monitor=False) 
+@bp.schedule(schedule=SCHEDULE, arg_name="myTimer", run_on_startup=False, use_monitor=False)
 def sync_health_check(myTimer: func.TimerRequest) -> None:
     logging.info("Sync healthcheck function triggered.")
 
@@ -34,9 +36,9 @@ def sync_health_check(myTimer: func.TimerRequest) -> None:
     for function_name, threshold in SYNC_FUNCTIONS_WARNING_THRESHOLDS.items():
         prefix = function_name + "-"
         state_manager = SynchronizerStateManager(config.app_config_endpoint, credential, prefix)
-        updated_at = state_manager.delta_cursor_updated_at
+        updated_at_str = state_manager.delta_cursor_updated_at
 
-        if updated_at is None:
+        if updated_at_str is None:
             logging.warning(
                 f"[{function_name}] No delta_cursor_updated_at timestamp found.",
                 extra={
@@ -48,6 +50,7 @@ def sync_health_check(myTimer: func.TimerRequest) -> None:
             )
             continue
 
+        updated_at = isoparse(updated_at_str)
         age = now - updated_at
 
         if age > threshold:
