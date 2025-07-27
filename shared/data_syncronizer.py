@@ -8,7 +8,7 @@ from shared.utils.data_transformation import flatten_list_of_dicts
 from shared.utils.time import get_current_time_for_filename
 from shared.utils.time import generate_iso_8601_timestamp
 from shared.utils.files import convert_dicts_to_parquet_pandas
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class DataSynchronizer:
@@ -172,4 +172,4 @@ class DataSynchronizer:
 
         # Update state.
         self.state_manager.deltas_cursor = deltas.last_cursor
-        self.state_manager.delta_cursor_updated_at = datetime.now()
+        self.state_manager.delta_cursor_updated_at = datetime.now(timezone.utc).isoformat()
