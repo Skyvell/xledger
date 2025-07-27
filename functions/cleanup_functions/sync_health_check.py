@@ -38,7 +38,7 @@ def sync_health_check(myTimer: func.TimerRequest) -> None:
         state_manager = SynchronizerStateManager(config.app_config_endpoint, credential, prefix)
         updated_at_str = state_manager.delta_cursor_updated_at
 
-        if updated_at_str is None:
+        if not updated_at_str:
             logging.warning(
                 f"[{function_name}] No delta_cursor_updated_at timestamp found.",
                 extra={
