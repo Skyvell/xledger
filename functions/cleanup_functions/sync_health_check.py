@@ -42,7 +42,7 @@ def sync_health_check(myTimer: func.TimerRequest) -> None:
             logging.warning(
                 f"[{function_name}] No delta_cursor_updated_at timestamp found.",
                 extra={
-                    "custom_dimensions": {
+                    "customDimensions": {
                         "sync_function": function_name,
                         "healthcheck": "sync_missing"
                     }
@@ -57,7 +57,7 @@ def sync_health_check(myTimer: func.TimerRequest) -> None:
             logging.warning(
                 f"[{function_name}] Sync stale ({age.days}d > {threshold.days}d)",
                 extra={
-                    "custom_dimensions": {
+                    "customDimensions": {
                         "sync_function": function_name,
                         "last_updated": updated_at.isoformat(),
                         "threshold_days": threshold.days,
@@ -70,7 +70,7 @@ def sync_health_check(myTimer: func.TimerRequest) -> None:
             logging.info(
                 f"[{function_name}] Sync OK: {updated_at.isoformat()} ({age.days}d)",
                 extra={
-                    "custom_dimensions": {
+                    "customDimensions": {
                         "sync_function": function_name,
                         "last_updated": updated_at.isoformat(),
                         "age_days": age.days,
