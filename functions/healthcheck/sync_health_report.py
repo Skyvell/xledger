@@ -46,4 +46,4 @@ def sync_health_check(myTimer: func.TimerRequest) -> None:
             last_updated_at,
             logger
         )
-        report.emit_telemetry(datetime.now(datetime.now(timezone.utc)))
+        report.emit_telemetry(datetime.now(timezone.utc))
