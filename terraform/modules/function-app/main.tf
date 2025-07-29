@@ -59,6 +59,7 @@ resource "azurerm_linux_function_app" "function_app" {
     "ENVIRONMENT"                                = var.environment,
     "API_ENDPOINT"                               = var.api_endpoint,
     "API_KEY"                                    = var.api_key,
+    "APPLICATIONINSIGHTS_CONNECTION_STRING"      = azurerm_application_insights.application_insights.connection_string,
     "DATA_STORAGE_ACCOUNT_NAME"                  = var.app_data_storage_account.name,
     "DATA_STORAGE_CONTAINER_NAME"                = var.app_data_storage_container.name,
     "APP_CONFIG_ENDPOINT"                        = azurerm_app_configuration.app_configuration.endpoint,

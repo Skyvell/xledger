@@ -16,7 +16,7 @@ from functions.cleanup_functions.reset_state import bp as reset_state_bp
 from functions.cleanup_functions.wipe_storage import bp as wipe_storage_bp
 from functions.cleanup_functions.reset_state_and_wipe_storage import bp as reset_state_and_wipe_storage_bp
 from functions.cleanup_functions.full_data_resync.full_data_resync import bp as full_data_resync_bp
-from functions.cleanup_functions.sync_health_check import bp as sync_health_check_bp
+from functions.healthcheck.sync_health_report import bp as sync_health_report_bp
 
 from functions.flexlink_functions.employee_groups.get_employee_groups import bp as employee_groups_bp
 from functions.flexlink_functions.employment_types.get_employment_types import bp as employment_types_bp
@@ -49,7 +49,9 @@ app.register_blueprint(reset_state_bp)
 app.register_blueprint(wipe_storage_bp)
 app.register_blueprint(reset_state_and_wipe_storage_bp)
 app.register_blueprint(full_data_resync_bp)
-app.register_blueprint(sync_health_check_bp)
+
+# Healthcheck.
+app.register_blueprint(sync_health_report_bp)
 
 # Flexlink functions.
 app.register_blueprint(employee_groups_bp)
