@@ -146,4 +146,3 @@ variable "function_schedules" {
   type        = map(string)
   default = {}
 }
-
