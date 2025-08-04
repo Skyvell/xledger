@@ -123,6 +123,7 @@ class DataSynchronizer:
         self.state_manager.initial_sync_complete = True
         if deltas:
             self.state_manager.deltas_cursor = deltas.last_cursor
+            self.state_manager.delta_cursor_updated_at = datetime.now(timezone.utc).isoformat()
 
         # Can call _syncronize_changes here to get the changes since the full sync.
         # Use the last delta fetched at the beginning of this function.
