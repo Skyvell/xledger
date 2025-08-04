@@ -26,10 +26,11 @@ resource "azurerm_monitor_scheduled_query_rules_alert" "sync_status_alert" {
   frequency           = 1440   # Run every 24 hours
   time_window         = 1440   # Look at past 24 hours
   query               = <<-KQL
-      traces
-      | where message == "Sync health check"
-      | where customDimensions.status in ("stale", "missing")
-    KQL
+    traces
+    | where message startswith "Sync health check"
+    | where customDimensions.status in ("stale", "missing")
+  KQL
+
   data_source_id = azurerm_application_insights.application_insights.id
   trigger {
     operator          = "GreaterThan"
