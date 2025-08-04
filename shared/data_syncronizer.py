@@ -121,7 +121,7 @@ class DataSynchronizer:
         # Update state.
         self.state_manager.initial_sync_cursor = items.get_last_item_cursor()
         self.state_manager.initial_sync_complete = True
-        if deltas:
+        if deltas.has_changes():
             self.state_manager.deltas_cursor = deltas.last_cursor
             self.state_manager.delta_cursor_updated_at = datetime.now(timezone.utc).isoformat()
 
