@@ -23,13 +23,6 @@ resource "azurerm_service_plan" "service_plan" {
   sku_name            = var.app_service_plan_sku
 }
 
-resource "azurerm_application_insights" "application_insights" {
-  name                = var.app_insights_name
-  location            = var.location
-  resource_group_name = var.app_resource_group.name
-  application_type    = "web"
-}
-
 resource "azurerm_linux_function_app" "function_app" {
   name                       = var.function_app_name
   service_plan_id            = azurerm_service_plan.service_plan.id
