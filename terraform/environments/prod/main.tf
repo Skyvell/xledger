@@ -25,6 +25,7 @@ module "function_app" {
   api_endpoint                               = "https://www.xledger.net/graphql"
   api_key                                    = var.api_key
   app_configuration_sku                      = "standard"
+  alert_email_address                        = "ted.skyvell@ductus.se"
 
   # Flexlinks.
   employee_groups_flex_link                  = var.employee_groups_flex_link
