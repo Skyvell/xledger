@@ -37,7 +37,9 @@ class SyncFunctionHealthReport:
     def emit_telemetry(self, current_time: datetime):
         age = self._calculate_data_age(current_time)
         status = self._evaluate_status(age)
-        self.logger.info("Sync health check", extra={
+        self.logger.info(
+            f"Sync health check - {self.function_name}:{status.value}", 
+            extra={
             "custom_dimensions": {
                 "function_name": self.function_name,
                 "status": status.value,

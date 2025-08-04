@@ -36,9 +36,7 @@ def sync_health_check(myTimer: func.TimerRequest) -> None:
         )
 
         last_updated_iso = state_manager.delta_cursor_updated_at
-        logger.info("Before parsing.")
         last_updated_at = isoparse(last_updated_iso) if last_updated_iso else None
-        logger.info("Afterparsing.")
 
         report = SyncFunctionHealthReport(
             function_name,
