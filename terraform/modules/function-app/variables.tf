@@ -146,3 +146,9 @@ variable "function_schedules" {
   type        = map(string)
   default = {}
 }
+
+variable "alert_email_address" {
+  description = "Email address to send alerts to."
+  type        = string
+  default     = ""
+}

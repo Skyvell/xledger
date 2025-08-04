@@ -11,7 +11,7 @@ resource "azurerm_monitor_action_group" "sync_alert_group" {
   short_name          = "syncAlert"
   email_receiver {
     name                    = "EmailAlerts"
-    email_address           = "ted.skyvell@ductus.se"
+    email_address           = var.alert_email_address
     use_common_alert_schema = true
   }
 }
