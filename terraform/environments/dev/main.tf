@@ -15,7 +15,7 @@ module "shared_data" {
 module "function_app" {
   environment                                = local.environment
   source                                     = "../../modules/function-app"
-  app_configuration_name                     = "xledger-syncronizer-state-1-${local.environment}"
+  app_configuration_name                     = "xledger-syncronizer-state-${local.environment}"
   app_storage_account_name                   = "syncronizerstorage${local.environment}"
   location                                   = "westeurope"
   app_service_plan_name                      = "xledger-syncronizer-asp-${local.environment}"
