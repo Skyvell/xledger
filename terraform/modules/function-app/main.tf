@@ -84,10 +84,3 @@ resource "azurerm_role_assignment" "app_configuration_access" {
   depends_on           = [azurerm_linux_function_app.function_app]
 }
 # Workaround for when principal_id complains: https://github.com/hashicorp/terraform-provider-azurerm/issues/11613
-
-
-# NOTES
-# Infra: FOR EACH ENV: Functionapp, functionapp storage, app config, terraform backend.
-# Permissions for function app to access external storage account and appconfig.
-# API key dev in azure pipeline.
-# One pipeline for dev and one for prod.
